@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { getMostRecentTeaching } from "../../lib/teachings/get-most-recent";
 
 export async function MostRecentTeaching() {
@@ -7,21 +8,20 @@ export async function MostRecentTeaching() {
 		return null;
 	}
 
+	const formattedDate = format(new Date(mostRecentTeaching.date), "MMMM d, yyyy");
+
 	return (
 		<section
-			className="relative w-full h-96 bg-cover bg-center flex items-center justify-center"
+			className="relative w-full h-[600px] bg-contain bg-no-repeat bg-center bg-black flex items-end"
 			style={{
 				backgroundImage: `url(/images/${mostRecentTeaching.coverPhoto})`,
 			}}
 		>
-			<div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60" />
-			<div className="relative z-10 text-center px-4 max-w-4xl">
-				<h2 className="text-4xl font-bold text-white mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-					{mostRecentTeaching.title}
-				</h2>
-				<p className="text-xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-					{mostRecentTeaching.description}
-				</p>
+			<div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent" />
+			<div className="relative z-10 mx-8 mb-12 w-full">
+				<p className="text-md text-white/70 mb-2">{formattedDate}</p>
+				<h2 className="text-4xl font-bold text-white mb-3">{mostRecentTeaching.title}</h2>
+				<p className="text-lg text-white/90">{mostRecentTeaching.description}</p>
 			</div>
 		</section>
 	);
