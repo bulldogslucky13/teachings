@@ -1,5 +1,14 @@
 {
-	"permissions": {
-		"allow": ["Bash(node --version:*)"]
-	}
+  "permissions": {
+    "allow": [
+      "Bash(node --version:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npx biome:*)",
+      "WebFetch(domain:localhost)",
+      "Bash(curl:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
 }

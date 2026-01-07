@@ -1,0 +1,15 @@
+[
+	{
+		"category": "ui",
+		"description": "Create the 'Most Recent Teaching' component",
+		"steps": [
+			"Navigate to the home page",
+			"Create a full-width section that can house the new 'Most Recent Teaching' component at the top of the home page.",
+			"Component should display the cover photo as the background image, and overlay the title and description on it.",
+			"Component should be tall enough for most of the cover photo to be visible",
+			"Component should consider light and dark pictures as background images. The text should be readable in both cases.",
+			"Component should ultimately display the data returned from getMostRecentTeaching, a mock for a server-side function"
+		],
+		"passes": true
+	}
+]
