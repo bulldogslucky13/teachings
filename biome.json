@@ -8,7 +8,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!**/node_modules", "!**/.next"]
+		"includes": ["**", "!**/node_modules", "!**/.next", "!**/globals.css"]
 	},
 	"formatter": {
 		"enabled": true,
