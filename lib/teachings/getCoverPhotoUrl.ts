@@ -7,5 +7,5 @@
  * @returns The full path/URL to the cover photo
  */
 export function getCoverPhotoUrl(filename: string): string {
-	return `/public/${filename}`;
+	return `/images/${filename}`;
 }

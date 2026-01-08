@@ -22,14 +22,14 @@ export function FeaturedTeachingHero({ teaching }: FeaturedTeachingHeroProps) {
 		<section className="relative w-full min-h-[70vh] flex items-end overflow-hidden">
 			{/* Background Image */}
 			<div
-				className="absolute inset-0 w-full h-full bg-cover bg-center"
+				className="absolute inset-0 w-full h-full bg-contain bg-no-repeat bg-black bg-center"
 				style={{ backgroundImage: `url(${coverPhotoUrl})` }}
 				aria-hidden="true"
 			/>
 
 			{/* Gradient Overlay - Bottom to Top */}
 			<div
-				className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/30"
+				className="absolute inset-0 bg-linear-to-t from-black/95 via-black/70 to-black/30"
 				aria-hidden="true"
 			/>
 
