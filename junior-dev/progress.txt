@@ -1,0 +1,7 @@
+Task: Update Teaching type with new fields (data-model PRD #1)
+- Added ScriptureReference type: book (string), chapter (number), verses? (string)
+- Updated Teaching type: series? (string), scripture (array), topics (array), isFeatured (boolean)
+- Updated existing teaching data with series='Evangelism Workshop', scripture refs (Matthew 28:19, 2 Cor 5:17-19), topics=['evangelism', 'great commission', 'reconciliation'], isFeatured=true
+- Typecheck passed, lint passed
+- File: lib/teachings/teachings.ts
+

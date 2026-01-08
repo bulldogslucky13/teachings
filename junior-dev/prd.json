@@ -1,15 +1,113 @@
 [
 	{
-		"category": "ui",
-		"description": "Create the 'Most Recent Teaching' component",
+		"category": "data-model",
+		"description": "Update Teaching type with new fields for series, scripture, and topics",
 		"steps": [
-			"Navigate to the home page",
-			"Create a full-width section that can house the new 'Most Recent Teaching' component at the top of the home page.",
-			"Component should display the cover photo as the background image, and overlay the title and description on it.",
-			"Component should be tall enough for most of the cover photo to be visible",
-			"Component should consider light and dark pictures as background images. The text should be readable in both cases.",
-			"Component should ultimately display the data returned from getMostRecentTeaching, a mock for a server-side function"
+			"Add optional 'series' field (string) to Teaching type",
+			"Add 'scripture' field (array of ScriptureReference objects) to Teaching type",
+			"Add 'topics' field (array of strings) to Teaching type",
+			"Create new ScriptureReference type with: book (string), chapter (number), verses (optional string)",
+			"Add 'isFeatured' boolean field to Teaching type to mark featured teachings",
+			"Update existing teaching data in teachings.ts to include these new fields"
 		],
 		"passes": true
+	},
+	{
+		"category": "utility",
+		"description": "Create cover photo utility function for abstraction",
+		"steps": [
+			"Create a utility function (e.g., getCoverPhotoUrl) that takes a filename and returns the full path",
+			"For now, implementation should return /public/{filename}, but designed to easily switch to S3 or other storage later",
+			"Update any code that references cover photos to use this utility"
+		],
+		"passes": false
+	},
+	{
+		"category": "ui",
+		"description": "Create Featured Teaching hero component for home page",
+		"steps": [
+			"Create a full-width hero section component that displays the featured teaching",
+			"Use the teaching's cover photo as background, maintaining 16:9 aspect ratio or filling viewport height (whichever is taller)",
+			"Add black gradient overlay from bottom to top for readability",
+			"Create metadata overlay section at the bottom with: date (top, least emphasis), title (most emphasis), description (second most emphasis)",
+			"Add 'Featured Teaching' label/badge to designate this section",
+			"Add 'Watch Now' button that links to the video player page for this teaching",
+			"Ensure text is readable over both light and dark cover photos",
+			"Component should be responsive (mobile to desktop)"
+		],
+		"passes": false
+	},
+	{
+		"category": "ui",
+		"description": "Create Recent Teachings grid section for home page",
+		"steps": [
+			"Create a section below the featured hero that displays the last 5 teachings",
+			"Use a responsive grid layout with teaching cards",
+			"Each card should show: thumbnail (cover photo), title, date, and brief description",
+			"Cards should be clickable and navigate to the teaching's video player page",
+			"Add a 'View All' or 'Sermon Archive' link button at the bottom of this section",
+			"Note: Featured teaching may appear in this list (this is intentional)"
+		],
+		"passes": false
+	},
+	{
+		"category": "page",
+		"description": "Create Sermon Archive page with search and filtering",
+		"steps": [
+			"Create new Sermon Archive page/route",
+			"Implement scripture search functionality that searches by book name and optionally chapter",
+			"Scripture search should match any teaching that includes the searched book/chapter in its scripture references",
+			"Support multiple scripture references per teaching",
+			"Default view shows all teachings sorted by most recent date",
+			"Use infinite scroll for loading more results (no pagination needed initially)",
+			"Create empty state component for when no search results are found",
+			"Display results in a grid similar to Recent Teachings section"
+		],
+		"passes": false
+	},
+	{
+		"category": "page",
+		"description": "Create Video Player page for individual teachings",
+		"steps": [
+			"Create new video player page/route that accepts teaching ID as parameter",
+			"Implement native HTML5 video player using the teaching's videoUrl",
+			"Display teaching metadata alongside video: title, date, description, scripture references (as clickable links to Bible sites), series information",
+			"Implement local storage-based progress tracking (save current time, resume on return)",
+			"Add copy link sharing button (designed to be extensible for future share options)",
+			"Create 'Related Teachings' section below the video",
+			"Related teachings algorithm: prioritize same series, then overlapping scripture, then shared topics, fallback to most recent",
+			"Display related teachings in a horizontal scrollable list or grid"
+		],
+		"passes": false
+	},
+	{
+		"category": "utility",
+		"description": "Create scripture search utility functions",
+		"steps": [
+			"Create utility function to parse scripture search queries (e.g., 'Romans 8', 'Matthew')",
+			"Create utility function to match teachings by scripture (handles book-only and book+chapter searches)",
+			"Ensure search is flexible and matches partial queries"
+		],
+		"passes": false
+	},
+	{
+		"category": "utility",
+		"description": "Create related teachings utility function",
+		"steps": [
+			"Create utility function that takes a teaching and returns related teachings",
+			"Algorithm priority: 1) Same series (highest), 2) Overlapping scripture (same book+chapter), 3) Shared topics, 4) Most recent",
+			"Return a reasonable number of related teachings (e.g., 3-6)"
+		],
+		"passes": false
+	},
+	{
+		"category": "utility",
+		"description": "Create local storage utility for video progress tracking",
+		"steps": [
+			"Create utility to save video progress (teaching ID + current time) to local storage",
+			"Create utility to retrieve saved progress for a teaching",
+			"Handle edge cases (local storage not available, corrupt data, etc.)"
+		],
+		"passes": false
 	}
 ]
