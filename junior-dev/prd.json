@@ -20,7 +20,7 @@
 			"For now, implementation should return /public/{filename}, but designed to easily switch to S3 or other storage later",
 			"Update any code that references cover photos to use this utility"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "ui",

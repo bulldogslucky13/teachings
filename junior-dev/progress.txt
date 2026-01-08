@@ -5,3 +5,11 @@ Task: Update Teaching type with new fields (data-model PRD #1)
 - Typecheck passed, lint passed
 - File: lib/teachings/teachings.ts
 
+Task: Create cover photo utility function (utility PRD #2)
+- Created getCoverPhotoUrl utility in lib/teachings/getCoverPhotoUrl.ts
+- Returns /public/{filename} for now, easily extensible to S3 later
+- Created lib/teachings/index.ts to export utility alongside Teaching types/data
+- No existing code using coverPhoto directly yet, ready for future components
+- Typecheck passed, lint passed
+- Files: lib/teachings/getCoverPhotoUrl.ts, lib/teachings/index.ts
+

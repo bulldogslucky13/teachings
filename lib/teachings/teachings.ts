@@ -12,12 +12,12 @@ export const teachings: Teaching[] = [
 			{
 				book: "Matthew",
 				chapter: 28,
-				verses: "19",
+				verses: ["19"],
 			},
 			{
 				book: "2 Corinthians",
 				chapter: 5,
-				verses: "17-19",
+				verses: ["17", "18", "19"],
 			},
 		],
 		topics: ["evangelism", "great commission", "reconciliation"],
@@ -28,7 +28,7 @@ export const teachings: Teaching[] = [
 export type ScriptureReference = {
 	book: string;
 	chapter: number;
-	verses?: string;
+	verses?: string[];
 };
 
 export type Teaching = {
