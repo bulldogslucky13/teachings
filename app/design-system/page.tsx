@@ -283,37 +283,37 @@ export default function DesignSystemPage() {
 									</Text>
 									<div className="grid grid-cols-3 gap-3 md:grid-cols-6">
 										<div className="space-y-2">
-											<div className="h-16 w-full rounded bg-[#1a2e24]" />
+											<div className="h-16 w-full rounded bg-primary-900" />
 											<Text variant="caption" size="xs">
 												900
 											</Text>
 										</div>
 										<div className="space-y-2">
-											<div className="h-16 w-full rounded bg-[#234a32]" />
+											<div className="h-16 w-full rounded bg-primary-700" />
 											<Text variant="caption" size="xs">
 												700
 											</Text>
 										</div>
 										<div className="space-y-2">
-											<div className="h-16 w-full rounded bg-[#2d5a3d]" />
+											<div className="h-16 w-full rounded bg-primary-600" />
 											<Text variant="caption" size="xs">
 												600
 											</Text>
 										</div>
 										<div className="space-y-2">
-											<div className="h-16 w-full rounded bg-[#3d7a52]" />
+											<div className="h-16 w-full rounded bg-primary-500" />
 											<Text variant="caption" size="xs">
 												500
 											</Text>
 										</div>
 										<div className="space-y-2">
-											<div className="h-16 w-full rounded bg-[#52a170]" />
+											<div className="h-16 w-full rounded bg-primary-400" />
 											<Text variant="caption" size="xs">
 												400
 											</Text>
 										</div>
 										<div className="space-y-2">
-											<div className="h-16 w-full rounded bg-[#7bc29a]" />
+											<div className="h-16 w-full rounded bg-primary-300" />
 											<Text variant="caption" size="xs">
 												300
 											</Text>
@@ -359,19 +359,19 @@ export default function DesignSystemPage() {
 									</Text>
 									<div className="grid grid-cols-2 gap-3 md:grid-cols-3">
 										<div className="space-y-2">
-											<div className="h-16 w-full rounded bg-[#16a34a]" />
+											<div className="h-16 w-full rounded bg-success-600" />
 											<Text variant="caption" size="xs">
 												Success
 											</Text>
 										</div>
 										<div className="space-y-2">
-											<div className="h-16 w-full rounded bg-[#eab308]" />
+											<div className="h-16 w-full rounded bg-warning-500" />
 											<Text variant="caption" size="xs">
 												Warning
 											</Text>
 										</div>
 										<div className="space-y-2">
-											<div className="h-16 w-full rounded bg-[#ef4444]" />
+											<div className="h-16 w-full rounded bg-error-500" />
 											<Text variant="caption" size="xs">
 												Error
 											</Text>
@@ -385,13 +385,13 @@ export default function DesignSystemPage() {
 									</Text>
 									<div className="grid grid-cols-2 gap-3 md:grid-cols-2">
 										<div className="space-y-2">
-											<div className="h-16 w-full rounded bg-[#fbbf24]" />
+											<div className="h-16 w-full rounded bg-accent-gold" />
 											<Text variant="caption" size="xs">
 												Gold
 											</Text>
 										</div>
 										<div className="space-y-2">
-											<div className="h-16 w-full rounded border border-border bg-[#f5f5dc]" />
+											<div className="h-16 w-full rounded border border-border bg-accent-cream" />
 											<Text variant="caption" size="xs">
 												Cream
 											</Text>
