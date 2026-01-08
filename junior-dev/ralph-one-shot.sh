@@ -10,7 +10,7 @@ After completing each task, append to progress.txt: \
 - Key decisions made and reasoning \
 - Any blockers or notes for next iteration \
 Keep entries concise. Sacrifice grammar for the sake of concision. This file helps future iterations skip exploration. \
-5. Make a fit commit of that feature. \
+5. Make a git commit of that feature. \
 ONLY WORK ON A SINGLE FEATURE. \
-If, while implementing the feature, you notice the PRD is complete, output <promise>COMPLETE</promise>. \
+If, while implementing the feature, you notice the PRD is complete, prompt me to check out the feature on localhost:3000/[wherever the feature should be]. \
 "
