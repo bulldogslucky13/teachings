@@ -13,3 +13,15 @@ Task: Create cover photo utility function (utility PRD #2)
 - Typecheck passed, lint passed
 - Files: lib/teachings/getCoverPhotoUrl.ts, lib/teachings/index.ts
 
+Task: Create Featured Teaching hero component (ui PRD #3)
+- Created FeaturedTeachingHero component in app/components/featured-teaching-hero/featured-teaching-hero.tsx
+- Full-width hero with min-h-[70vh], background cover photo, gradient overlay (black from-bottom-to-top)
+- Metadata overlay: "Featured Teaching" badge, date (caption), title (h1), description (lg text), Watch Now button
+- Uses design system components: Button, Heading, Text with primary variant
+- Responsive padding/spacing (mobile to desktop)
+- Integrated into home page (app/page.tsx), finds featured teaching via isFeatured flag
+- Added baseUrl and paths config to tsconfig.json for @ alias support
+- Fixed import ordering per Biome linter, fixed .claude/settings.local.json formatting
+- Typecheck passed, lint passed
+- Files: app/components/featured-teaching-hero/featured-teaching-hero.tsx, app/page.tsx, tsconfig.json
+

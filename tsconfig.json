@@ -18,6 +18,10 @@
 		"incremental": true,
 		"noUncheckedIndexedAccess": true,
 		"allowJs": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./*"]
+		},
 		"plugins": [
 			{
 				"name": "next"

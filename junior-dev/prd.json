@@ -35,7 +35,7 @@
 			"Ensure text is readable over both light and dark cover photos",
 			"Component should be responsive (mobile to desktop)"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "ui",
