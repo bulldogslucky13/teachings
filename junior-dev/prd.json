@@ -155,7 +155,7 @@
 			"Update formatScriptureReference in teaching page to use this new utility for display purposes",
 			"Update getBibleUrl to construct URLs using the formatted reference with ranges, ensuring links work correctly (test that links like 'Romans 11:1-10' resolve properly. I don't care about the website, but make sure it is the English Standard Version (ESV) bible translation)"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",

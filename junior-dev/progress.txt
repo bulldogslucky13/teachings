@@ -154,3 +154,18 @@ Task: Add YouTube embed support to video player (bug PRD #12)
 - Typecheck passed, lint passed, Next.js MCP no errors
 - Browser automation verified /teaching/1 loads YouTube iframe correctly, no video player errors
 - Files: lib/teachings/videoUtils.ts, lib/teachings/index.ts, app/teaching/[id]/components/teaching-player.tsx
+
+Task: Format scripture verse references with range notation (bug PRD #14)
+- Created formatVerseRanges utility: sorts verses numerically, detects consecutive verses, collapses into ranges
+- Handles all edge cases: consecutive ranges (1-5), multiple ranges (1-3,7-9), mixed ranges/singles (1-3,7,10-12), non-consecutive singles (1,5,9), single verse (5), out of order sorting (3,1,2→1-3), empty/undefined (empty string)
+- Added type assertions to satisfy TypeScript strict null checks on array access after length validation
+- Created comprehensive unit tests in formatVerseRanges.test.ts covering 12 test cases
+- Created vitest.config.ts with path alias support for @ imports
+- Updated TeachingPlayer formatScriptureReference to use formatVerseRanges for display
+- Changed getBibleUrl from bible.com to biblegateway.com with ESV translation parameter
+- URL format: https://www.biblegateway.com/passage/?search=Romans+11:1-10&version=ESV
+- Exported formatVerseRanges from lib/teachings/index.ts
+- Typecheck passed, lint passed (fixed vitest.config import order)
+- Next.js MCP no errors
+- Browser automation verified /teaching/1 displays "Romans 11:1-10" with range notation, link works with ESV
+- Files: lib/teachings/formatVerseRanges.ts, lib/teachings/formatVerseRanges.test.ts, lib/teachings/index.ts, app/teaching/[id]/components/teaching-player.tsx, vitest.config.ts
