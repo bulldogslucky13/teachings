@@ -127,5 +127,230 @@
 			"Handle edge cases (local storage not available, corrupt data, etc.)"
 		],
 		"passes": true
+	},
+	{
+		"category": "bug",
+		"description": "Video player does not support YouTube embeds",
+		"steps": [
+			"Create utility function to detect video source type from videoUrl (check for youtube.com/youtu.be domain)",
+			"Create utility function to convert YouTube URLs (watch, share, embed formats) to standardized embed URL format",
+			"Update video player page to conditionally render <video> element for local/direct video files or <iframe> for YouTube URLs",
+			"For YouTube embeds, disable local storage progress tracking (not supported without YouTube iframe API integration)",
+			"Maintain same styling and aspect ratio (16:9) for both video types",
+			"Add fallback error state if video fails to load"
+		],
+		"passes": false
+	},
+	{
+		"category": "bug",
+		"description": "Scripture references display all verses comma-separated instead of using range notation",
+		"steps": [
+			"Create utility function to format verse arrays into readable ranges (e.g., [1,2,3,7,8] becomes '1-3,7-8')",
+			"Function should sort verses numerically before processing",
+			"Function should detect consecutive verses and collapse them into ranges (e.g., '1-5' instead of '1,2,3,4,5')",
+			"Function should handle mixed ranges and singles (e.g., '1-3,7,10-12' for [1,2,3,7,10,11,12])",
+			"Function should handle single verses without range notation (e.g., '5' not '5-5')",
+			"Write unit tests covering edge cases: consecutive ranges [1,2,3,4,5] → '1-5', multiple ranges [1,2,3,7,8,9] → '1-3,7-9', mixed ranges and singles [1,2,3,7,10,11,12] → '1-3,7,10-12', non-consecutive singles [1,5,9] → '1,5,9', single verse [5] → '5', out of order verses [3,1,2,7,5] → '1-3,5,7', empty array → '', undefined verses → ''",
+			"Ensure all unit tests pass before proceeding to integration",
+			"Update formatScriptureReference in teaching page to use this new utility for display purposes",
+			"Update getBibleUrl to construct URLs using the formatted reference with ranges, ensuring links work correctly (test that links like 'Romans 11:1-10' resolve properly. I don't care about the website, but make sure it is the English Standard Version (ESV) bible translation)"
+		],
+		"passes": false
+	},
+	{
+		"category": "bug",
+		"description": "Featured Teaching 'Watch Now' button navigates to 404 due to route mismatch",
+		"steps": [
+			"Identify all locations where teaching video player links are generated",
+			"Update FeaturedTeachingHero component to use correct route: /teaching/{id} (singular, not plural)",
+			"Verify TeachingCard component also uses correct route pattern",
+			"Check RecentTeachings and Archive page cards for same issue",
+			"Test: Click 'Watch Now' button on featured hero - should navigate to /teaching/{id} successfully",
+			"Test: Click any teaching card - should navigate to correct video player page",
+			"Success criteria: All teaching links navigate to /teaching/[id] route without 404 errors"
+		],
+		"passes": false
+	},
+	{
+		"category": "enhancement",
+		"description": "Scripture search should support partial chapter matching and verse-level searching",
+		"steps": [
+			"Update parseScriptureQuery to support verse parsing (e.g., 'Romans 8:28' or 'Romans 8:28-30')",
+			"Extend parsed result to include optional verses field (array of numbers, e.g., [28] or [28,29,30])",
+			"Handle verse formats in query: single verse ('Romans 8:28'), verse range ('Romans 8:28-30'), multiple verses ('Romans 8:1,3,5')",
+			"Parse verse ranges in query into individual verse numbers (e.g., '28-30' becomes [28,29,30])",
+			"Update searchTeachingsByScripture to implement partial chapter matching: if user searches 'Romans 1', match chapters 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 (chapters starting with '1')",
+			"Implement verse-level matching: if user searches 'Romans 8:28', check if '28' exists in the scripture reference's verses array (verses are stored as string array like ['1','2','3'])",
+			"Verse matching logic: convert both searched verse numbers and Teaching.scripture[].verses to numbers for comparison",
+			"If chapter is specified but verses are not, use partial chapter matching behavior",
+			"If chapter AND verses are specified, use exact chapter match + check if ANY searched verse exists in the Teaching's verses array",
+			"Write unit tests for edge cases: 'Romans 1' matches chapters 1,10-19; 'Romans 11' matches only chapter 11; 'Romans 8:28' matches only if '28' is in the verses array; 'Romans 8:28-30' matches if any of '28','29','30' are in the verses array; book-only search 'Romans' still matches all chapters",
+			"Update Archive page search placeholder text to show verse search is supported (e.g., 'Search by scripture (e.g., Romans 8, Romans 8:28)')",
+			"Test: Search 'Romans 1' returns teachings with Romans chapters 1, 10-19",
+			"Test: Search 'Romans 11' returns only Romans chapter 11",
+			"Test: Search 'Romans 8:28' returns only teachings that include '28' in Romans chapter 8 verses array",
+			"Success criteria: Partial chapter matching works for all search queries, verse-level search accurately filters by checking verse array membership"
+		],
+		"passes": false
+	},
+	{
+		"category": "bug",
+		"description": "Teaching card title text is too large in Recent Teachings section",
+		"steps": [
+			"Locate TeachingCard component (used in Recent Teachings and Archive page)",
+			"Identify current title heading level and size (likely h3 with default heading styles)",
+			"Reduce title text size while maintaining visual hierarchy: title should be larger than description and date, but more proportional to the card",
+			"Recommended hierarchy: title uses Heading component with smaller size variant (e.g., size='sm' or size='md'), description uses Text body variant, date uses Text caption variant",
+			"Ensure title remains semantically an h3 for accessibility (only change visual size, not semantic level)",
+			"Test card appearance on mobile, tablet, and desktop breakpoints",
+			"Verify changes apply to both Recent Teachings section and Archive page (same component used in both places)",
+			"Success criteria: Title is visually smaller and better proportioned, but still clearly the most prominent text element in the card"
+		],
+		"passes": false
+	},
+	{
+		"category": "ui",
+		"description": "Create Table component for design system with react-aria foundation",
+		"steps": [
+			"Create new Table component in @/app/components/ui/table/",
+			"Use react-aria table hooks (react-aria-components Table, TableHeader, TableBody, Row, Column, Cell) for accessibility foundation",
+			"Component API should accept: columns array (with header, accessor key, optional render function), data array (rows), optional onRowClick handler, optional empty state component/text",
+			"Column definition type: { header: string, accessorKey: string, render?: (value: any, row: any) => ReactNode }",
+			"Implement compact spacing: tight padding on cells (e.g., py-2 px-4)",
+			"Implement striped rows: alternate row background colors using light/dark mode compatible colors (e.g., even rows slightly darker than odd rows)",
+			"Add row hover state: subtle background color change on hover, cursor-pointer if onRowClick provided",
+			"Support custom cell rendering via column render function (needed for images, badges, formatted text, etc.)",
+			"Wrap table in horizontal scroll container for mobile responsiveness (overflow-x-auto)",
+			"Style table with consistent design system patterns: use CSS variables for colors, match Card elevation/borders for table container",
+			"Implement empty state: show message when data array is empty (use provided empty state prop or default message)",
+			"Ensure semantic HTML: proper thead, tbody, th, td elements with correct ARIA attributes from react-aria",
+			"Add light and dark mode support for all colors (background, borders, text, striped rows, hover states)",
+			"Create table.tsx component file with full TypeScript types exported",
+			"Add Table component to design system page (@/app/design-system/page.tsx) with usage example showing columns with different data types",
+			"Test table on mobile (horizontal scroll works), tablet, and desktop",
+			"Test light/dark mode switching",
+			"Success criteria: Table component is accessible, responsive, supports custom rendering, works in light/dark mode, documented in design system page"
+		],
+		"passes": false
+	},
+	{
+		"category": "ui",
+		"description": "Replace Archive page grid layout with Table component",
+		"steps": [
+			"Import Table component from design system into Archive page",
+			"Define table columns array with 4 columns: Cover Photo, Title, Scripture, Date",
+			"Cover Photo column: render function that displays small thumbnail image (aspect-video, fixed width e.g., w-20 or w-24), uses getCoverPhotoUrl utility, uses Next Image component for optimization",
+			"Title column: render as plain text, left-aligned",
+			"Scripture column: render function that formats scripture references array into readable string (e.g., 'Romans 8:28, Matthew 5:1-10'), handle multiple scripture refs per teaching",
+			"Date column: render function that formats date as 'MMM DD, YYYY' or similar readable format, right-aligned",
+			"Remove existing grid layout and TeachingCard component usage",
+			"Pass filtered teachings (from search) as data prop to Table",
+			"Implement onRowClick handler: navigate to /teaching/[row.id] using Next.js router",
+			"Adapt empty state component for table layout: show EmptyState component when filtered results are empty (same logic as before, just different placement)",
+			"Ensure search input remains above table",
+			"Test responsive behavior: table scrolls horizontally on mobile without breaking layout",
+			"Test row click navigation works correctly",
+			"Test empty state appears when search returns no results",
+			"Test all column data renders correctly (images load, scripture formats properly, dates format properly)",
+			"Success criteria: Archive page uses Table component, displays all 4 columns correctly, maintains search functionality, navigates on row click, responsive on all screen sizes"
+		],
+		"passes": false
+	},
+	{
+		"category": "enhancement",
+		"description": "Prioritize next teaching in series for related teachings algorithm",
+		"steps": [
+			"Add optional `nextInSeries` field (string, teaching ID) to Teaching type",
+			"Update existing teachings data to populate nextInSeries field where applicable (e.g., teaching ID 1 points to 2, teaching ID 2 points to 3 in the Romans 11 series)",
+			"Update getRelatedTeachings algorithm to check for nextInSeries field first",
+			"If nextInSeries exists and points to a valid teaching, give it HIGHEST priority: add 10000 points (higher than same series bonus)",
+			"This ensures the next teaching in a series always appears first in related teachings",
+			"Maintain existing scoring logic for other related teachings (same series, scripture overlap, topics, recency)",
+			"Test: When viewing teaching 1 in a series, teaching 2 should appear first in related teachings",
+			"Test: When viewing the last teaching in a series (no nextInSeries), related teachings fall back to existing algorithm",
+			"Success criteria: Next teaching in series always appears first in related teachings section when available"
+		],
+		"passes": false
+	},
+	{
+		"category": "bug",
+		"description": "Enable dark mode support for home page",
+		"steps": [
+			"Add className='dark' to <html> tag in app/layout.tsx (line 6)",
+			"Update app/page.tsx: add 'bg-background' class to <main> wrapper (line 18)",
+			"Update FeaturedTeachingHero component (app/components/featured-teaching-hero/featured-teaching-hero.tsx):",
+			"- Replace hardcoded 'text-white' with design system Text component defaults on lines 50, 55, 60",
+			"- Keep 'text-white' on line 43 (Featured Badge - intentional override for contrast)",
+			"- Verify gradient overlay (line 33) maintains readability in dark mode",
+			"Test: Load home page with dark class applied - featured hero text should be visible, recent teachings cards should have dark backgrounds (#18181b), card text should be light (#fafafa)",
+			"Success criteria: Home page displays with dark background (#0a0a0b), surface elements use #18181b, all text is readable with proper contrast, no white backgrounds visible"
+		],
+		"passes": false
+	},
+	{
+		"category": "bug",
+		"description": "Fix incorrect color class references on Archive page for dark mode compatibility",
+		"steps": [
+			"Update app/archive/page.tsx line 31: change 'text-foreground/70' to 'text-text-secondary'",
+			"Update app/archive/page.tsx line 43 (search input):",
+			"- Change 'text-foreground' to 'text-text-primary'",
+			"- Change 'placeholder:text-foreground/50' to 'placeholder:text-text-secondary'",
+			"- Change 'focus:ring-primary' to 'focus:ring-primary-500'",
+			"Update app/archive/page.tsx line 69 (EmptyState): change 'text-foreground/70' to 'text-text-secondary'",
+			"Verify TeachingCard components already use design system colors correctly (no changes needed)",
+			"Test: Load archive page with dark class on html tag - search input should have dark surface background (#18181b), light text (#fafafa), proper focus ring (#3d7a52)",
+			"Success criteria: All text colors use proper CSS variables from globals.css (--color-text-primary, --color-text-secondary), search input readable in dark mode, no incorrect class name references"
+		],
+		"passes": false
+	},
+	{
+		"category": "bug",
+		"description": "Fix incorrect hover color reference for scripture links on Teaching page",
+		"steps": [
+			"Update app/teaching/[id]/page.tsx line 169: change 'hover:text-primary-light' to 'hover:text-primary-400'",
+			"Verify scripture link base color 'text-text-primary' is correct (no change needed)",
+			"Verify all other color references on page use correct CSS variables (bg-background line 111, text-text-secondary line 187, bg-surface line 186)",
+			"Test: Load teaching page with dark class on html tag, hover over scripture references - links should change to #52a170 on hover",
+			"Test: Verify video player background remains black (intentional, line 113), content area uses dark background (#0a0a0b)",
+			"Success criteria: Scripture links have correct hover color using primary-400 (#52a170), all page colors properly reference CSS variables, teaching metadata and related teachings sections readable in dark mode"
+		],
+		"passes": false
+	},
+	{
+		"category": "enhancement",
+		"description": "Implement dynamic dark mode detection based on user system preference",
+		"steps": [
+			"Update app/layout.tsx to add a theme detection script that runs before page render (prevents flash of unstyled content)",
+			"Script should check window.matchMedia('(prefers-color-scheme: dark)').matches to detect user's system preference",
+			"If user prefers dark mode, add 'dark' class to document.documentElement (the <html> tag)",
+			"If user prefers light mode, ensure no 'dark' class is present",
+			"Script must be inline in a <script> tag within the <head> or at start of <body>, before any content renders",
+			"Use dangerouslySetInnerHTML or Next.js Script component with strategy='beforeInteractive' to inject the script",
+			"Script should be wrapped in an IIFE (immediately invoked function expression) to avoid polluting global scope",
+			"Example script logic: (function() { if (window.matchMedia('(prefers-color-scheme: dark)').matches) { document.documentElement.classList.add('dark'); } })()",
+			"Add event listener for system theme changes: window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => { if (e.matches) { document.documentElement.classList.add('dark') } else { document.documentElement.classList.remove('dark') } })",
+			"Remove hardcoded className='dark' from <html> tag if it was previously added",
+			"Test: With system in dark mode, page should load with dark theme immediately (no flash)",
+			"Test: With system in light mode, page should load with light theme immediately (no flash)",
+			"Test: Change system theme while app is open - theme should switch automatically",
+			"Success criteria: Dark mode applies automatically based on user's system preference, no flash of incorrect theme on page load, theme updates when system preference changes, works on all pages (home, archive, teaching)"
+		],
+		"passes": false
+	},
+	{
+		"category": "bug",
+		"description": "Remove hardcoded 'dark' class references throughout codebase",
+		"steps": [
+			"Search entire codebase for hardcoded className='dark' or className=\"dark\" attributes",
+			"Remove any hardcoded 'dark' class from HTML elements (should rely on dynamic detection from layout.tsx instead)",
+			"Search for any JavaScript/TypeScript code that manually adds 'dark' class via classList.add('dark') outside of the theme detection script",
+			"Remove any manual dark class manipulation that circumvents the system preference detection",
+			"Verify no components are forcing dark mode by hardcoding the class",
+			"Ensure all dark mode styling relies on the CSS cascade from the root <html> element having the 'dark' class applied by the theme detection script",
+			"Test: Verify dark mode still works correctly based on system preference after cleanup",
+			"Test: Verify light mode works correctly when system preference is light",
+			"Success criteria: No hardcoded 'dark' class references remain in codebase, all dark mode behavior controlled by system preference detection script, no regressions in dark/light mode functionality"
+		],
+		"passes": false
 	}
 ]
