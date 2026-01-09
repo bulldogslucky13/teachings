@@ -270,7 +270,7 @@
 			"Test: When viewing the last teaching in a series (no nextInSeries), related teachings fall back to existing algorithm",
 			"Success criteria: Next teaching in series always appears first in related teachings section when available"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",

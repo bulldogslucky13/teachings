@@ -13,6 +13,7 @@ const teachings: Teaching[] = [
 		topics: ["israel", "remnant israel"],
 		videoUrl: "https://www.youtube.com/embed/g5SxuRgVn9Y",
 		series: "Merge - Romans 11",
+		nextInSeries: "2",
 	},
 	{
 		id: "2",
@@ -36,6 +37,7 @@ const teachings: Teaching[] = [
 		],
 		videoUrl: "https://www.youtube.com/embed/1O9aeQa5rL8",
 		series: "Merge - Romans 11",
+		nextInSeries: "3",
 	},
 	{
 		id: "3",
@@ -112,6 +114,7 @@ export type Teaching = {
 	scripture: ScriptureReference[];
 	topics: string[];
 	isFeatured?: boolean;
+	nextInSeries?: string;
 };
 
 export async function getAllTeachings(): Promise<Teaching[]> {

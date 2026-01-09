@@ -5,7 +5,7 @@ import { getAllTeachings } from "./teachings";
 
 /**
  * Get related teachings for a given teaching based on similarity.
- * Priority: 1) Same series, 2) Overlapping scripture, 3) Shared topics, 4) Most recent
+ * Priority: 1) Next in series, 2) Same series, 3) Overlapping scripture, 4) Shared topics, 5) Most recent
  * @param teaching - The teaching to find related content for
  * @param allTeachings - The full list of teachings to search from
  * @param limit - Maximum number of related teachings to return (default: 6)
@@ -20,20 +20,25 @@ export async function getRelatedTeachings(teaching: Teaching, limit = 6): Promis
 	const scored = candidates.map((candidate) => {
 		let score = 0;
 
-		// 1. Same series (highest priority) - add 1000 points
+		// 1. Next in series (highest priority) - add 10000 points
+		if (teaching.nextInSeries && candidate.id === teaching.nextInSeries) {
+			score += 10000;
+		}
+
+		// 2. Same series - add 1000 points
 		if (teaching.series && candidate.series === teaching.series) {
 			score += 1000;
 		}
 
-		// 2. Overlapping scripture (same book+chapter) - add 100 points per match
+		// 3. Overlapping scripture (same book+chapter) - add 100 points per match
 		const scriptureMatches = countScriptureMatches(teaching.scripture, candidate.scripture);
 		score += scriptureMatches * 100;
 
-		// 3. Shared topics - add 10 points per shared topic
+		// 4. Shared topics - add 10 points per shared topic
 		const topicMatches = countTopicMatches(teaching.topics, candidate.topics);
 		score += topicMatches * 10;
 
-		// 4. Most recent (fallback) - add recency score (0-1 points)
+		// 5. Most recent (fallback) - add recency score (0-1 points)
 		// More recent teachings get slightly higher scores
 		const recencyScore = getRecencyScore(candidate.date);
 		score += recencyScore;

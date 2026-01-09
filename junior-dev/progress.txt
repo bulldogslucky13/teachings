@@ -221,3 +221,13 @@ Task: Replace Archive page grid layout with Table component (ui PRD #18)
 - Browser automation verified: table renders with all 4 columns, data displays correctly, cursor-pointer on rows
 - Next.js MCP no errors, typecheck passed, lint passed
 - Files: app/archive/page.tsx, app/archive/components/archive-page-client.tsx
+
+Task: Prioritize next teaching in series for related teachings algorithm (enhancement PRD #19)
+- Added nextInSeries? (string) field to Teaching type
+- Updated teachings data: teaching 1 → 2, teaching 2 → 3 in Romans 11 series
+- Updated getRelatedTeachings algorithm: nextInSeries gets highest priority (10000 pts, higher than same series 1000 pts)
+- Ensures next teaching in series always appears first in related teachings section
+- Updated JSDoc comment to reflect new priority order: Next in series → Same series → Scripture → Topics → Recency
+- Maintains existing scoring for all other relationships
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Files: lib/teachings/teachings.ts, lib/teachings/getRelatedTeachings.ts
