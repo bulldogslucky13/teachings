@@ -231,3 +231,13 @@ Task: Prioritize next teaching in series for related teachings algorithm (enhanc
 - Maintains existing scoring for all other relationships
 - Typecheck passed, lint passed, Next.js MCP no errors
 - Files: lib/teachings/teachings.ts, lib/teachings/getRelatedTeachings.ts
+
+Task: Enable dark mode support for home page (bug PRD #20)
+- Added className="dark" to html tag in app/layout.tsx line 6
+- Added bg-background class to main wrapper in app/page.tsx line 16
+- Updated FeaturedTeachingHero: removed text-white/80 from date (line 51), text-white from title (line 56), text-white/90 from description (line 61)
+- Kept text-white on Featured Badge (line 44) for contrast against primary background
+- Text/Heading components now use design system defaults (text-text-primary, text-text-secondary)
+- Browser automation verified: page loads at /, Next.js MCP no errors
+- Typecheck passed, lint passed
+- Files: app/layout.tsx, app/page.tsx, app/components/featured-teaching-hero/featured-teaching-hero.tsx

@@ -13,7 +13,7 @@ export default async function Page() {
 	const recentTeachings = await getRecentTeachings(5);
 
 	return (
-		<main>
+		<main className="bg-background">
 			<FeaturedTeachingHero teaching={featuredTeaching} />
 			<RecentTeachings teachings={recentTeachings} />
 		</main>

@@ -48,17 +48,17 @@ export function FeaturedTeachingHero({ teaching }: FeaturedTeachingHeroProps) {
 				</div>
 
 				{/* Date */}
-				<Text variant="caption" className="mb-3 text-white/80">
+				<Text variant="caption" className="mb-3">
 					{formattedDate}
 				</Text>
 
 				{/* Title */}
-				<Heading level="h1" className="mb-4 text-white max-w-4xl">
+				<Heading level="h1" className="mb-4 max-w-4xl">
 					{teaching.title}
 				</Heading>
 
 				{/* Description */}
-				<Text size="lg" className="mb-8 text-white/90 max-w-2xl">
+				<Text size="lg" className="mb-8 max-w-2xl">
 					{teaching.description}
 				</Text>
 

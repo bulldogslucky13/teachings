@@ -285,7 +285,7 @@
 			"Test: Load home page with dark class applied - featured hero text should be visible, recent teachings cards should have dark backgrounds (#18181b), card text should be light (#fafafa)",
 			"Success criteria: Home page displays with dark background (#0a0a0b), surface elements use #18181b, all text is readable with proper contrast, no white backgrounds visible"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",
