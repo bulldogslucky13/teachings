@@ -17,6 +17,7 @@ export function FeaturedTeachingHero({ teaching }: FeaturedTeachingHeroProps) {
 		year: "numeric",
 		month: "long",
 		day: "numeric",
+		timeZone: "UTC",
 	});
 
 	return (
