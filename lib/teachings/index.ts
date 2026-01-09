@@ -1,6 +1,7 @@
 export { getCoverPhotoUrl } from "./getCoverPhotoUrl";
 export { getFeaturedTeaching } from "./getFeaturedTeaching";
 export { getRecentTeachings } from "./getRecentTeachings";
+export { getRelatedTeachings } from "./getRelatedTeachings";
 export {
 	parseScriptureQuery,
 	searchTeachingsByScripture,
