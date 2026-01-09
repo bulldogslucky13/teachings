@@ -47,6 +47,15 @@
 		"passes": true
 	},
 	{
+		"category": "bug",
+		"description": "Buttons do not have cursor on hover states",
+		"steps": [
+			"Update the button component in the design system to add a cursor: pointer style on hover",
+			"Button in the hero section should have a cursor: pointer style on hover"
+		],
+		"passes": false
+	},
+	{
 		"category": "ui",
 		"description": "Create Recent Teachings grid section for home page",
 		"steps": [
@@ -54,7 +63,7 @@
 			"Use a responsive grid layout with teaching cards",
 			"Each card should show: thumbnail (cover photo), title, date, and brief description",
 			"Cards should be clickable and navigate to the teaching's video player page",
-			"Add a 'View All' or 'Sermon Archive' link button at the bottom of this section",
+			"Add a 'Teaching Archive' link button at the top right side of this section",
 			"Note: Featured teaching may appear in this list (this is intentional)"
 		],
 		"passes": false
