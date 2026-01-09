@@ -1,16 +1,21 @@
 import { FeaturedTeachingHero } from "@/app/components/featured-teaching-hero/featured-teaching-hero";
-import { teachings } from "@/lib/teachings";
+import { RecentTeachings } from "@/app/components/recent-teachings/recent-teachings";
+import { getFeaturedTeaching, getRecentTeachings } from "@/lib/teachings";
 
-export default function Page() {
-	const featuredTeaching = teachings.find((teaching) => teaching.isFeatured);
+export default async function Page() {
+	const featuredTeaching = await getFeaturedTeaching();
 
+	// We should always have a feature teaching.
 	if (!featuredTeaching) {
 		return null;
 	}
 
+	const recentTeachings = await getRecentTeachings(5);
+
 	return (
 		<main>
 			<FeaturedTeachingHero teaching={featuredTeaching} />
+			<RecentTeachings teachings={recentTeachings} />
 		</main>
 	);
 }

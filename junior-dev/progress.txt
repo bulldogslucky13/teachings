@@ -40,3 +40,16 @@ Task: Fix button cursor pointer (bug PRD #5)
 - Verified via Next.js MCP: no errors, browser automation confirmed cursor:pointer on buttons
 - Typecheck passed, lint passed
 - File: app/components/ui/button/button.tsx
+
+Task: Create Recent Teachings grid section (ui PRD #6)
+- Created TeachingCard component: displays cover photo thumbnail (aspect-video), title (h3), date (caption), description (body text, line-clamp-2)
+- Card uses design system Card (elevated variant), wraps in Next Link with hover effects (scale-[1.02], image scale-105)
+- Created RecentTeachings section: displays last 5 teachings sorted by date (most recent first)
+- Section header with "Recent Teachings" h2 and "Teaching Archive" button (links to /archive)
+- Responsive grid: 1 col mobile, 2 sm, 3 lg, 5 xl with gap-6
+- Integrated into home page below FeaturedTeachingHero
+- Featured teaching intentionally included in recent list per PRD
+- Fixed Heading level prop (must be string literal "h2"/"h3", not number)
+- Fixed import ordering (Next imports first per Biome), formatted .claude/settings.local.json
+- Typecheck passed, lint passed, Next.js MCP running (hydration warning pre-existing from react-aria button IDs)
+- Files: app/components/teaching-card/teaching-card.tsx, app/components/recent-teachings/recent-teachings.tsx, app/page.tsx
