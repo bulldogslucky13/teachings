@@ -20,7 +20,7 @@ export function FeaturedTeachingHero({ teaching }: FeaturedTeachingHeroProps) {
 	});
 
 	return (
-		<section className="relative w-full min-h-[90vh] flex items-end overflow-hidden">
+		<section className="relative w-full min-h-[50vh] md:min-h-[90vh] flex items-end overflow-hidden">
 			{/* Background Image */}
 			<div
 				className="absolute inset-0 w-full h-full bg-contain bg-no-repeat bg-black bg-center"
