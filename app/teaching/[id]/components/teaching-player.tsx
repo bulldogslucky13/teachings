@@ -9,6 +9,7 @@ import { Card, CardBody } from "@/app/components/ui/card/card";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Text } from "@/app/components/ui/text/text";
 import {
+	formatVerseRanges,
 	getCoverPhotoUrl,
 	getVideoProgress,
 	getYouTubeEmbedUrl,
@@ -83,13 +84,16 @@ export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerPro
 		chapter: number;
 		verses?: string[];
 	}) => {
-		const versesText = scripture.verses?.length ? `:${scripture.verses.join(",")}` : "";
+		const formattedVerses = formatVerseRanges(scripture.verses);
+		const versesText = formattedVerses ? `:${formattedVerses}` : "";
 		return `${scripture.book} ${scripture.chapter}${versesText}`;
 	};
 
 	const getBibleUrl = (scripture: { book: string; chapter: number; verses?: string[] }) => {
 		const reference = formatScriptureReference(scripture);
-		return `https://www.bible.com/search/bible?q=${encodeURIComponent(reference)}`;
+		// Use Bible Gateway with ESV translation
+		// Example: https://www.biblegateway.com/passage/?search=Romans+11:1-10&version=ESV
+		return `https://www.biblegateway.com/passage/?search=${encodeURIComponent(reference)}&version=ESV`;
 	};
 
 	return (
