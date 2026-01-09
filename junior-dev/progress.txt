@@ -139,3 +139,18 @@ Task: Create Table component for design system (ui PRD #13)
 - Typecheck passed, lint passed, Next.js MCP no errors
 - Browser automation verified Table renders at /design-system, shows 5 users with striped rows, proper ARIA attributes
 - File: app/components/ui/table/table.tsx, app/design-system/page.tsx
+
+Task: Add YouTube embed support to video player (bug PRD #12)
+- Created isYouTubeUrl utility: detects youtube.com/youtu.be domains via URL parsing
+- Created getYouTubeEmbedUrl utility: converts watch/share/embed YouTube URL formats to standardized embed URL
+- Supports youtube.com/watch?v=ID, youtu.be/ID, youtube.com/embed/ID formats
+- Updated TeachingPlayer component: conditionally renders <iframe> for YouTube, <video> for direct files
+- Disabled progress tracking (load/save) for YouTube videos (isYouTube flag guards useEffect hooks)
+- Added videoError state with fallback error UI (Card with error message)
+- iframe maintains aspect-video class, same 16:9 ratio as video element
+- Added allow attributes for iframe: accelerometer, autoplay, clipboard-write, encrypted-media, gyroscope, picture-in-picture
+- Exported utilities from lib/teachings/index.ts
+- Fixed formatting via Biome (single→double quotes)
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Browser automation verified /teaching/1 loads YouTube iframe correctly, no video player errors
+- Files: lib/teachings/videoUtils.ts, lib/teachings/index.ts, app/teaching/[id]/components/teaching-player.tsx

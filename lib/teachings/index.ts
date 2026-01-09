@@ -11,3 +11,4 @@ export {
 	saveVideoProgress,
 	type VideoProgress,
 } from "./videoProgressStorage";
+export { getYouTubeEmbedUrl, isYouTubeUrl } from "./videoUtils";

@@ -11,6 +11,8 @@ import { Text } from "@/app/components/ui/text/text";
 import {
 	getCoverPhotoUrl,
 	getVideoProgress,
+	getYouTubeEmbedUrl,
+	isYouTubeUrl,
 	saveVideoProgress,
 	type Teaching,
 } from "@/lib/teachings";
@@ -23,20 +25,22 @@ interface TeachingPlayerProps {
 export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerProps) {
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const [showCopied, setShowCopied] = useState(false);
+	const isYouTube = isYouTubeUrl(teaching.videoUrl);
+	const [videoError, setVideoError] = useState(false);
 
-	// Load saved progress on mount
+	// Load saved progress on mount (only for non-YouTube videos)
 	useEffect(() => {
-		if (!videoRef.current) return;
+		if (isYouTube || !videoRef.current) return;
 
 		const progress = getVideoProgress(teaching.id);
 		if (progress?.currentTime) {
 			videoRef.current.currentTime = progress.currentTime;
 		}
-	}, [teaching.id]);
+	}, [teaching.id, isYouTube]);
 
-	// Save progress periodically
+	// Save progress periodically (only for non-YouTube videos)
 	useEffect(() => {
-		if (!videoRef.current) return;
+		if (isYouTube || !videoRef.current) return;
 
 		const video = videoRef.current;
 		const saveProgress = () => {
@@ -62,7 +66,7 @@ export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerPro
 			window.removeEventListener("beforeunload", saveProgress);
 			saveProgress(); // Save on unmount
 		};
-	}, [teaching.id]);
+	}, [teaching.id, isYouTube]);
 
 	const handleCopyLink = async () => {
 		try {
@@ -93,16 +97,36 @@ export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerPro
 			{/* Video Player Section */}
 			<div className="w-full bg-black">
 				<div className="container mx-auto">
-					<video
-						ref={videoRef}
-						className="w-full aspect-video"
-						controls
-						preload="metadata"
-						src={teaching.videoUrl}
-					>
-						<track kind="captions" />
-						Your browser does not support the video tag.
-					</video>
+					{videoError ? (
+						<div className="w-full aspect-video flex items-center justify-center">
+							<Card variant="elevated" className="p-8">
+								<Text variant="body" className="text-center">
+									Failed to load video. Please try again later.
+								</Text>
+							</Card>
+						</div>
+					) : isYouTube ? (
+						<iframe
+							className="w-full aspect-video"
+							src={getYouTubeEmbedUrl(teaching.videoUrl) ?? undefined}
+							title={teaching.title}
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowFullScreen
+							onError={() => setVideoError(true)}
+						/>
+					) : (
+						<video
+							ref={videoRef}
+							className="w-full aspect-video"
+							controls
+							preload="metadata"
+							src={teaching.videoUrl}
+							onError={() => setVideoError(true)}
+						>
+							<track kind="captions" />
+							Your browser does not support the video tag.
+						</video>
+					)}
 				</div>
 			</div>
 

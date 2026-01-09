@@ -139,7 +139,7 @@
 			"Maintain same styling and aspect ratio (16:9) for both video types",
 			"Add fallback error state if video fails to load"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",
