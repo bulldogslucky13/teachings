@@ -86,3 +86,16 @@ Task: Create related teachings utility function (utility PRD #10)
 - Exported from lib/teachings/index.ts
 - Typecheck passed, lint passed, Next.js MCP no errors
 - File: lib/teachings/getRelatedTeachings.ts
+
+Task: Create local storage utility for video progress tracking (utility PRD #11)
+- Created videoProgressStorage.ts with saveVideoProgress, getVideoProgress, clearVideoProgress functions
+- VideoProgress interface: teachingId (string), currentTime (number), lastUpdated (Date)
+- Storage key prefix: 'teaching_video_progress_' + teachingId
+- isLocalStorageAvailable helper checks if localStorage works (try/catch test)
+- saveVideoProgress: saves progress object as JSON, warns if storage unavailable
+- getVideoProgress: retrieves and validates stored data, converts lastUpdated back to Date, clears corrupt data
+- clearVideoProgress: removes stored progress for teaching
+- All functions handle errors gracefully (console.error, early returns)
+- Exported from lib/teachings/index.ts
+- Typecheck passed, lint passed (auto-fixed quotes/formatting via Biome), Next.js MCP no errors
+- File: lib/teachings/videoProgressStorage.ts
