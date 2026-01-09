@@ -37,15 +37,15 @@ export default function DesignSystemPage() {
 		},
 	];
 
-	const userColumns: ColumnDef<ExampleUser>[] = [
+	const userColumns = [
 		{
 			header: "Name",
 			accessorKey: "name",
-		},
+		} satisfies ColumnDef<ExampleUser, "name">,
 		{
 			header: "Email",
 			accessorKey: "email",
-		},
+		} satisfies ColumnDef<ExampleUser, "email">,
 		{
 			header: "Role",
 			accessorKey: "role",
@@ -54,7 +54,7 @@ export default function DesignSystemPage() {
 					{String(value)}
 				</span>
 			),
-		},
+		} satisfies ColumnDef<ExampleUser, "role">,
 		{
 			header: "Status",
 			accessorKey: "status",
@@ -69,7 +69,7 @@ export default function DesignSystemPage() {
 					{String(value)}
 				</span>
 			),
-		},
+		} satisfies ColumnDef<ExampleUser, "status">,
 	];
 
 	return (
@@ -340,7 +340,10 @@ export default function DesignSystemPage() {
 									<Text variant="overline" className="">
 										Basic Table
 									</Text>
-									<Table columns={userColumns} data={exampleUsers} />
+									<Table
+										columns={userColumns as ColumnDef<ExampleUser, keyof ExampleUser>[]}
+										data={exampleUsers}
+									/>
 								</div>
 
 								<div className="space-y-3">
@@ -348,7 +351,7 @@ export default function DesignSystemPage() {
 										Clickable Rows
 									</Text>
 									<Table
-										columns={userColumns}
+										columns={userColumns as ColumnDef<ExampleUser, keyof ExampleUser>[]}
 										data={exampleUsers}
 										onRowClick={(user) => setSelectedUser(user)}
 									/>
