@@ -1,4 +1,4 @@
-import type { Teaching } from "./teachings";
+import { getAllTeachings, type Teaching } from "./teachings";
 
 /**
  * Parse a scripture search query into book and optional chapter
@@ -6,7 +6,7 @@ import type { Teaching } from "./teachings";
  *           "Matthew" -> {book: "Matthew", chapter: undefined}
  *           "2 Corinthians 5" -> {book: "2 Corinthians", chapter: 5}
  */
-export function parseScriptureQuery(query: string): {
+function parseScriptureQuery(query: string): {
 	book: string;
 	chapter?: number;
 } | null {
@@ -29,14 +29,16 @@ export function parseScriptureQuery(query: string): {
  * Search teachings by scripture reference
  * Matches book name (case-insensitive, partial match) and optionally chapter
  */
-export function searchTeachingsByScripture(teachings: Teaching[], query: string): Teaching[] {
+export async function searchTeachingsByScripture(query: string): Promise<Teaching[]> {
+	const allTeachings = await getAllTeachings();
+
 	const parsed = parseScriptureQuery(query);
 	if (!parsed) return [];
 
 	const { book, chapter } = parsed;
 	const normalizedBook = book.toLowerCase();
 
-	return teachings.filter((teaching) => {
+	return allTeachings.filter((teaching) => {
 		// Check if any scripture reference matches
 		return teaching.scripture.some((ref) => {
 			const refBookLower = ref.book.toLowerCase();

@@ -1,19 +1,21 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
 import { TeachingCard } from "@/app/components/teaching-card/teaching-card";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Text } from "@/app/components/ui/text/text";
-import { searchTeachingsByScripture, teachings } from "@/lib/teachings";
+import { getAllTeachings, searchTeachingsByScripture } from "@/lib/teachings";
+import { ScriptureSearch } from "./components/scripture-search";
 
-export default function ArchivePage() {
-	const [searchQuery, setSearchQuery] = useState("");
+interface ArchivePageProps {
+	searchParams: Promise<{ q?: string }>;
+}
+
+export default async function ArchivePage({ searchParams }: ArchivePageProps) {
+	const { q: searchQuery } = await searchParams;
 
 	// Get filtered teachings based on search
 	const filteredTeachings = searchQuery
-		? searchTeachingsByScripture(teachings, searchQuery)
-		: teachings;
+		? await searchTeachingsByScripture(searchQuery)
+		: await getAllTeachings();
 
 	// Sort by most recent date
 	const sortedTeachings = [...filteredTeachings].sort((a, b) => {
@@ -35,13 +37,7 @@ export default function ArchivePage() {
 
 				{/* Search Input */}
 				<div className="mb-8">
-					<input
-						type="text"
-						placeholder='Search by scripture (e.g., "Romans 8" or "Matthew")'
-						value={searchQuery}
-						onChange={(e) => setSearchQuery(e.target.value)}
-						className="w-full max-w-2xl px-4 py-3 rounded-lg bg-surface border border-border text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary"
-					/>
+					<ScriptureSearch />
 				</div>
 
 				{/* Results Grid */}
@@ -59,7 +55,7 @@ export default function ArchivePage() {
 	);
 }
 
-function EmptyState({ searchQuery }: { searchQuery: string }) {
+function EmptyState({ searchQuery }: { searchQuery?: string }) {
 	return (
 		<div className="flex flex-col items-center justify-center py-16 px-4">
 			<div className="text-center max-w-md">
@@ -72,11 +68,7 @@ function EmptyState({ searchQuery }: { searchQuery: string }) {
 						: "No teachings available at this time."}
 				</Text>
 				{searchQuery && (
-					<Link
-						href="/archive"
-						onClick={() => window.location.reload()}
-						className="text-primary hover:underline"
-					>
+					<Link href="/archive" className="text-primary hover:underline">
 						Clear search and view all teachings
 					</Link>
 				)}

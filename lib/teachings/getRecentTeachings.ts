@@ -1,5 +1,7 @@
+"use server";
+
 import type { Teaching } from "./teachings";
-import { teachings } from "./teachings";
+import { getAllTeachings } from "./teachings";
 
 /**
  * Fetches the most recent teachings sorted by date
@@ -7,7 +9,8 @@ import { teachings } from "./teachings";
  * @returns Promise resolving to array of recent teachings
  */
 export async function getRecentTeachings(limit = 5): Promise<Teaching[]> {
-	const recentTeachings = [...teachings]
+	const allTeachings = await getAllTeachings();
+	const recentTeachings = [...allTeachings]
 		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 		.slice(0, limit);
 	return recentTeachings;
