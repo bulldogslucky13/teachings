@@ -1,4 +1,5 @@
 import type { Teaching } from "./teachings";
+import { teachings } from "./teachings";
 
 /**
  * Get related teachings for a given teaching based on similarity.
@@ -8,11 +9,8 @@ import type { Teaching } from "./teachings";
  * @param limit - Maximum number of related teachings to return (default: 6)
  * @returns Array of related teachings, sorted by relevance
  */
-export function getRelatedTeachings(
-	teaching: Teaching,
-	allTeachings: Teaching[],
-	limit = 6,
-): Teaching[] {
+export async function getRelatedTeachings(teaching: Teaching, limit = 6): Promise<Teaching[]> {
+	const allTeachings = [...teachings];
 	// Filter out the current teaching
 	const candidates = allTeachings.filter((t) => t.id !== teaching.id);
 
