@@ -231,7 +231,7 @@
 			"Test light/dark mode switching",
 			"Success criteria: Table component is accessible, responsive, supports custom rendering, works in light/dark mode, documented in design system page"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "ui",

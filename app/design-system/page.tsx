@@ -6,12 +6,71 @@ import { Card, CardBody, CardFooter, CardHeader } from "../components/ui/card/ca
 import { Heading } from "../components/ui/heading/heading";
 import { Link } from "../components/ui/link/link";
 import { Select, SelectItem } from "../components/ui/select/select";
+import { type ColumnDef, Table } from "../components/ui/table/table";
 import { Text } from "../components/ui/text/text";
 import { TextArea } from "../components/ui/text-area/text-area";
 import { TextField } from "../components/ui/text-field/text-field";
 
+interface ExampleUser extends Record<string, unknown> {
+	id: number;
+	name: string;
+	email: string;
+	role: string;
+	status: "Active" | "Inactive";
+}
+
 export default function DesignSystemPage() {
 	const [isDarkMode, setIsDarkMode] = useState(true);
+	const [selectedUser, setSelectedUser] = useState<ExampleUser | null>(null);
+
+	const exampleUsers: ExampleUser[] = [
+		{ id: 1, name: "John Doe", email: "john@example.com", role: "Admin", status: "Active" },
+		{ id: 2, name: "Jane Smith", email: "jane@example.com", role: "Editor", status: "Active" },
+		{ id: 3, name: "Bob Johnson", email: "bob@example.com", role: "Viewer", status: "Inactive" },
+		{ id: 4, name: "Alice Williams", email: "alice@example.com", role: "Editor", status: "Active" },
+		{
+			id: 5,
+			name: "Charlie Brown",
+			email: "charlie@example.com",
+			role: "Viewer",
+			status: "Active",
+		},
+	];
+
+	const userColumns: ColumnDef<ExampleUser>[] = [
+		{
+			header: "Name",
+			accessorKey: "name",
+		},
+		{
+			header: "Email",
+			accessorKey: "email",
+		},
+		{
+			header: "Role",
+			accessorKey: "role",
+			render: (value) => (
+				<span className="rounded-full bg-primary-600/20 px-2 py-1 text-xs font-medium text-primary-400">
+					{String(value)}
+				</span>
+			),
+		},
+		{
+			header: "Status",
+			accessorKey: "status",
+			render: (value) => (
+				<span
+					className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+						value === "Active"
+							? "bg-success-600/20 text-success-400"
+							: "bg-error-500/20 text-error-400"
+					}`}
+				>
+					{String(value)}
+				</span>
+			),
+		},
+	];
 
 	return (
 		<div className={isDarkMode ? "dark" : ""}>
@@ -267,6 +326,57 @@ export default function DesignSystemPage() {
 								</CardFooter>
 							</Card>
 						</div>
+					</section>
+
+					{/* Table Section */}
+					<section className="space-y-6">
+						<Heading level="h2" className="">
+							Table
+						</Heading>
+
+						<Card variant="bordered" className="">
+							<CardBody className="space-y-6">
+								<div className="space-y-3">
+									<Text variant="overline" className="">
+										Basic Table
+									</Text>
+									<Table columns={userColumns} data={exampleUsers} />
+								</div>
+
+								<div className="space-y-3">
+									<Text variant="overline" className="">
+										Clickable Rows
+									</Text>
+									<Table
+										columns={userColumns}
+										data={exampleUsers}
+										onRowClick={(user) => setSelectedUser(user)}
+									/>
+									{selectedUser && (
+										<Text variant="caption" className="">
+											Selected: {selectedUser.name} ({selectedUser.email})
+										</Text>
+									)}
+								</div>
+
+								<div className="space-y-3">
+									<Text variant="overline" className="">
+										Empty State
+									</Text>
+									<Table
+										columns={userColumns}
+										data={[]}
+										emptyState={
+											<div className="text-center">
+												<Text variant="body" className="text-text-secondary">
+													No users found. Add a user to get started.
+												</Text>
+											</div>
+										}
+									/>
+								</div>
+							</CardBody>
+						</Card>
 					</section>
 
 					{/* Colors Section */}

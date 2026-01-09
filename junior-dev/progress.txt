@@ -117,3 +117,25 @@ Task: Create Video Player page for individual teachings (page PRD #8)
 - Typecheck passed, lint passed (removed unused MdPlayArrow import via unsafe fix), Next.js MCP no errors
 - Browser automation verified page loads at /teaching/1, metadata renders correctly
 - File: app/teaching/[id]/page.tsx
+
+Task: Create Table component for design system (ui PRD #13)
+- Created Table component in app/components/ui/table/table.tsx with react-aria-components foundation
+- Component uses AriaTable, TableHeader, TableBody, Row, Column, Cell from react-aria-components
+- API: columns (ColumnDef<Data>[] with header, accessorKey, optional render fn), data (Data[]), onRowClick?, emptyState?
+- ColumnDef type: { header: string, accessorKey: Key, render?: (value: Data[Key], row: Data) => ReactNode }
+- TypeScript generics: ColumnDef<Data, Key extends keyof Data> derives value type from accessor key for full type safety
+- Renamed T generic to Data for readability
+- Striped rows: even rows bg-surface, odd rows bg-surface-hover/50
+- Row hover: hover:bg-surface-hover, cursor-pointer if onRowClick provided
+- Compact spacing: px-4 py-2 on cells
+- Custom cell rendering: render function returns ReactNode, defaults to String(value ?? "")
+- Empty state: shows custom emptyState prop or default "No data available" message
+- Responsive: overflow-x-auto wrapper for horizontal scroll on mobile
+- Semantic HTML: proper grid role, rowgroup, columnheader, rowheader, gridcell via react-aria
+- Light/dark mode: uses CSS variables (bg-surface, bg-surface-hover, text-text-primary, border-border)
+- Added Table to design system page with 3 examples: basic table, clickable rows (onRowClick), empty state
+- Example data: ExampleUser interface with columns showing custom render (badges for Role/Status)
+- Fixed import ordering and formatting via Biome auto-fix
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Browser automation verified Table renders at /design-system, shows 5 users with striped rows, proper ARIA attributes
+- File: app/components/ui/table/table.tsx, app/design-system/page.tsx
