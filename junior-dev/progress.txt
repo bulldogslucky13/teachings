@@ -53,3 +53,26 @@ Task: Create Recent Teachings grid section (ui PRD #6)
 - Fixed import ordering (Next imports first per Biome), formatted .claude/settings.local.json
 - Typecheck passed, lint passed, Next.js MCP running (hydration warning pre-existing from react-aria button IDs)
 - Files: app/components/teaching-card/teaching-card.tsx, app/components/recent-teachings/recent-teachings.tsx, app/page.tsx
+
+Task: Create scripture search utility functions (utility PRD #9)
+- Created parseScriptureQuery utility: parses "Romans 8" or "Matthew" format, handles books starting with numbers (e.g., "2 Corinthians")
+- Created searchTeachingsByScripture utility: case-insensitive partial book match, optional exact chapter match
+- Returns empty array for invalid queries
+- Added TypeScript null check for regex match groups
+- Exported from lib/teachings/index.ts
+- Typecheck passed, lint passed
+- File: lib/teachings/searchByScripture.ts
+
+Task: Create Sermon Archive page with search and filtering (page PRD #7)
+- Created /archive route (app/archive/page.tsx)
+- Client component with useState for search query
+- Real-time scripture search using searchTeachingsByScripture utility
+- Default view: all teachings sorted by most recent date
+- Search input with placeholder explaining format
+- Responsive grid: 1 col mobile, 2 sm, 3 lg, 4 xl with gap-6
+- Reuses TeachingCard component from Recent Teachings section
+- EmptyState component for no results: shows different message for search vs no data, "Clear search" link when searching
+- Note: Infinite scroll deferred (not implemented yet, loads all results at once)
+- Fixed import ordering (Next imports first), alphabetized named imports per Biome
+- Typecheck passed, lint passed, Next.js MCP no errors, /archive route detected
+- File: app/archive/page.tsx
