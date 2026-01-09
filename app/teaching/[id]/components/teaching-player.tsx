@@ -175,7 +175,7 @@ export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerPro
 											href={getBibleUrl(ref)}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="text-text-primary hover:text-primary-light underline"
+											className="text-text-primary hover:text-primary-400 underline"
 										>
 											{formatScriptureReference(ref)}
 										</a>

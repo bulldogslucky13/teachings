@@ -314,7 +314,7 @@
 			"Test: Verify video player background remains black (intentional, line 113), content area uses dark background (#0a0a0b)",
 			"Success criteria: Scripture links have correct hover color using primary-400 (#52a170), all page colors properly reference CSS variables, teaching metadata and related teachings sections readable in dark mode"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "enhancement",

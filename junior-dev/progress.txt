@@ -251,3 +251,11 @@ Task: Fix incorrect color class references on Archive page (bug PRD #21)
 - All color references now use proper CSS variables from design system
 - Typecheck passed, lint passed, Next.js MCP no errors
 - File: app/archive/components/scripture-search.tsx
+
+Task: Fix incorrect hover color reference for scripture links on Teaching page (bug PRD #22)
+- Updated TeachingPlayer component line 178: changed hover:text-primary-light → hover:text-primary-400
+- Verified base color text-text-primary correct (no change needed)
+- Verified other colors use correct CSS variables (bg-background, text-text-secondary, bg-surface)
+- Scripture links now use primary-400 (#52a170) on hover for proper dark mode support
+- Typecheck passed, lint passed, Next.js MCP no errors
+- File: app/teaching/[id]/components/teaching-player.tsx
