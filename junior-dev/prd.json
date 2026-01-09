@@ -53,7 +53,7 @@
 			"Update the button component in the design system to add a cursor: pointer style on hover",
 			"Button in the hero section should have a cursor: pointer style on hover"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "ui",

@@ -34,3 +34,9 @@ Task: Add Play icon to Watch Now button (ui PRD #4)
 - Typecheck passed, lint passed
 - Files: app/components/ui/button/button.tsx, app/components/featured-teaching-hero/featured-teaching-hero.tsx, package.json
 
+Task: Fix button cursor pointer (bug PRD #5)
+- Added cursor-pointer to Button component base styles in buttonVariants cva
+- Applies to all button variants (primary, secondary, ghost, danger) and all sizes
+- Verified via Next.js MCP: no errors, browser automation confirmed cursor:pointer on buttons
+- Typecheck passed, lint passed
+- File: app/components/ui/button/button.tsx
