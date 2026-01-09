@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { Button as AriaButton, type ButtonProps as AriaButtonProps } from "react-aria-components";
 import { cn } from "../utils/cn";
 import { cva, type VariantProps } from "../utils/variants";
@@ -33,9 +34,19 @@ const buttonVariants = cva(
 export interface ButtonProps extends AriaButtonProps, VariantProps<typeof buttonVariants> {
 	variant?: "primary" | "secondary" | "ghost" | "danger";
 	size?: "sm" | "md" | "lg";
+	leftIcon?: ReactNode;
+	rightIcon?: ReactNode;
 }
 
-export function Button({ className, variant, size, ...props }: ButtonProps) {
+export function Button({
+	className,
+	variant,
+	size,
+	leftIcon,
+	rightIcon,
+	children,
+	...props
+}: ButtonProps) {
 	return (
 		<AriaButton
 			className={(renderProps) =>
@@ -48,6 +59,14 @@ export function Button({ className, variant, size, ...props }: ButtonProps) {
 				)
 			}
 			{...props}
-		/>
+		>
+			{(renderProps) => (
+				<>
+					{leftIcon && <span className="mr-2 flex items-center">{leftIcon}</span>}
+					{typeof children === "function" ? children(renderProps) : children}
+					{rightIcon && <span className="ml-2 flex items-center">{rightIcon}</span>}
+				</>
+			)}
+		</AriaButton>
 	);
 }

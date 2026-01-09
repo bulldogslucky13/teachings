@@ -25,3 +25,12 @@ Task: Create Featured Teaching hero component (ui PRD #3)
 - Typecheck passed, lint passed
 - Files: app/components/featured-teaching-hero/featured-teaching-hero.tsx, app/page.tsx, tsconfig.json
 
+Task: Add Play icon to Watch Now button (ui PRD #4)
+- Installed react-icons package for Material Design icons
+- Updated Button component to support leftIcon and rightIcon props (ReactNode)
+- Added proper spacing (mr-2/ml-2) and flex layout for icons
+- Handled children as function pattern from react-aria-components
+- Added MdPlayArrow icon (size 24) to Watch Now button in FeaturedTeachingHero
+- Typecheck passed, lint passed
+- Files: app/components/ui/button/button.tsx, app/components/featured-teaching-hero/featured-teaching-hero.tsx, package.json
+

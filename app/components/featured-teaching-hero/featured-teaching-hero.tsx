@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { MdPlayArrow } from "react-icons/md";
 import { Button } from "@/app/components/ui/button/button";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Text } from "@/app/components/ui/text/text";
@@ -19,7 +20,7 @@ export function FeaturedTeachingHero({ teaching }: FeaturedTeachingHeroProps) {
 	});
 
 	return (
-		<section className="relative w-full min-h-[70vh] flex items-end overflow-hidden">
+		<section className="relative w-full min-h-[90vh] flex items-end overflow-hidden">
 			{/* Background Image */}
 			<div
 				className="absolute inset-0 w-full h-full bg-contain bg-no-repeat bg-black bg-center"
@@ -62,7 +63,7 @@ export function FeaturedTeachingHero({ teaching }: FeaturedTeachingHeroProps) {
 
 				{/* Watch Now Button */}
 				<Link href={`/teachings/${teaching.id}`}>
-					<Button variant="primary" size="lg">
+					<Button variant="primary" size="lg" leftIcon={<MdPlayArrow size={24} />}>
 						Watch Now
 					</Button>
 				</Link>

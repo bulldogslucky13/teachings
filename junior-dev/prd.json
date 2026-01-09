@@ -39,6 +39,15 @@
 	},
 	{
 		"category": "ui",
+		"description": "Add a 'Play' icon to the 'Watch Now' button",
+		"steps": [
+			"Update button component in the design system to support left and right icons as props",
+			"Update the 'Watch Now' button to use the new icon prop to display a play icon on the left side"
+		],
+		"passes": true
+	},
+	{
+		"category": "ui",
 		"description": "Create Recent Teachings grid section for home page",
 		"steps": [
 			"Create a section below the featured hero that displays the last 5 teachings",
