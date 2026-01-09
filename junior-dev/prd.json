@@ -126,6 +126,6 @@
 			"Create utility to retrieve saved progress for a teaching",
 			"Handle edge cases (local storage not available, corrupt data, etc.)"
 		],
-		"passes": false
+		"passes": true
 	}
 ]

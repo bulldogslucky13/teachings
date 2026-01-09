@@ -5,3 +5,9 @@ export {
 	searchTeachingsByScripture,
 } from "./searchByScripture";
 export { type ScriptureReference, type Teaching, teachings } from "./teachings";
+export {
+	clearVideoProgress,
+	getVideoProgress,
+	saveVideoProgress,
+	type VideoProgress,
+} from "./videoProgressStorage";
