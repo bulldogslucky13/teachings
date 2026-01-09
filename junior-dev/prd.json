@@ -96,7 +96,7 @@
 			"Related teachings algorithm: prioritize same series, then overlapping scripture, then shared topics, fallback to most recent",
 			"Display related teachings in a horizontal scrollable list or grid"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "utility",

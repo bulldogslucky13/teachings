@@ -99,3 +99,21 @@ Task: Create local storage utility for video progress tracking (utility PRD #11)
 - Exported from lib/teachings/index.ts
 - Typecheck passed, lint passed (auto-fixed quotes/formatting via Biome), Next.js MCP no errors
 - File: lib/teachings/videoProgressStorage.ts
+
+Task: Create Video Player page for individual teachings (page PRD #8)
+- Created /teaching/[id] dynamic route (app/teaching/[id]/page.tsx)
+- Native HTML5 video player with controls, preload metadata, aspect-video
+- Video progress tracking: useEffect hooks save/restore currentTime via videoProgressStorage utilities
+- Auto-save every 5s during playback, on pause/seek/beforeunload/unmount
+- Teaching metadata display: title (h1), date (caption), series (if exists), description (lg text)
+- Scripture references as clickable links to bible.com with book/chapter/verses formatting
+- Topics displayed as pill badges (bg-surface, rounded-full)
+- Copy link button with MdLink icon, shows "Link Copied!" feedback for 2s
+- Related Teachings section: horizontal scrollable flex layout (w-80 cards, gap-6)
+- Uses getRelatedTeachings utility (returns up to 6 teachings by series/scripture/topics/recency)
+- Related cards use TeachingCard-like structure with Image, CardBody, hover effects
+- Not found state: elevated Card with error message, "Go Home" button
+- Responsive: grid layout for main content (2 cols lg), sidebar (1 col lg) with copy button card
+- Typecheck passed, lint passed (removed unused MdPlayArrow import via unsafe fix), Next.js MCP no errors
+- Browser automation verified page loads at /teaching/1, metadata renders correctly
+- File: app/teaching/[id]/page.tsx
