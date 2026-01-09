@@ -22,3 +22,5 @@ The site emphasizes:
 - These design system components should use react-aria under the hood. This should help us keep our components accessible, a necessity for all parts of our application.
 - When updates are needed to be made to our theme, always try to do these updates at the highest level first, working down to the lower levels (e.g, to add support for light and dark mode colors, we should first attempt to add that to @/app/globals.css, if this is something that can be supported that high up. If not, then an update to a shareable component might be best. If the update is not possible in either case, then update all instances of the individual components. This should be the last option, when avoidable).
 
+## Unit Testing
+- Every time a utility function is written or updated, we should write or update unit tests as appropriate. Operate on a red/green pattern with this.
