@@ -206,7 +206,7 @@
 			"Verify changes apply to both Recent Teachings section and Archive page (same component used in both places)",
 			"Success criteria: Title is visually smaller and better proportioned, but still clearly the most prominent text element in the card"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "ui",

@@ -197,3 +197,12 @@ Task: Add partial chapter matching and verse-level searching to scripture search
 - Biome auto-fixed: removed useless undefined init, formatted multi-line conditionals
 - Typecheck passed, lint passed, Next.js MCP no errors
 - Files: lib/teachings/searchByScripture.ts, lib/teachings/searchByScripture.test.ts, app/archive/components/scripture-search.tsx
+
+Task: Reduce teaching card title text size (bug PRD #17)
+- Located TeachingCard component: title using h3 with text-3xl (too large per PRD)
+- Maintained semantic h3 for accessibility, reduced visual size from text-3xl to text-xl using !text-xl override
+- Visual hierarchy preserved: title (text-xl) > description (body) > date (caption), title still most prominent
+- Verified changes apply to both Recent Teachings and Archive page (same component used)
+- Browser automation verified rendering on both pages, Next.js MCP no errors
+- Typecheck passed, lint passed
+- File: app/components/teaching-card/teaching-card.tsx
