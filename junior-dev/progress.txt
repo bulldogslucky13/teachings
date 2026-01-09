@@ -206,3 +206,18 @@ Task: Reduce teaching card title text size (bug PRD #17)
 - Browser automation verified rendering on both pages, Next.js MCP no errors
 - Typecheck passed, lint passed
 - File: app/components/teaching-card/teaching-card.tsx
+
+Task: Replace Archive page grid layout with Table component (ui PRD #18)
+- Created ArchivePageClient component: client component using Table with 4 columns (Cover Photo, Title, Scripture, Date)
+- Cover Photo column: w-20 aspect-video thumbnail, Next Image optimization, getCoverPhotoUrl utility
+- Title column: plain text left-aligned
+- Scripture column: formats multiple scripture refs with formatVerseRanges utility (e.g., "Romans 11:1-10, Matthew 5:1-2")
+- Date column: formats as "MMM DD, YYYY" right-aligned using toLocaleDateString
+- Removed grid layout and TeachingCard usage from Archive page, moved to client component pattern (server component fetches data, passes to client)
+- onRowClick handler: navigates to /teaching/{id} via Next.js router
+- EmptyState component updated with correct CSS variable colors (text-text-secondary, text-primary-500)
+- Search input remains above table, maintains all existing functionality
+- Table responsive: horizontal scroll on mobile via Table component's overflow-x-auto wrapper
+- Browser automation verified: table renders with all 4 columns, data displays correctly, cursor-pointer on rows
+- Next.js MCP no errors, typecheck passed, lint passed
+- Files: app/archive/page.tsx, app/archive/components/archive-page-client.tsx

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { TeachingCard } from "@/app/components/teaching-card/teaching-card";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Text } from "@/app/components/ui/text/text";
 import { getAllTeachings, searchTeachingsByScripture } from "@/lib/teachings";
+import { ArchivePageClient } from "./components/archive-page-client";
 import { ScriptureSearch } from "./components/scripture-search";
 
 interface ArchivePageProps {
@@ -30,7 +30,7 @@ export default async function ArchivePage({ searchParams }: ArchivePageProps) {
 					<Heading level="h1" className="mb-2">
 						Teaching Archive
 					</Heading>
-					<Text variant="body" className="text-foreground/70">
+					<Text variant="body" className="text-text-secondary">
 						Search by scripture or browse all teachings
 					</Text>
 				</div>
@@ -40,13 +40,9 @@ export default async function ArchivePage({ searchParams }: ArchivePageProps) {
 					<ScriptureSearch />
 				</div>
 
-				{/* Results Grid */}
+				{/* Results Table */}
 				{sortedTeachings.length > 0 ? (
-					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-						{sortedTeachings.map((teaching) => (
-							<TeachingCard key={teaching.id} teaching={teaching} />
-						))}
-					</div>
+					<ArchivePageClient teachings={sortedTeachings} />
 				) : (
 					<EmptyState searchQuery={searchQuery} />
 				)}
@@ -62,13 +58,13 @@ function EmptyState({ searchQuery }: { searchQuery?: string }) {
 				<Heading level="h2" className="mb-4">
 					No teachings found
 				</Heading>
-				<Text variant="body" className="text-foreground/70 mb-6">
+				<Text variant="body" className="text-text-secondary mb-6">
 					{searchQuery
 						? `No teachings found for "${searchQuery}". Try a different search term or browse all teachings.`
 						: "No teachings available at this time."}
 				</Text>
 				{searchQuery && (
-					<Link href="/archive" className="text-primary hover:underline">
+					<Link href="/archive" className="text-primary-500 hover:underline">
 						Clear search and view all teachings
 					</Link>
 				)}
