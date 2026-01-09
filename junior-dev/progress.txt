@@ -76,3 +76,13 @@ Task: Create Sermon Archive page with search and filtering (page PRD #7)
 - Fixed import ordering (Next imports first), alphabetized named imports per Biome
 - Typecheck passed, lint passed, Next.js MCP no errors, /archive route detected
 - File: app/archive/page.tsx
+
+Task: Create related teachings utility function (utility PRD #10)
+- Created getRelatedTeachings utility in lib/teachings/getRelatedTeachings.ts
+- Scoring algorithm: same series (+1000 pts), overlapping scripture book+chapter (+100 pts each), shared topics (+10 pts each), recency (0-1 pts)
+- Helper functions: countScriptureMatches (case-insensitive book match + exact chapter), countTopicMatches (case-insensitive set intersection), getRecencyScore (0-1 scale based on 365 day window)
+- Default limit 6 related teachings, configurable via parameter
+- Filters out current teaching, sorts by score descending, returns top N
+- Exported from lib/teachings/index.ts
+- Typecheck passed, lint passed, Next.js MCP no errors
+- File: lib/teachings/getRelatedTeachings.ts

@@ -116,7 +116,7 @@
 			"Algorithm priority: 1) Same series (highest), 2) Overlapping scripture (same book+chapter), 3) Shared topics, 4) Most recent",
 			"Return a reasonable number of related teachings (e.g., 3-6)"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "utility",
