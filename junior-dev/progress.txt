@@ -241,3 +241,13 @@ Task: Enable dark mode support for home page (bug PRD #20)
 - Browser automation verified: page loads at /, Next.js MCP no errors
 - Typecheck passed, lint passed
 - Files: app/layout.tsx, app/page.tsx, app/components/featured-teaching-hero/featured-teaching-hero.tsx
+
+Task: Fix incorrect color class references on Archive page (bug PRD #21)
+- Updated ScriptureSearch component (app/archive/components/scripture-search.tsx line 34)
+- Changed text-foreground → text-text-primary for input text
+- Changed placeholder:text-foreground/50 → placeholder:text-text-secondary for placeholder
+- Changed focus:ring-primary → focus:ring-primary-500 for focus ring
+- Archive page.tsx already used text-text-secondary correctly (lines 33, 61), no changes needed
+- All color references now use proper CSS variables from design system
+- Typecheck passed, lint passed, Next.js MCP no errors
+- File: app/archive/components/scripture-search.tsx

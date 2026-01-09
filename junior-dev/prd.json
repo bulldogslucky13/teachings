@@ -301,7 +301,7 @@
 			"Test: Load archive page with dark class on html tag - search input should have dark surface background (#18181b), light text (#fafafa), proper focus ring (#3d7a52)",
 			"Success criteria: All text colors use proper CSS variables from globals.css (--color-text-primary, --color-text-secondary), search input readable in dark mode, no incorrect class name references"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",
