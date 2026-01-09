@@ -191,7 +191,7 @@
 			"Test: Search 'Romans 8:28' returns only teachings that include '28' in Romans chapter 8 verses array",
 			"Success criteria: Partial chapter matching works for all search queries, verse-level search accurately filters by checking verse array membership"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",

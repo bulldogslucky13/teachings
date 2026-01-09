@@ -28,7 +28,7 @@ export function ScriptureSearch() {
 	return (
 		<input
 			type="text"
-			placeholder='Search by scripture (e.g., "Romans 8" or "Matthew")'
+			placeholder='Search by scripture (e.g., "Romans 8", "Romans 8:28")'
 			value={searchQuery}
 			onChange={(e) => handleSearch(e.target.value)}
 			className="w-full max-w-2xl px-4 py-3 rounded-lg bg-surface border border-border text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary"

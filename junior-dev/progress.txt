@@ -181,3 +181,19 @@ Task: Fix route mismatch causing 404 navigation errors (bug PRD #15)
 - Next.js MCP no errors detected
 - Typecheck passed, lint passed
 - File: app/components/featured-teaching-hero/featured-teaching-hero.tsx
+
+Task: Add partial chapter matching and verse-level searching to scripture search (enhancement PRD #16)
+- Updated parseScriptureQuery: added verse parsing support (single verse, ranges, comma-separated)
+- Regex pattern extended: /^([0-9]?\s*[A-Za-z]+(?:\s+[A-Za-z]+)*)\s*(\d+)?(?::([0-9\-,]+))?$/
+- Parse verse ranges: "28-30" becomes [28,29,30], "1,3,5" becomes [1,3,5]
+- Extended return type: {book: string, chapter?: number, verses?: number[]}
+- Updated searchTeachingsByScripture: partial chapter matching via chapter.toString().startsWith()
+- "Romans 1" matches chapters 1,10-19; "Romans 11" matches only chapter 11
+- Verse-level matching: exact chapter match + check if any searched verse exists in Teaching verses array
+- Convert Teaching verses (strings) to numbers for comparison: ref.verses.map(v => parseInt(v,10))
+- Created comprehensive unit tests in searchByScripture.test.ts covering book-only, partial chapter, verse-level, edge cases
+- Updated Archive page search placeholder: "Search by scripture (e.g., 'Romans 8', 'Romans 8:28')"
+- Fixed TypeScript errors: proper null checks for split() result using rangeParts[0]?.trim() ?? ""
+- Biome auto-fixed: removed useless undefined init, formatted multi-line conditionals
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Files: lib/teachings/searchByScripture.ts, lib/teachings/searchByScripture.test.ts, app/archive/components/scripture-search.tsx
