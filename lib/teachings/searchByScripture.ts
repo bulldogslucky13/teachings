@@ -1,5 +1,3 @@
-"use server";
-
 import { getAllTeachings, type Teaching } from "./teachings";
 
 /**
@@ -8,7 +6,7 @@ import { getAllTeachings, type Teaching } from "./teachings";
  *           "Matthew" -> {book: "Matthew", chapter: undefined}
  *           "2 Corinthians 5" -> {book: "2 Corinthians", chapter: 5}
  */
-export function parseScriptureQuery(query: string): {
+function parseScriptureQuery(query: string): {
 	book: string;
 	chapter?: number;
 } | null {
