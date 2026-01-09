@@ -81,7 +81,7 @@
 			"Create empty state component for when no search results are found",
 			"Display results in a grid similar to Recent Teachings section"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "page",
@@ -106,7 +106,7 @@
 			"Create utility function to match teachings by scripture (handles book-only and book+chapter searches)",
 			"Ensure search is flexible and matches partial queries"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "utility",
