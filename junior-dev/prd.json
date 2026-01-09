@@ -169,7 +169,7 @@
 			"Test: Click any teaching card - should navigate to correct video player page",
 			"Success criteria: All teaching links navigate to /teaching/[id] route without 404 errors"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "enhancement",

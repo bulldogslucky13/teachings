@@ -63,7 +63,7 @@ export function FeaturedTeachingHero({ teaching }: FeaturedTeachingHeroProps) {
 				</Text>
 
 				{/* Watch Now Button */}
-				<Link href={`/teachings/${teaching.id}`}>
+				<Link href={`/teaching/${teaching.id}`}>
 					<Button variant="primary" size="lg" leftIcon={<MdPlayArrow size={24} />}>
 						Watch Now
 					</Button>

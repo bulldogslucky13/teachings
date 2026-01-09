@@ -169,3 +169,15 @@ Task: Format scripture verse references with range notation (bug PRD #14)
 - Next.js MCP no errors
 - Browser automation verified /teaching/1 displays "Romans 11:1-10" with range notation, link works with ESV
 - Files: lib/teachings/formatVerseRanges.ts, lib/teachings/formatVerseRanges.test.ts, lib/teachings/index.ts, app/teaching/[id]/components/teaching-player.tsx, vitest.config.ts
+
+Task: Fix route mismatch causing 404 navigation errors (bug PRD #15)
+- Identified all teaching video player link locations via grep (FeaturedTeachingHero, TeachingCard, TeachingPlayer related links)
+- Found FeaturedTeachingHero using incorrect route: /teachings/{id} (plural) instead of /teaching/{id} (singular)
+- Updated FeaturedTeachingHero line 66: changed href from /teachings/${teaching.id} to /teaching/${teaching.id}
+- Verified TeachingCard already correct (line 24 uses /teaching/${teaching.id})
+- Verified TeachingPlayer related teachings already correct (line 232 uses /teaching/${related.id})
+- Browser automation verified: navigated to /teaching/4 (featured teaching) successfully, no 404 error
+- Browser automation verified: navigated to /teaching/1 successfully, all related teaching links use correct /teaching/{id} route
+- Next.js MCP no errors detected
+- Typecheck passed, lint passed
+- File: app/components/featured-teaching-hero/featured-teaching-hero.tsx
