@@ -1,4 +1,6 @@
-import type { Teaching } from "./teachings";
+"use server";
+
+import { getAllTeachings, type Teaching } from "./teachings";
 
 /**
  * Parse a scripture search query into book and optional chapter
@@ -29,14 +31,16 @@ export function parseScriptureQuery(query: string): {
  * Search teachings by scripture reference
  * Matches book name (case-insensitive, partial match) and optionally chapter
  */
-export function searchTeachingsByScripture(teachings: Teaching[], query: string): Teaching[] {
+export async function searchTeachingsByScripture(query: string): Promise<Teaching[]> {
+	const allTeachings = await getAllTeachings();
+
 	const parsed = parseScriptureQuery(query);
 	if (!parsed) return [];
 
 	const { book, chapter } = parsed;
 	const normalizedBook = book.toLowerCase();
 
-	return teachings.filter((teaching) => {
+	return allTeachings.filter((teaching) => {
 		// Check if any scripture reference matches
 		return teaching.scripture.some((ref) => {
 			const refBookLower = ref.book.toLowerCase();

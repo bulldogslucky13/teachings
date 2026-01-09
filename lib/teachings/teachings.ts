@@ -1,4 +1,6 @@
-export const teachings: Teaching[] = [
+"use server";
+
+const teachings: Teaching[] = [
 	{
 		id: "1",
 		date: "11-9-2025",
@@ -111,3 +113,7 @@ export type Teaching = {
 	topics: string[];
 	isFeatured?: boolean;
 };
+
+export async function getAllTeachings(): Promise<Teaching[]> {
+	return teachings;
+}

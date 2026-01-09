@@ -1,5 +1,7 @@
+"use server";
+
 import type { Teaching } from "./teachings";
-import { teachings } from "./teachings";
+import { getAllTeachings } from "./teachings";
 
 /**
  * Get related teachings for a given teaching based on similarity.
@@ -10,7 +12,7 @@ import { teachings } from "./teachings";
  * @returns Array of related teachings, sorted by relevance
  */
 export async function getRelatedTeachings(teaching: Teaching, limit = 6): Promise<Teaching[]> {
-	const allTeachings = [...teachings];
+	const allTeachings = await getAllTeachings();
 	// Filter out the current teaching
 	const candidates = allTeachings.filter((t) => t.id !== teaching.id);
 

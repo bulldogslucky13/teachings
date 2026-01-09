@@ -7,7 +7,7 @@ export {
 	parseScriptureQuery,
 	searchTeachingsByScripture,
 } from "./searchByScripture";
-export { type ScriptureReference, type Teaching, teachings } from "./teachings";
+export { getAllTeachings, type ScriptureReference, type Teaching } from "./teachings";
 export {
 	clearVideoProgress,
 	getVideoProgress,
