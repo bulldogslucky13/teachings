@@ -66,7 +66,7 @@
 			"Add a 'Teaching Archive' link button at the top right side of this section",
 			"Note: Featured teaching may appear in this list (this is intentional)"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "page",
