@@ -1,3 +1,4 @@
+import { prepareTeachingToReturn } from "./prepareTeaching";
 import { getAllTeachings, type Teaching } from "./teachings";
 
 /**
@@ -69,51 +70,54 @@ function parseScriptureQuery(query: string): {
  * Matches book name (case-insensitive, partial match) and optionally chapter
  * Supports partial chapter matching (e.g., "Romans 1" matches chapters 1, 10-19)
  * Supports verse-level matching (e.g., "Romans 8:28" only matches if verse 28 exists)
+ * If query is empty or invalid, returns all teachings with hidden scripture filtered out
  */
-export async function searchTeachingsByScripture(query: string): Promise<Teaching[]> {
+export async function searchTeachingsByScripture(query?: string): Promise<Teaching[]> {
 	const allTeachings = await getAllTeachings();
 
-	const parsed = parseScriptureQuery(query);
-	if (!parsed) return [];
+	const parsed = query ? parseScriptureQuery(query) : null;
+	if (!parsed) return allTeachings.map(prepareTeachingToReturn);
 
 	const { book, chapter, verses } = parsed;
 	const normalizedBook = book.toLowerCase();
 
-	return allTeachings.filter((teaching) => {
-		// Check if any scripture reference matches
-		return teaching.scripture.some((ref) => {
-			const refBookLower = ref.book.toLowerCase();
+	return allTeachings
+		.filter((teaching) => {
+			// Check if any scripture reference matches (including hidden ones for search)
+			return teaching.scripture.some((ref) => {
+				const refBookLower = ref.book.toLowerCase();
 
-			// Book must match (partial, case-insensitive)
-			const bookMatches = refBookLower.includes(normalizedBook);
-			if (!bookMatches) return false;
+				// Book must match (partial, case-insensitive)
+				const bookMatches = refBookLower.includes(normalizedBook);
+				if (!bookMatches) return false;
 
-			// If chapter is specified
-			if (chapter !== undefined) {
-				// If verses are also specified, use exact chapter match + verse matching
-				if (verses !== undefined && verses.length > 0) {
-					// Exact chapter match required for verse-level search
-					if (ref.chapter !== chapter) return false;
+				// If chapter is specified
+				if (chapter !== undefined) {
+					// If verses are also specified, use exact chapter match + verse matching
+					if (verses !== undefined && verses.length > 0) {
+						// Exact chapter match required for verse-level search
+						if (ref.chapter !== chapter) return false;
 
-					// Check if any searched verse exists in the teaching's verses array
-					if (!ref.verses || ref.verses.length === 0) return false;
+						// Check if any searched verse exists in the teaching's verses array
+						if (!ref.verses || ref.verses.length === 0) return false;
 
-					// Convert teaching verses (stored as strings) to numbers for comparison
-					const refVerseNumbers = ref.verses.map((v) => Number.parseInt(v, 10));
+						// Convert teaching verses (stored as strings) to numbers for comparison
+						const refVerseNumbers = ref.verses.map((v) => Number.parseInt(v, 10));
 
-					// Check if any of the searched verses exist in the teaching
-					return verses.some((searchedVerse) => refVerseNumbers.includes(searchedVerse));
+						// Check if any of the searched verses exist in the teaching
+						return verses.some((searchedVerse) => refVerseNumbers.includes(searchedVerse));
+					}
+
+					// No verses specified - use partial chapter matching
+					// "Romans 1" should match chapters 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+					const chapterStr = chapter.toString();
+					const refChapterStr = ref.chapter.toString();
+					return refChapterStr.startsWith(chapterStr);
 				}
 
-				// No verses specified - use partial chapter matching
-				// "Romans 1" should match chapters 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
-				const chapterStr = chapter.toString();
-				const refChapterStr = ref.chapter.toString();
-				return refChapterStr.startsWith(chapterStr);
-			}
-
-			// Book-only search matches all chapters
-			return true;
-		});
-	});
+				// Book-only search matches all chapters
+				return true;
+			});
+		})
+		.map(prepareTeachingToReturn);
 }

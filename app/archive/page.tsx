@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Text } from "@/app/components/ui/text/text";
-import { getAllTeachings, searchTeachingsByScripture } from "@/lib/teachings";
+import { searchTeachingsByScripture } from "@/lib/teachings";
 import { ArchivePageClient } from "./components/archive-page-client";
 import { ScriptureSearch } from "./components/scripture-search";
 
@@ -12,10 +12,8 @@ interface ArchivePageProps {
 export default async function ArchivePage({ searchParams }: ArchivePageProps) {
 	const { q: searchQuery } = await searchParams;
 
-	// Get filtered teachings based on search
-	const filteredTeachings = searchQuery
-		? await searchTeachingsByScripture(searchQuery)
-		: await getAllTeachings();
+	// Get filtered teachings based on search (returns all if no query)
+	const filteredTeachings = await searchTeachingsByScripture(searchQuery);
 
 	// Sort by most recent date
 	const sortedTeachings = [...filteredTeachings].sort((a, b) => {

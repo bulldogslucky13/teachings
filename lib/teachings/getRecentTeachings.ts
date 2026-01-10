@@ -1,5 +1,6 @@
 "use server";
 
+import { prepareTeachingToReturn } from "./prepareTeaching";
 import type { Teaching } from "./teachings";
 import { getAllTeachings } from "./teachings";
 
@@ -13,5 +14,5 @@ export async function getRecentTeachings(limit = 5): Promise<Teaching[]> {
 	const recentTeachings = [...allTeachings]
 		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 		.slice(0, limit);
-	return recentTeachings;
+	return recentTeachings.map(prepareTeachingToReturn);
 }

@@ -1,5 +1,6 @@
 "use server";
 
+import { prepareTeachingToReturn } from "./prepareTeaching";
 import type { Teaching } from "./teachings";
 import { getAllTeachings } from "./teachings";
 
@@ -50,7 +51,7 @@ export async function getRelatedTeachings(teaching: Teaching, limit = 6): Promis
 	return scored
 		.sort((a, b) => b.score - a.score)
 		.slice(0, limit)
-		.map((item) => item.teaching);
+		.map((item) => prepareTeachingToReturn(item.teaching));
 }
 
 /**

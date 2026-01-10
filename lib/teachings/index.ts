@@ -5,7 +5,7 @@ export { getRecentTeachings } from "./getRecentTeachings";
 export { getRelatedTeachings } from "./getRelatedTeachings";
 export { getTeachingById } from "./getTeachingById";
 export { searchTeachingsByScripture } from "./searchByScripture";
-export { getAllTeachings, type ScriptureReference, type Teaching } from "./teachings";
+export type { ScriptureReference, Teaching } from "./teachings";
 export {
 	clearVideoProgress,
 	getVideoProgress,

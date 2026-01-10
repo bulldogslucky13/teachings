@@ -332,3 +332,18 @@ Task: Fix production dark mode hydration issue by migrating to next-themes (bug 
 - No hydration errors in console on any page
 - Typecheck passed, lint passed (Biome auto-format fixed indentation)
 - Files: app/components/providers/theme-provider.tsx, app/layout.tsx, app/design-system/page.tsx
+
+Task: Add prepareTeachingToReturn utility for filtering hidden scripture (data PRD unknown)
+- Created prepareTeachingToReturn utility in lib/teachings/prepareTeaching.ts
+- Uses structuredClone for deep copy to avoid mutating original teaching data
+- Filters out ScriptureReference entries where isHidden === true from teaching.scripture array
+- IMPORTANT CONVENTION: All functions in lib/teachings that return Teaching objects to consumers MUST use prepareTeachingToReturn before returning
+- Updated getFeaturedTeaching: wraps result with prepareTeachingToReturn
+- Updated getRecentTeachings: maps prepareTeachingToReturn over results
+- Updated getTeachingById: wraps result with prepareTeachingToReturn
+- Updated getRelatedTeachings: maps prepareTeachingToReturn over final sorted results
+- Updated searchTeachingsByScripture: maps prepareTeachingToReturn over results; also returns all teachings (prepared) when query is empty/invalid
+- getAllTeachings intentionally NOT updated: returns raw data for internal use (e.g., search matching against hidden scripture)
+- Hidden scripture remains searchable but is filtered from display
+- REMOVED getAllTeachings from lib/teachings/index.ts exports: This function returns raw Teaching data without filtering hidden scripture, so it should NOT be used directly by consumers. It remains available for internal use within lib/teachings (e.g., other functions in this domain that need raw data for search matching). Consumers should use the specific getter functions (getFeaturedTeaching, getRecentTeachings, getTeachingById, searchTeachingsByScripture, getRelatedTeachings) which all apply prepareTeachingToReturn.
+- Files: lib/teachings/prepareTeaching.ts, lib/teachings/getFeaturedTeaching.ts, lib/teachings/getRecentTeachings.ts, lib/teachings/getTeachingById.ts, lib/teachings/getRelatedTeachings.ts, lib/teachings/searchByScripture.ts, lib/teachings/index.ts

@@ -1,5 +1,6 @@
 "use server";
 
+import { prepareTeachingToReturn } from "./prepareTeaching";
 import type { Teaching } from "./teachings";
 import { getAllTeachings } from "./teachings";
 
@@ -11,5 +12,5 @@ export async function getFeaturedTeaching(): Promise<Teaching | undefined> {
 	const allTeachings = await getAllTeachings();
 
 	const featuredTeaching = allTeachings.find((teaching) => teaching.isFeatured);
-	return featuredTeaching;
+	return featuredTeaching ? prepareTeachingToReturn(featuredTeaching) : undefined;
 }

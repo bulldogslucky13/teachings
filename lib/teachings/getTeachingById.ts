@@ -1,5 +1,6 @@
 "use server";
 
+import { prepareTeachingToReturn } from "./prepareTeaching";
 import type { Teaching } from "./teachings";
 import { getAllTeachings } from "./teachings";
 
@@ -10,5 +11,6 @@ import { getAllTeachings } from "./teachings";
  */
 export async function getTeachingById(id: string): Promise<Teaching | undefined> {
 	const allTeachings = await getAllTeachings();
-	return allTeachings.find((t) => t.id === id);
+	const teaching = allTeachings.find((t) => t.id === id);
+	return teaching ? prepareTeachingToReturn(teaching) : undefined;
 }
