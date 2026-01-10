@@ -407,7 +407,7 @@
 			"Test Teaching page topic badges wrap correctly with multiple topics",
 			"Success criteria: All three locations use the Badge component consistently, no visual regressions, series label appears on TeachingCard when series exists"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "ui",

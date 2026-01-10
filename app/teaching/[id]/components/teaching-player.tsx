@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { MdLink } from "react-icons/md";
+import { Badge } from "@/app/components/ui/badge";
 import { Button } from "@/app/components/ui/button/button";
 import { Card, CardBody } from "@/app/components/ui/card/card";
 import { Heading } from "@/app/components/ui/heading/heading";
@@ -191,12 +192,9 @@ export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerPro
 								</Text>
 								<div className="flex flex-wrap gap-2">
 									{teaching.topics.map((topic) => (
-										<span
-											key={topic}
-											className="px-3 py-1 bg-surface rounded-full text-sm text-text-secondary"
-										>
+										<Badge key={topic} variant="default" size="sm">
 											{topic}
-										</span>
+										</Badge>
 									))}
 								</div>
 							</div>

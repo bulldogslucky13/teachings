@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Badge } from "@/app/components/ui/badge";
 import { Card } from "@/app/components/ui/card/card";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Text } from "@/app/components/ui/text/text";
@@ -36,6 +37,13 @@ export function TeachingCard({ teaching }: TeachingCardProps) {
 
 				{/* Content */}
 				<div className="p-4 space-y-2">
+					{/* Series Badge */}
+					{teaching.series && (
+						<Badge variant="default" size="sm">
+							{teaching.series}
+						</Badge>
+					)}
+
 					{/* Date */}
 					<Text variant="caption" className="text-text-tertiary">
 						{formattedDate}

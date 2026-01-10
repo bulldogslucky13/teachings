@@ -299,3 +299,12 @@ Task: Create Badge component for design system (ui PRD #25)
 - Typecheck passed, lint passed, Next.js MCP no errors
 - Browser automation verified Badge renders correctly on /design-system page
 - Files: app/components/ui/badge/badge.tsx, app/components/ui/badge/index.ts, app/design-system/page.tsx
+
+Task: Integrate Badge component into TeachingCard, FeaturedTeachingHero, and Teaching page topics (ui PRD #26)
+- Updated TeachingCard: imported Badge, added series Badge (variant='default', size='sm') above date, conditional render if teaching.series exists
+- Updated FeaturedTeachingHero: replaced custom Text-based badge markup with Badge component (variant='primary', size='md')
+- Updated TeachingPlayer: replaced topic span pills with Badge component (variant='default', size='sm'), maps over topics array
+- No icons added to any Badge usages per PRD
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Browser automation verified: home page shows series badges on TeachingCards, Featured Teaching badge visible, teaching page topics render as Badge components
+- Files: app/components/teaching-card/teaching-card.tsx, app/components/featured-teaching-hero/featured-teaching-hero.tsx, app/teaching/[id]/components/teaching-player.tsx
