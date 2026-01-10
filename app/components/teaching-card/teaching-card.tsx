@@ -42,7 +42,7 @@ export function TeachingCard({ teaching }: TeachingCardProps) {
 					</Text>
 
 					{/* Title */}
-					<Heading level="h3" className="!text-xl line-clamp-2 group-hover:text-primary-400">
+					<Heading level="h3" className="text-xl! line-clamp-2 group-hover:text-primary-400">
 						{teaching.title}
 					</Heading>
 
