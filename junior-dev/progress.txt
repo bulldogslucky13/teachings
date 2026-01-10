@@ -284,3 +284,18 @@ Task: Remove hardcoded 'dark' class references throughout codebase (bug PRD #24)
 - Browser automation verified: light mode works (no dark class), all pages load without errors
 - Typecheck passed, lint passed
 - File: app/layout.tsx
+
+Task: Create Badge component for design system (ui PRD #25)
+- Created Badge component in app/components/ui/badge/badge.tsx
+- Used cva (class-variance-authority) for variant styling, consistent with other design system components
+- API: variant ('default' | 'primary' | 'subtle'), size ('sm' | 'md'), icon (optional ReactNode), children, className
+- Variant styles: default (bg-surface, text-text-primary), primary (bg-primary-500, text-white), subtle (bg-surface-hover/50, text-text-secondary)
+- Size styles: sm (text-xs, px-2, py-0.5), md (text-sm, px-3, py-1)
+- Rounded-full for pill shape on all variants
+- Icon support: renders icon before children with gap-1.5, icon inherits text size via [&>svg]:h-[1em] w-[1em]
+- Created index.ts export for Badge component
+- Added Badge section to design system page with examples: all variants, both sizes, badges with icons
+- Updated table example to use Badge component for Role and Status columns (with className overrides for custom colors)
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Browser automation verified Badge renders correctly on /design-system page
+- Files: app/components/ui/badge/badge.tsx, app/components/ui/badge/index.ts, app/design-system/page.tsx
