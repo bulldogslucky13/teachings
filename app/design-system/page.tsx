@@ -89,7 +89,7 @@ export default function DesignSystemPage() {
 					<Button
 						variant="secondary"
 						size="sm"
-						onPress={() => setTheme((currentTheme) => currentTheme === "dark" ? "light" : "dark")}
+						onPress={() => setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"))}
 					>
 						{theme === "dark" ? "Light Mode" : "Dark Mode"}
 					</Button>
