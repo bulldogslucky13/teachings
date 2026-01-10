@@ -46,7 +46,7 @@ export function FeaturedTeachingHero({ teaching }: FeaturedTeachingHeroProps) {
 				</div>
 
 				{/* Date */}
-				<Text variant="caption" className="mb-3">
+				<Text variant="caption" className="mb-3 text-white">
 					{formattedDate}
 				</Text>
 
