@@ -19,9 +19,9 @@ const buttonVariants = cva(
 				danger: "bg-error-500 text-white data-[hovered]:bg-error-600 data-[pressed]:bg-error-600",
 			},
 			size: {
-				sm: "h-9 px-3 text-sm",
-				md: "h-11 px-5 text-base",
-				lg: "h-13 px-7 text-lg",
+				sm: "py-1.5 px-3 text-sm",
+				md: "py-2.5 px-5 text-base",
+				lg: "py-3 px-7 text-lg",
 			},
 		},
 		defaultVariants: {
