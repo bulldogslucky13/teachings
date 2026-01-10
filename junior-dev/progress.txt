@@ -270,3 +270,17 @@ Task: Implement dynamic dark mode detection based on user system preference (enh
 - Browser automation verified: light mode system shows no 'dark' class, no hydration errors on fresh loads
 - Typecheck passed, lint passed (auto-fixed import ordering), Next.js MCP no errors after fresh page loads
 - File: app/layout.tsx
+
+Task: Remove hardcoded 'dark' class references throughout codebase (bug PRD #24)
+- Searched for hardcoded className='dark' or className=\"dark\" - found only in design-system page (intentional demo toggle)
+- Real issue: hydration errors from theme detection script using Next.js Script component with beforeInteractive strategy
+- Script ran after hydration, adding 'dark' class dynamically, causing server/client mismatch
+- Fixed by replacing Script component with inline <script> tag in <head> using dangerouslySetInnerHTML
+- Added suppressHydrationWarning to <html> element to prevent warnings from dynamic class manipulation
+- Removed Script import, moved theme detection to blocking inline script before React hydration
+- Script remains: detects prefers-color-scheme media query, adds/removes 'dark' class, listens for system changes
+- Design system page intentionally keeps independent dark mode toggle (demo purposes, doesn't affect root html)
+- Next.js MCP verified: all hydration errors resolved, no errors in any browser sessions
+- Browser automation verified: light mode works (no dark class), all pages load without errors
+- Typecheck passed, lint passed
+- File: app/layout.tsx
