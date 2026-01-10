@@ -423,6 +423,6 @@
 			"Test with teachings that have series and teachings without series",
 			"Success criteria: Series column displays correctly, empty state handled gracefully, no layout regressions"
 		],
-		"passes": false
+		"passes": true
 	}
 ]

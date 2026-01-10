@@ -308,3 +308,12 @@ Task: Integrate Badge component into TeachingCard, FeaturedTeachingHero, and Tea
 - Typecheck passed, lint passed, Next.js MCP no errors
 - Browser automation verified: home page shows series badges on TeachingCards, Featured Teaching badge visible, teaching page topics render as Badge components
 - Files: app/components/teaching-card/teaching-card.tsx, app/components/featured-teaching-hero/featured-teaching-hero.tsx, app/teaching/[id]/components/teaching-player.tsx
+
+Task: Add Series column to Archive page table (ui PRD #27)
+- Added Series column to ArchivePageClient columns array, positioned between Title and Scripture
+- Column definition: { header: 'Series', accessorKey: 'series', render: handles missing series with em dash (—) }
+- Render as plain text, left-aligned
+- Table column order now: Cover Photo, Title, Series, Scripture, Date
+- Browser automation verified: table renders all 5 columns, series values display correctly ("Evangelism Workshop", "Merge - Romans 11")
+- Typecheck passed, lint passed (fixed formatting for single-line render), Next.js MCP no errors
+- File: app/archive/components/archive-page-client.tsx

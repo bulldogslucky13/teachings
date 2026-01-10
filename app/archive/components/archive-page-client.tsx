@@ -40,6 +40,11 @@ export function ArchivePageClient({ teachings }: ArchivePageClientProps) {
 			render: (value) => <span className="text-left">{String(value)}</span>,
 		},
 		{
+			header: "Series",
+			accessorKey: "series",
+			render: (value) => <span className="text-left">{value ? String(value) : "—"}</span>,
+		},
+		{
 			header: "Scripture",
 			accessorKey: "scripture",
 			render: (value) => {
