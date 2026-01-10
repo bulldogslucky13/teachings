@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Badge } from "@/app/components/ui/badge";
 import { Card } from "@/app/components/ui/card/card";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Text } from "@/app/components/ui/text/text";
@@ -32,6 +33,16 @@ export function TeachingCard({ teaching }: TeachingCardProps) {
 						alt={teaching.title}
 						className="object-cover w-full h-full transition-transform group-hover:scale-105"
 					/>
+					{/* Series Badge */}
+					{teaching.series && (
+						<Badge
+							variant="primary"
+							size="sm"
+							className="absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap"
+						>
+							{teaching.series}
+						</Badge>
+					)}
 				</div>
 
 				{/* Content */}
@@ -42,7 +53,7 @@ export function TeachingCard({ teaching }: TeachingCardProps) {
 					</Text>
 
 					{/* Title */}
-					<Heading level="h3" className="line-clamp-2 group-hover:text-primary-400">
+					<Heading level="h3" className="text-xl! line-clamp-2 group-hover:text-primary-400">
 						{teaching.title}
 					</Heading>
 

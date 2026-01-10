@@ -139,7 +139,7 @@
 			"Maintain same styling and aspect ratio (16:9) for both video types",
 			"Add fallback error state if video fails to load"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",
@@ -155,7 +155,7 @@
 			"Update formatScriptureReference in teaching page to use this new utility for display purposes",
 			"Update getBibleUrl to construct URLs using the formatted reference with ranges, ensuring links work correctly (test that links like 'Romans 11:1-10' resolve properly. I don't care about the website, but make sure it is the English Standard Version (ESV) bible translation)"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",
@@ -169,7 +169,7 @@
 			"Test: Click any teaching card - should navigate to correct video player page",
 			"Success criteria: All teaching links navigate to /teaching/[id] route without 404 errors"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "enhancement",
@@ -191,7 +191,7 @@
 			"Test: Search 'Romans 8:28' returns only teachings that include '28' in Romans chapter 8 verses array",
 			"Success criteria: Partial chapter matching works for all search queries, verse-level search accurately filters by checking verse array membership"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",
@@ -206,7 +206,7 @@
 			"Verify changes apply to both Recent Teachings section and Archive page (same component used in both places)",
 			"Success criteria: Title is visually smaller and better proportioned, but still clearly the most prominent text element in the card"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "ui",
@@ -254,7 +254,7 @@
 			"Test all column data renders correctly (images load, scripture formats properly, dates format properly)",
 			"Success criteria: Archive page uses Table component, displays all 4 columns correctly, maintains search functionality, navigates on row click, responsive on all screen sizes"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "enhancement",
@@ -270,7 +270,7 @@
 			"Test: When viewing the last teaching in a series (no nextInSeries), related teachings fall back to existing algorithm",
 			"Success criteria: Next teaching in series always appears first in related teachings section when available"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",
@@ -285,7 +285,7 @@
 			"Test: Load home page with dark class applied - featured hero text should be visible, recent teachings cards should have dark backgrounds (#18181b), card text should be light (#fafafa)",
 			"Success criteria: Home page displays with dark background (#0a0a0b), surface elements use #18181b, all text is readable with proper contrast, no white backgrounds visible"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",
@@ -301,7 +301,7 @@
 			"Test: Load archive page with dark class on html tag - search input should have dark surface background (#18181b), light text (#fafafa), proper focus ring (#3d7a52)",
 			"Success criteria: All text colors use proper CSS variables from globals.css (--color-text-primary, --color-text-secondary), search input readable in dark mode, no incorrect class name references"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",
@@ -314,7 +314,7 @@
 			"Test: Verify video player background remains black (intentional, line 113), content area uses dark background (#0a0a0b)",
 			"Success criteria: Scripture links have correct hover color using primary-400 (#52a170), all page colors properly reference CSS variables, teaching metadata and related teachings sections readable in dark mode"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "enhancement",
@@ -335,7 +335,7 @@
 			"Test: Change system theme while app is open - theme should switch automatically",
 			"Success criteria: Dark mode applies automatically based on user's system preference, no flash of incorrect theme on page load, theme updates when system preference changes, works on all pages (home, archive, teaching)"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",
@@ -351,6 +351,78 @@
 			"Test: Verify light mode works correctly when system preference is light",
 			"Success criteria: No hardcoded 'dark' class references remain in codebase, all dark mode behavior controlled by system preference detection script, no regressions in dark/light mode functionality"
 		],
-		"passes": false
+		"passes": true
+	},
+	{
+		"category": "ui",
+		"description": "Create Badge component for design system with variants, sizes, and optional icon support",
+		"steps": [
+			"Create new Badge component in @/app/components/ui/badge/",
+			"Use react-aria for accessibility foundation (consider using a <span> with appropriate role, or react-aria's Tag if semantically appropriate)",
+			"Component API: variant ('default' | 'primary' | 'subtle'), size ('sm' | 'md'), icon (optional ReactNode), children (label text)",
+			"Default props: variant='default', size='md'",
+			"Variant styles using design system CSS variables:",
+			"- 'default': bg-surface, text-text-primary (neutral, for series labels and topics)",
+			"- 'primary': bg-primary-500, text-white (emphasis, for 'Featured Teaching' badge)",
+			"- 'subtle': bg-surface-hover/50, text-text-secondary (low emphasis, muted contexts)",
+			"Size styles:",
+			"- 'sm': text-xs, px-2, py-0.5",
+			"- 'md': text-sm, px-3, py-1",
+			"Apply rounded-full for pill shape on all variants and sizes",
+			"Icon support: if icon prop provided, render icon before children with appropriate spacing (gap-1.5), use flex items-center layout",
+			"Icon should inherit text color from variant, size should match text size (e.g., 12px for sm, 14px for md)",
+			"Ensure light and dark mode compatibility using CSS variables",
+			"Export Badge component from @/app/components/ui/badge/index.ts",
+			"Add Badge to design system page (@/app/design-system/page.tsx) with examples showing:",
+			"- All three variants (default, primary, subtle)",
+			"- Both sizes (sm, md)",
+			"- Badge with icon example",
+			"Test visual appearance in both light and dark modes",
+			"Success criteria: Badge component is accessible, supports all variants/sizes, optional icon renders correctly, documented in design system page with usage examples"
+		],
+		"passes": true
+	},
+	{
+		"category": "ui",
+		"description": "Integrate Badge component into TeachingCard, FeaturedTeachingHero, and Teaching page topics",
+		"steps": [
+			"Update TeachingCard component (app/components/teaching-card/teaching-card.tsx):",
+			"- Import Badge component from design system",
+			"- Add series label using Badge with variant='default' and size='sm', positioned above the title",
+			"- Only render Badge if teaching.series exists (conditional rendering)",
+			"- Maintain existing card layout and spacing, add appropriate margin below badge (e.g., mb-1 or mb-2)",
+			"Update FeaturedTeachingHero component (app/components/featured-teaching-hero/featured-teaching-hero.tsx):",
+			"- Import Badge component from design system",
+			"- Replace existing 'Featured Teaching' badge markup with Badge component using variant='primary' and size='md'",
+			"- Remove any custom badge styling that is now handled by the Badge component",
+			"Update Teaching page player component (app/teaching/[id]/components/teaching-player.tsx):",
+			"- Import Badge component from design system",
+			"- Replace topic pill styling with Badge component using variant='default' and size='sm'",
+			"- Map over topics array rendering each as a Badge",
+			"- Maintain existing flex wrap layout for multiple topics",
+			"Do not add icons to any of these Badge usages",
+			"Verify all three locations render correctly in both light and dark modes",
+			"Test TeachingCard in Recent Teachings section and Archive page table (if series appears there)",
+			"Test FeaturedTeachingHero badge visibility over various background images",
+			"Test Teaching page topic badges wrap correctly with multiple topics",
+			"Success criteria: All three locations use the Badge component consistently, no visual regressions, series label appears on TeachingCard when series exists"
+		],
+		"passes": true
+	},
+	{
+		"category": "ui",
+		"description": "Add Series column to Archive page table",
+		"steps": [
+			"Update ArchivePageClient component (app/archive/components/archive-page-client.tsx)",
+			"Add new 'Series' column to the columns array, positioned between Title and Scripture",
+			"Column definition: { header: 'Series', accessorKey: 'series' }",
+			"Render series as plain text, left-aligned",
+			"Handle missing series: display empty string or dash ('—') when teaching.series is undefined",
+			"Verify table column order is now: Cover Photo, Title, Series, Scripture, Date",
+			"Test responsive behavior: table still scrolls horizontally on mobile with the additional column",
+			"Test with teachings that have series and teachings without series",
+			"Success criteria: Series column displays correctly, empty state handled gracefully, no layout regressions"
+		],
+		"passes": true
 	}
 ]

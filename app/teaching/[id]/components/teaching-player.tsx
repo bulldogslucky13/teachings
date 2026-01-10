@@ -4,13 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { MdLink } from "react-icons/md";
+import { Badge } from "@/app/components/ui/badge";
 import { Button } from "@/app/components/ui/button/button";
 import { Card, CardBody } from "@/app/components/ui/card/card";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Text } from "@/app/components/ui/text/text";
 import {
+	formatVerseRanges,
 	getCoverPhotoUrl,
 	getVideoProgress,
+	getYouTubeEmbedUrl,
+	isYouTubeUrl,
 	saveVideoProgress,
 	type Teaching,
 } from "@/lib/teachings";
@@ -23,20 +27,22 @@ interface TeachingPlayerProps {
 export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerProps) {
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const [showCopied, setShowCopied] = useState(false);
+	const isYouTube = isYouTubeUrl(teaching.videoUrl);
+	const [videoError, setVideoError] = useState(false);
 
-	// Load saved progress on mount
+	// Load saved progress on mount (only for non-YouTube videos)
 	useEffect(() => {
-		if (!videoRef.current) return;
+		if (isYouTube || !videoRef.current) return;
 
 		const progress = getVideoProgress(teaching.id);
 		if (progress?.currentTime) {
 			videoRef.current.currentTime = progress.currentTime;
 		}
-	}, [teaching.id]);
+	}, [teaching.id, isYouTube]);
 
-	// Save progress periodically
+	// Save progress periodically (only for non-YouTube videos)
 	useEffect(() => {
-		if (!videoRef.current) return;
+		if (isYouTube || !videoRef.current) return;
 
 		const video = videoRef.current;
 		const saveProgress = () => {
@@ -62,7 +68,7 @@ export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerPro
 			window.removeEventListener("beforeunload", saveProgress);
 			saveProgress(); // Save on unmount
 		};
-	}, [teaching.id]);
+	}, [teaching.id, isYouTube]);
 
 	const handleCopyLink = async () => {
 		try {
@@ -79,13 +85,16 @@ export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerPro
 		chapter: number;
 		verses?: string[];
 	}) => {
-		const versesText = scripture.verses?.length ? `:${scripture.verses.join(",")}` : "";
+		const formattedVerses = formatVerseRanges(scripture.verses);
+		const versesText = formattedVerses ? `:${formattedVerses}` : "";
 		return `${scripture.book} ${scripture.chapter}${versesText}`;
 	};
 
 	const getBibleUrl = (scripture: { book: string; chapter: number; verses?: string[] }) => {
 		const reference = formatScriptureReference(scripture);
-		return `https://www.bible.com/search/bible?q=${encodeURIComponent(reference)}`;
+		// Use Bible Gateway with ESV translation
+		// Example: https://www.biblegateway.com/passage/?search=Romans+11:1-10&version=ESV
+		return `https://www.biblegateway.com/passage/?search=${encodeURIComponent(reference)}&version=ESV`;
 	};
 
 	return (
@@ -93,16 +102,36 @@ export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerPro
 			{/* Video Player Section */}
 			<div className="w-full bg-black">
 				<div className="container mx-auto">
-					<video
-						ref={videoRef}
-						className="w-full aspect-video"
-						controls
-						preload="metadata"
-						src={teaching.videoUrl}
-					>
-						<track kind="captions" />
-						Your browser does not support the video tag.
-					</video>
+					{videoError ? (
+						<div className="w-full aspect-video flex items-center justify-center">
+							<Card variant="elevated" className="p-8">
+								<Text variant="body" className="text-center">
+									Failed to load video. Please try again later.
+								</Text>
+							</Card>
+						</div>
+					) : isYouTube ? (
+						<iframe
+							className="w-full aspect-video"
+							src={getYouTubeEmbedUrl(teaching.videoUrl) ?? undefined}
+							title={teaching.title}
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowFullScreen
+							onError={() => setVideoError(true)}
+						/>
+					) : (
+						<video
+							ref={videoRef}
+							className="w-full aspect-video"
+							controls
+							preload="metadata"
+							src={teaching.videoUrl}
+							onError={() => setVideoError(true)}
+						>
+							<track kind="captions" />
+							Your browser does not support the video tag.
+						</video>
+					)}
 				</div>
 			</div>
 
@@ -147,7 +176,7 @@ export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerPro
 											href={getBibleUrl(ref)}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="text-text-primary hover:text-primary-light underline"
+											className="text-text-primary hover:text-primary-400 underline"
 										>
 											{formatScriptureReference(ref)}
 										</a>
@@ -163,12 +192,9 @@ export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerPro
 								</Text>
 								<div className="flex flex-wrap gap-2">
 									{teaching.topics.map((topic) => (
-										<span
-											key={topic}
-											className="px-3 py-1 bg-surface rounded-full text-sm text-text-secondary"
-										>
+										<Badge key={topic} variant="default" size="sm">
 											{topic}
-										</span>
+										</Badge>
 									))}
 								</div>
 							</div>

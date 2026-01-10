@@ -1,3 +1,4 @@
+export { formatVerseRanges } from "./formatVerseRanges";
 export { getCoverPhotoUrl } from "./getCoverPhotoUrl";
 export { getFeaturedTeaching } from "./getFeaturedTeaching";
 export { getRecentTeachings } from "./getRecentTeachings";
@@ -11,3 +12,4 @@ export {
 	saveVideoProgress,
 	type VideoProgress,
 } from "./videoProgressStorage";
+export { getYouTubeEmbedUrl, isYouTubeUrl } from "./videoUtils";

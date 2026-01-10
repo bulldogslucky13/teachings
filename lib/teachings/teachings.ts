@@ -13,6 +13,7 @@ const teachings: Teaching[] = [
 		topics: ["israel", "remnant israel"],
 		videoUrl: "https://www.youtube.com/embed/g5SxuRgVn9Y",
 		series: "Merge - Romans 11",
+		nextInSeries: "2",
 	},
 	{
 		id: "2",
@@ -36,6 +37,7 @@ const teachings: Teaching[] = [
 		],
 		videoUrl: "https://www.youtube.com/embed/1O9aeQa5rL8",
 		series: "Merge - Romans 11",
+		nextInSeries: "3",
 	},
 	{
 		id: "3",
@@ -72,7 +74,7 @@ const teachings: Teaching[] = [
 	{
 		id: "4",
 		date: "2026-01-04",
-		title: "Evangelism Workshop - What is Evangelism?",
+		title: "What is Evangelism?",
 		description: "How does the bible define 'evangelism'?",
 		coverPhoto: "evangelism-workshop-01-2026.jpg",
 		videoUrl:
@@ -112,6 +114,7 @@ export type Teaching = {
 	scripture: ScriptureReference[];
 	topics: string[];
 	isFeatured?: boolean;
+	nextInSeries?: string;
 };
 
 export async function getAllTeachings(): Promise<Teaching[]> {

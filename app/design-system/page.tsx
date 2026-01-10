@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { MdStar } from "react-icons/md";
+import { Badge } from "../components/ui/badge/badge";
 import { Button } from "../components/ui/button/button";
 import { Card, CardBody, CardFooter, CardHeader } from "../components/ui/card/card";
 import { Heading } from "../components/ui/heading/heading";
@@ -50,24 +52,25 @@ export default function DesignSystemPage() {
 			header: "Role",
 			accessorKey: "role",
 			render: (value) => (
-				<span className="rounded-full bg-primary-600/20 px-2 py-1 text-xs font-medium text-primary-400">
+				<Badge size="sm" className="bg-primary-600/20 text-primary-400">
 					{String(value)}
-				</span>
+				</Badge>
 			),
 		} satisfies ColumnDef<ExampleUser, "role">,
 		{
 			header: "Status",
 			accessorKey: "status",
 			render: (value) => (
-				<span
-					className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+				<Badge
+					size="sm"
+					className={
 						value === "Active"
 							? "bg-success-600/20 text-success-400"
 							: "bg-error-500/20 text-error-400"
-					}`}
+					}
 				>
 					{String(value)}
-				</span>
+				</Badge>
 			),
 		} satisfies ColumnDef<ExampleUser, "status">,
 	];
@@ -178,6 +181,52 @@ export default function DesignSystemPage() {
 									</Text>
 									<div className="flex flex-wrap gap-3">
 										<Button isDisabled>Disabled Button</Button>
+									</div>
+								</div>
+							</CardBody>
+						</Card>
+					</section>
+
+					{/* Badges Section */}
+					<section className="space-y-6">
+						<Heading level="h2" className="">
+							Badges
+						</Heading>
+
+						<Card variant="bordered" className="">
+							<CardBody className="space-y-6">
+								<div className="space-y-3">
+									<Text variant="overline" className="">
+										Variants
+									</Text>
+									<div className="flex flex-wrap gap-3">
+										<Badge variant="default">Default</Badge>
+										<Badge variant="primary">Primary</Badge>
+										<Badge variant="subtle">Subtle</Badge>
+									</div>
+								</div>
+
+								<div className="space-y-3">
+									<Text variant="overline" className="">
+										Sizes
+									</Text>
+									<div className="flex flex-wrap items-center gap-3">
+										<Badge size="sm">Small</Badge>
+										<Badge size="md">Medium</Badge>
+									</div>
+								</div>
+
+								<div className="space-y-3">
+									<Text variant="overline" className="">
+										With Icon
+									</Text>
+									<div className="flex flex-wrap gap-3">
+										<Badge variant="primary" icon={<MdStar />}>
+											Featured
+										</Badge>
+										<Badge variant="default" size="sm" icon={<MdStar />}>
+											Starred
+										</Badge>
 									</div>
 								</div>
 							</CardBody>

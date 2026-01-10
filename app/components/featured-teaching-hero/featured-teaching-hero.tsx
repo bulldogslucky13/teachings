@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { MdPlayArrow } from "react-icons/md";
+import { Badge } from "@/app/components/ui/badge";
 import { Button } from "@/app/components/ui/button/button";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Text } from "@/app/components/ui/text/text";
@@ -39,31 +40,28 @@ export function FeaturedTeachingHero({ teaching }: FeaturedTeachingHeroProps) {
 			<div className="relative w-full max-w-7xl mx-auto px-6 py-16 md:px-8 md:py-20 lg:px-12 lg:py-24">
 				{/* Featured Badge */}
 				<div className="mb-4">
-					<Text
-						variant="overline"
-						className="inline-block px-3 py-1 bg-primary-600/90 text-white rounded-md backdrop-blur-sm"
-					>
+					<Badge variant="primary" size="md">
 						Featured Teaching
-					</Text>
+					</Badge>
 				</div>
 
 				{/* Date */}
-				<Text variant="caption" className="mb-3 text-white/80">
+				<Text variant="caption" className="mb-3">
 					{formattedDate}
 				</Text>
 
 				{/* Title */}
-				<Heading level="h1" className="mb-4 text-white max-w-4xl">
+				<Heading level="h1" className="mb-4 max-w-4xl text-white">
 					{teaching.title}
 				</Heading>
 
 				{/* Description */}
-				<Text size="lg" className="mb-8 text-white/90 max-w-2xl">
+				<Text size="lg" className="mb-8 max-w-2xl text-white">
 					{teaching.description}
 				</Text>
 
 				{/* Watch Now Button */}
-				<Link href={`/teachings/${teaching.id}`}>
+				<Link href={`/teaching/${teaching.id}`}>
 					<Button variant="primary" size="lg" leftIcon={<MdPlayArrow size={24} />}>
 						Watch Now
 					</Button>

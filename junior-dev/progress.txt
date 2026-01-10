@@ -139,3 +139,181 @@ Task: Create Table component for design system (ui PRD #13)
 - Typecheck passed, lint passed, Next.js MCP no errors
 - Browser automation verified Table renders at /design-system, shows 5 users with striped rows, proper ARIA attributes
 - File: app/components/ui/table/table.tsx, app/design-system/page.tsx
+
+Task: Add YouTube embed support to video player (bug PRD #12)
+- Created isYouTubeUrl utility: detects youtube.com/youtu.be domains via URL parsing
+- Created getYouTubeEmbedUrl utility: converts watch/share/embed YouTube URL formats to standardized embed URL
+- Supports youtube.com/watch?v=ID, youtu.be/ID, youtube.com/embed/ID formats
+- Updated TeachingPlayer component: conditionally renders <iframe> for YouTube, <video> for direct files
+- Disabled progress tracking (load/save) for YouTube videos (isYouTube flag guards useEffect hooks)
+- Added videoError state with fallback error UI (Card with error message)
+- iframe maintains aspect-video class, same 16:9 ratio as video element
+- Added allow attributes for iframe: accelerometer, autoplay, clipboard-write, encrypted-media, gyroscope, picture-in-picture
+- Exported utilities from lib/teachings/index.ts
+- Fixed formatting via Biome (single→double quotes)
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Browser automation verified /teaching/1 loads YouTube iframe correctly, no video player errors
+- Files: lib/teachings/videoUtils.ts, lib/teachings/index.ts, app/teaching/[id]/components/teaching-player.tsx
+
+Task: Format scripture verse references with range notation (bug PRD #14)
+- Created formatVerseRanges utility: sorts verses numerically, detects consecutive verses, collapses into ranges
+- Handles all edge cases: consecutive ranges (1-5), multiple ranges (1-3,7-9), mixed ranges/singles (1-3,7,10-12), non-consecutive singles (1,5,9), single verse (5), out of order sorting (3,1,2→1-3), empty/undefined (empty string)
+- Added type assertions to satisfy TypeScript strict null checks on array access after length validation
+- Created comprehensive unit tests in formatVerseRanges.test.ts covering 12 test cases
+- Created vitest.config.ts with path alias support for @ imports
+- Updated TeachingPlayer formatScriptureReference to use formatVerseRanges for display
+- Changed getBibleUrl from bible.com to biblegateway.com with ESV translation parameter
+- URL format: https://www.biblegateway.com/passage/?search=Romans+11:1-10&version=ESV
+- Exported formatVerseRanges from lib/teachings/index.ts
+- Typecheck passed, lint passed (fixed vitest.config import order)
+- Next.js MCP no errors
+- Browser automation verified /teaching/1 displays "Romans 11:1-10" with range notation, link works with ESV
+- Files: lib/teachings/formatVerseRanges.ts, lib/teachings/formatVerseRanges.test.ts, lib/teachings/index.ts, app/teaching/[id]/components/teaching-player.tsx, vitest.config.ts
+
+Task: Fix route mismatch causing 404 navigation errors (bug PRD #15)
+- Identified all teaching video player link locations via grep (FeaturedTeachingHero, TeachingCard, TeachingPlayer related links)
+- Found FeaturedTeachingHero using incorrect route: /teachings/{id} (plural) instead of /teaching/{id} (singular)
+- Updated FeaturedTeachingHero line 66: changed href from /teachings/${teaching.id} to /teaching/${teaching.id}
+- Verified TeachingCard already correct (line 24 uses /teaching/${teaching.id})
+- Verified TeachingPlayer related teachings already correct (line 232 uses /teaching/${related.id})
+- Browser automation verified: navigated to /teaching/4 (featured teaching) successfully, no 404 error
+- Browser automation verified: navigated to /teaching/1 successfully, all related teaching links use correct /teaching/{id} route
+- Next.js MCP no errors detected
+- Typecheck passed, lint passed
+- File: app/components/featured-teaching-hero/featured-teaching-hero.tsx
+
+Task: Add partial chapter matching and verse-level searching to scripture search (enhancement PRD #16)
+- Updated parseScriptureQuery: added verse parsing support (single verse, ranges, comma-separated)
+- Regex pattern extended: /^([0-9]?\s*[A-Za-z]+(?:\s+[A-Za-z]+)*)\s*(\d+)?(?::([0-9\-,]+))?$/
+- Parse verse ranges: "28-30" becomes [28,29,30], "1,3,5" becomes [1,3,5]
+- Extended return type: {book: string, chapter?: number, verses?: number[]}
+- Updated searchTeachingsByScripture: partial chapter matching via chapter.toString().startsWith()
+- "Romans 1" matches chapters 1,10-19; "Romans 11" matches only chapter 11
+- Verse-level matching: exact chapter match + check if any searched verse exists in Teaching verses array
+- Convert Teaching verses (strings) to numbers for comparison: ref.verses.map(v => parseInt(v,10))
+- Created comprehensive unit tests in searchByScripture.test.ts covering book-only, partial chapter, verse-level, edge cases
+- Updated Archive page search placeholder: "Search by scripture (e.g., 'Romans 8', 'Romans 8:28')"
+- Fixed TypeScript errors: proper null checks for split() result using rangeParts[0]?.trim() ?? ""
+- Biome auto-fixed: removed useless undefined init, formatted multi-line conditionals
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Files: lib/teachings/searchByScripture.ts, lib/teachings/searchByScripture.test.ts, app/archive/components/scripture-search.tsx
+
+Task: Reduce teaching card title text size (bug PRD #17)
+- Located TeachingCard component: title using h3 with text-3xl (too large per PRD)
+- Maintained semantic h3 for accessibility, reduced visual size from text-3xl to text-xl using !text-xl override
+- Visual hierarchy preserved: title (text-xl) > description (body) > date (caption), title still most prominent
+- Verified changes apply to both Recent Teachings and Archive page (same component used)
+- Browser automation verified rendering on both pages, Next.js MCP no errors
+- Typecheck passed, lint passed
+- File: app/components/teaching-card/teaching-card.tsx
+
+Task: Replace Archive page grid layout with Table component (ui PRD #18)
+- Created ArchivePageClient component: client component using Table with 4 columns (Cover Photo, Title, Scripture, Date)
+- Cover Photo column: w-20 aspect-video thumbnail, Next Image optimization, getCoverPhotoUrl utility
+- Title column: plain text left-aligned
+- Scripture column: formats multiple scripture refs with formatVerseRanges utility (e.g., "Romans 11:1-10, Matthew 5:1-2")
+- Date column: formats as "MMM DD, YYYY" right-aligned using toLocaleDateString
+- Removed grid layout and TeachingCard usage from Archive page, moved to client component pattern (server component fetches data, passes to client)
+- onRowClick handler: navigates to /teaching/{id} via Next.js router
+- EmptyState component updated with correct CSS variable colors (text-text-secondary, text-primary-500)
+- Search input remains above table, maintains all existing functionality
+- Table responsive: horizontal scroll on mobile via Table component's overflow-x-auto wrapper
+- Browser automation verified: table renders with all 4 columns, data displays correctly, cursor-pointer on rows
+- Next.js MCP no errors, typecheck passed, lint passed
+- Files: app/archive/page.tsx, app/archive/components/archive-page-client.tsx
+
+Task: Prioritize next teaching in series for related teachings algorithm (enhancement PRD #19)
+- Added nextInSeries? (string) field to Teaching type
+- Updated teachings data: teaching 1 → 2, teaching 2 → 3 in Romans 11 series
+- Updated getRelatedTeachings algorithm: nextInSeries gets highest priority (10000 pts, higher than same series 1000 pts)
+- Ensures next teaching in series always appears first in related teachings section
+- Updated JSDoc comment to reflect new priority order: Next in series → Same series → Scripture → Topics → Recency
+- Maintains existing scoring for all other relationships
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Files: lib/teachings/teachings.ts, lib/teachings/getRelatedTeachings.ts
+
+Task: Enable dark mode support for home page (bug PRD #20)
+- Added className="dark" to html tag in app/layout.tsx line 6
+- Added bg-background class to main wrapper in app/page.tsx line 16
+- Updated FeaturedTeachingHero: removed text-white/80 from date (line 51), text-white from title (line 56), text-white/90 from description (line 61)
+- Kept text-white on Featured Badge (line 44) for contrast against primary background
+- Text/Heading components now use design system defaults (text-text-primary, text-text-secondary)
+- Browser automation verified: page loads at /, Next.js MCP no errors
+- Typecheck passed, lint passed
+- Files: app/layout.tsx, app/page.tsx, app/components/featured-teaching-hero/featured-teaching-hero.tsx
+
+Task: Fix incorrect color class references on Archive page (bug PRD #21)
+- Updated ScriptureSearch component (app/archive/components/scripture-search.tsx line 34)
+- Changed text-foreground → text-text-primary for input text
+- Changed placeholder:text-foreground/50 → placeholder:text-text-secondary for placeholder
+- Changed focus:ring-primary → focus:ring-primary-500 for focus ring
+- Archive page.tsx already used text-text-secondary correctly (lines 33, 61), no changes needed
+- All color references now use proper CSS variables from design system
+- Typecheck passed, lint passed, Next.js MCP no errors
+- File: app/archive/components/scripture-search.tsx
+
+Task: Fix incorrect hover color reference for scripture links on Teaching page (bug PRD #22)
+- Updated TeachingPlayer component line 178: changed hover:text-primary-light → hover:text-primary-400
+- Verified base color text-text-primary correct (no change needed)
+- Verified other colors use correct CSS variables (bg-background, text-text-secondary, bg-surface)
+- Scripture links now use primary-400 (#52a170) on hover for proper dark mode support
+- Typecheck passed, lint passed, Next.js MCP no errors
+- File: app/teaching/[id]/components/teaching-player.tsx
+
+Task: Implement dynamic dark mode detection based on user system preference (enhancement PRD #23)
+- Added Next.js Script component with strategy="beforeInteractive" to app/layout.tsx
+- Script uses IIFE to detect system preference via window.matchMedia('(prefers-color-scheme: dark)')
+- Dynamically adds/removes 'dark' class on document.documentElement based on system preference
+- Added event listener for real-time system theme changes (addEventListener('change'))
+- Removed hardcoded className="dark" from html tag in layout.tsx
+- Script runs before page render to prevent FOUC (flash of unstyled content)
+- Browser automation verified: light mode system shows no 'dark' class, no hydration errors on fresh loads
+- Typecheck passed, lint passed (auto-fixed import ordering), Next.js MCP no errors after fresh page loads
+- File: app/layout.tsx
+
+Task: Remove hardcoded 'dark' class references throughout codebase (bug PRD #24)
+- Searched for hardcoded className='dark' or className=\"dark\" - found only in design-system page (intentional demo toggle)
+- Real issue: hydration errors from theme detection script using Next.js Script component with beforeInteractive strategy
+- Script ran after hydration, adding 'dark' class dynamically, causing server/client mismatch
+- Fixed by replacing Script component with inline <script> tag in <head> using dangerouslySetInnerHTML
+- Added suppressHydrationWarning to <html> element to prevent warnings from dynamic class manipulation
+- Removed Script import, moved theme detection to blocking inline script before React hydration
+- Script remains: detects prefers-color-scheme media query, adds/removes 'dark' class, listens for system changes
+- Design system page intentionally keeps independent dark mode toggle (demo purposes, doesn't affect root html)
+- Next.js MCP verified: all hydration errors resolved, no errors in any browser sessions
+- Browser automation verified: light mode works (no dark class), all pages load without errors
+- Typecheck passed, lint passed
+- File: app/layout.tsx
+
+Task: Create Badge component for design system (ui PRD #25)
+- Created Badge component in app/components/ui/badge/badge.tsx
+- Used cva (class-variance-authority) for variant styling, consistent with other design system components
+- API: variant ('default' | 'primary' | 'subtle'), size ('sm' | 'md'), icon (optional ReactNode), children, className
+- Variant styles: default (bg-surface, text-text-primary), primary (bg-primary-500, text-white), subtle (bg-surface-hover/50, text-text-secondary)
+- Size styles: sm (text-xs, px-2, py-0.5), md (text-sm, px-3, py-1)
+- Rounded-full for pill shape on all variants
+- Icon support: renders icon before children with gap-1.5, icon inherits text size via [&>svg]:h-[1em] w-[1em]
+- Created index.ts export for Badge component
+- Added Badge section to design system page with examples: all variants, both sizes, badges with icons
+- Updated table example to use Badge component for Role and Status columns (with className overrides for custom colors)
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Browser automation verified Badge renders correctly on /design-system page
+- Files: app/components/ui/badge/badge.tsx, app/components/ui/badge/index.ts, app/design-system/page.tsx
+
+Task: Integrate Badge component into TeachingCard, FeaturedTeachingHero, and Teaching page topics (ui PRD #26)
+- Updated TeachingCard: imported Badge, added series Badge (variant='default', size='sm') above date, conditional render if teaching.series exists
+- Updated FeaturedTeachingHero: replaced custom Text-based badge markup with Badge component (variant='primary', size='md')
+- Updated TeachingPlayer: replaced topic span pills with Badge component (variant='default', size='sm'), maps over topics array
+- No icons added to any Badge usages per PRD
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Browser automation verified: home page shows series badges on TeachingCards, Featured Teaching badge visible, teaching page topics render as Badge components
+- Files: app/components/teaching-card/teaching-card.tsx, app/components/featured-teaching-hero/featured-teaching-hero.tsx, app/teaching/[id]/components/teaching-player.tsx
+
+Task: Add Series column to Archive page table (ui PRD #27)
+- Added Series column to ArchivePageClient columns array, positioned between Title and Scripture
+- Column definition: { header: 'Series', accessorKey: 'series', render: handles missing series with em dash (—) }
+- Render as plain text, left-aligned
+- Table column order now: Cover Photo, Title, Series, Scripture, Date
+- Browser automation verified: table renders all 5 columns, series values display correctly ("Evangelism Workshop", "Merge - Romans 11")
+- Typecheck passed, lint passed (fixed formatting for single-line render), Next.js MCP no errors
+- File: app/archive/components/archive-page-client.tsx
