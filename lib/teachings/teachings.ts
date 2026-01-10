@@ -74,7 +74,7 @@ const teachings: Teaching[] = [
 	{
 		id: "4",
 		date: "2026-01-04",
-		title: "Evangelism Workshop - What is Evangelism?",
+		title: "What is Evangelism?",
 		description: "How does the bible define 'evangelism'?",
 		coverPhoto: "evangelism-workshop-01-2026.jpg",
 		videoUrl:
