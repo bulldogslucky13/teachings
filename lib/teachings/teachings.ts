@@ -9,8 +9,34 @@ const teachings: Teaching[] = [
 		coverPhoto: "romans-11-series-11-2025.png",
 		scripture: [
 			{ book: "Romans", chapter: 11, verses: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] },
+			{
+				book: "1 Kings",
+				chapter: 19,
+				verses: [
+					"1",
+					"2",
+					"3",
+					"4",
+					"5",
+					"6",
+					"7",
+					"8",
+					"9",
+					"10",
+					"11",
+					"12",
+					"13",
+					"14",
+					"15",
+					"16",
+					"17",
+					"18",
+				],
+			},
+			{ book: "Romans", chapter: 10, verses: ["31"], isHidden: true },
+			{ book: "Jeremiah", chapter: 31, verses: ["31"], isHidden: true },
 		],
-		topics: ["israel", "remnant israel"],
+		topics: ["remnant israel", "ethnic israel", "foreknowledge", "election", "predestination"],
 		videoUrl: "https://www.youtube.com/embed/g5SxuRgVn9Y",
 		series: "Merge - Romans 11",
 		nextInSeries: "2",
@@ -27,10 +53,21 @@ const teachings: Teaching[] = [
 				chapter: 11,
 				verses: ["11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22"],
 			},
+			{ book: "Romans", chapter: 9, verses: ["32", "33"], isHidden: true },
+			{
+				book: "Ezekiel",
+				chapter: 36,
+				verses: ["22", "23", "24", "25", "26", "27", "28", "29", "30"],
+			},
+			{ book: "Zechariah", chapter: 12, verses: ["10"], isHidden: true },
+			{ book: "Zechariah", chapter: 14, verses: ["9", "16"], isHidden: true },
 		],
 		topics: [
 			"israel",
 			"future plan for israel",
+			"fullness of the Gentiles",
+			"israel's partial hardening",
+			"millenial kingdom",
 			"olive tree",
 			"olive branches",
 			"purpose for israel today",
@@ -66,8 +103,22 @@ const teachings: Teaching[] = [
 					"36",
 				],
 			},
+			{ book: "Zechariah", chapter: 12, verses: ["10"], isHidden: true },
+			{ book: "2 Samuel", chapter: 7, verses: ["10", "11", "12", "13"], isHidden: true },
+			{ book: "Jeremiah", chapter: 31, verses: ["31", "32", "33", "34"] },
+			{ book: "Ezekiel", chapter: 20, verses: ["33", "34", "35", "36", "37", "38"] },
+			{ book: "Revelation", chapter: 7, verses: ["2", "3", "4"] },
 		],
-		topics: ["israel", "future plan for israel", "grafted in", "partial hardening", "mercy"],
+		topics: [
+			"israel",
+			"future plan for israel",
+			"national israel",
+			"the church",
+			"grafted in",
+			"partial hardening",
+			"mercy",
+			"glory of God",
+		],
 		videoUrl: "https://www.youtube.com/embed/EUdHZzqBRdU",
 		series: "Merge - Romans 11",
 	},
@@ -101,6 +152,10 @@ export type ScriptureReference = {
 	book: string;
 	chapter: number;
 	verses?: string[];
+	/**
+	 * Used to denote Scripture passages taught that do not direclty apply to the main verses in the teaching.
+	 */
+	isHidden?: boolean;
 };
 
 export type Teaching = {
