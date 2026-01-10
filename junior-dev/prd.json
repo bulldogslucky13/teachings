@@ -445,5 +445,25 @@
 			"Success criteria: No flash of incorrect theme on production page load, dark mode persists correctly based on system preference, no hydration errors in console"
 		],
 		"passes": true
+	},
+	{
+		"category": "ui",
+		"description": "Add Download Lesson Slides button to Teaching page when notes are available",
+		"steps": [
+			"Locate the TeachingPlayer component (app/teaching/[id]/components/teaching-player.tsx)",
+			"Find the 'Copy Link' button section (likely within a Card component)",
+			"Add a new Button below the Copy Link button with text 'Download Lesson Slides'",
+			"Button should use variant='secondary' for de-emphasized styling",
+			"Add a download icon (MdDownload or MdFileDownload from react-icons/md) as leftIcon prop",
+			"Button should be wrapped in an anchor tag (<a>) or use an anchor-styled approach with href={teaching.notesUrl}",
+			"Add target='_blank' and rel='noopener noreferrer' attributes to open in new tab securely",
+			"Conditionally render: only display this button if teaching.notesUrl exists and is truthy",
+			"Add appropriate spacing between Copy Link and Download Lesson Slides buttons (e.g., mt-2 or gap in flex container)",
+			"Test: Load a teaching WITH notesUrl (id 4) - Download button should appear below Copy Link",
+			"Test: Load a teaching WITHOUT notesUrl (id 1, 2, or 3) - Download button should NOT appear",
+			"Test: Click Download button - should open PDF in new browser tab",
+			"Success criteria: Button appears only when notesUrl exists, uses secondary variant with download icon, opens notes in new tab"
+		],
+		"passes": true
 	}
 ]

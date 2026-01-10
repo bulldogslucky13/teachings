@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { MdLink } from "react-icons/md";
+import { MdDownload, MdLink } from "react-icons/md";
 import { Badge } from "@/app/components/ui/badge";
 import { Button } from "@/app/components/ui/button/button";
 import { Card, CardBody } from "@/app/components/ui/card/card";
@@ -212,6 +212,22 @@ export function TeachingPlayer({ teaching, relatedTeachings }: TeachingPlayerPro
 							>
 								{showCopied ? "Link Copied!" : "Copy Link"}
 							</Button>
+							{teaching.notesUrl && (
+								<a
+									href={teaching.notesUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="block mt-3"
+								>
+									<Button
+										variant="secondary"
+										className="w-full"
+										leftIcon={<MdDownload size={20} />}
+									>
+										Download Lesson Slides
+									</Button>
+								</a>
+							)}
 						</Card>
 					</div>
 				</div>

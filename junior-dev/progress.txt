@@ -347,3 +347,14 @@ Task: Add prepareTeachingToReturn utility for filtering hidden scripture (data P
 - Hidden scripture remains searchable but is filtered from display
 - REMOVED getAllTeachings from lib/teachings/index.ts exports: This function returns raw Teaching data without filtering hidden scripture, so it should NOT be used directly by consumers. It remains available for internal use within lib/teachings (e.g., other functions in this domain that need raw data for search matching). Consumers should use the specific getter functions (getFeaturedTeaching, getRecentTeachings, getTeachingById, searchTeachingsByScripture, getRelatedTeachings) which all apply prepareTeachingToReturn.
 - Files: lib/teachings/prepareTeaching.ts, lib/teachings/getFeaturedTeaching.ts, lib/teachings/getRecentTeachings.ts, lib/teachings/getTeachingById.ts, lib/teachings/getRelatedTeachings.ts, lib/teachings/searchByScripture.ts, lib/teachings/index.ts
+
+Task: Add Download Lesson Slides button to Teaching page (ui PRD #29)
+- Added MdDownload icon import from react-icons/md
+- Added "Download Lesson Slides" button below "Copy Link" button in sidebar Card
+- Button uses variant='secondary' for de-emphasized styling, leftIcon={<MdDownload size={20} />}
+- Wrapped button in anchor tag with href={teaching.notesUrl}, target='_blank', rel='noopener noreferrer'
+- Conditionally renders only when teaching.notesUrl exists (truthy check)
+- Added mt-3 class for spacing between Copy Link and Download buttons
+- All teachings (IDs 1-4) currently have notesUrl defined, so button will appear on all
+- Typecheck passed, lint passed
+- File: app/teaching/[id]/components/teaching-player.tsx

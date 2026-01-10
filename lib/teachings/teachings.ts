@@ -38,6 +38,8 @@ const teachings: Teaching[] = [
 		],
 		topics: ["remnant israel", "ethnic israel", "foreknowledge", "election", "predestination"],
 		videoUrl: "https://www.youtube.com/embed/g5SxuRgVn9Y",
+		notesUrl:
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/romans-11-1-10_notes.pdf",
 		series: "Merge - Romans 11",
 		nextInSeries: "2",
 	},
@@ -73,6 +75,8 @@ const teachings: Teaching[] = [
 			"purpose for israel today",
 		],
 		videoUrl: "https://www.youtube.com/embed/1O9aeQa5rL8",
+		notesUrl:
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/romans-11-11-22_notes.pdf",
 		series: "Merge - Romans 11",
 		nextInSeries: "3",
 	},
@@ -120,6 +124,8 @@ const teachings: Teaching[] = [
 			"glory of God",
 		],
 		videoUrl: "https://www.youtube.com/embed/EUdHZzqBRdU",
+		notesUrl:
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/romans-11-23-36_notes.pdf",
 		series: "Merge - Romans 11",
 	},
 	{
@@ -130,6 +136,8 @@ const teachings: Teaching[] = [
 		coverPhoto: "evangelism-workshop-01-2026.jpg",
 		videoUrl:
 			"https://church-teachings.s3.us-east-2.amazonaws.com/1-2026+-+Evangelism+Workshop/1%3A4%3A26+-+What+is+Evangelism%3F+(Matthew+28%3A19%2C+2+Corinthians+5%3A17-19).mp4",
+		notesUrl:
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/1-4-26_evangelism-workshop_what-is-evangelism_notes.pdf",
 		series: "Evangelism Workshop",
 		scripture: [
 			{
@@ -165,6 +173,7 @@ export type Teaching = {
 	title: string;
 	description: string;
 	videoUrl: string;
+	notesUrl?: string;
 	series?: string;
 	scripture: ScriptureReference[];
 	topics: string[];
