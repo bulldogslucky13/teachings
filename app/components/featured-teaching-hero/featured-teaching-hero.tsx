@@ -53,12 +53,12 @@ export function FeaturedTeachingHero({ teaching }: FeaturedTeachingHeroProps) {
 				</Text>
 
 				{/* Title */}
-				<Heading level="h1" className="mb-4 max-w-4xl">
+				<Heading level="h1" className="mb-4 max-w-4xl text-white">
 					{teaching.title}
 				</Heading>
 
 				{/* Description */}
-				<Text size="lg" className="mb-8 max-w-2xl">
+				<Text size="lg" className="mb-8 max-w-2xl text-white">
 					{teaching.description}
 				</Text>
 
