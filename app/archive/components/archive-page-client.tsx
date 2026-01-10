@@ -22,7 +22,7 @@ export function ArchivePageClient({ teachings }: ArchivePageClientProps) {
 		{
 			header: "Cover Photo",
 			accessorKey: "coverPhoto",
-			render: (_value, row) => (
+			render: (_, row) => (
 				<div className="w-20 aspect-video relative overflow-hidden rounded">
 					<Image
 						src={getCoverPhotoUrl(row.coverPhoto)}
