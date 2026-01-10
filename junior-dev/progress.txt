@@ -259,3 +259,14 @@ Task: Fix incorrect hover color reference for scripture links on Teaching page (
 - Scripture links now use primary-400 (#52a170) on hover for proper dark mode support
 - Typecheck passed, lint passed, Next.js MCP no errors
 - File: app/teaching/[id]/components/teaching-player.tsx
+
+Task: Implement dynamic dark mode detection based on user system preference (enhancement PRD #23)
+- Added Next.js Script component with strategy="beforeInteractive" to app/layout.tsx
+- Script uses IIFE to detect system preference via window.matchMedia('(prefers-color-scheme: dark)')
+- Dynamically adds/removes 'dark' class on document.documentElement based on system preference
+- Added event listener for real-time system theme changes (addEventListener('change'))
+- Removed hardcoded className="dark" from html tag in layout.tsx
+- Script runs before page render to prevent FOUC (flash of unstyled content)
+- Browser automation verified: light mode system shows no 'dark' class, no hydration errors on fresh loads
+- Typecheck passed, lint passed (auto-fixed import ordering), Next.js MCP no errors after fresh page loads
+- File: app/layout.tsx

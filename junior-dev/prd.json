@@ -335,7 +335,7 @@
 			"Test: Change system theme while app is open - theme should switch automatically",
 			"Success criteria: Dark mode applies automatically based on user's system preference, no flash of incorrect theme on page load, theme updates when system preference changes, works on all pages (home, archive, teaching)"
 		],
-		"passes": false
+		"passes": true
 	},
 	{
 		"category": "bug",
