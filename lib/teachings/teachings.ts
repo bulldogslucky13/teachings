@@ -3,7 +3,7 @@
 const teachings: Teaching[] = [
 	{
 		id: "1",
-		date: "11-9-2025",
+		date: "2025-11-09",
 		title: "Romans 11:1-10",
 		description: "",
 		coverPhoto: "romans-11-series-11-2025.png",
@@ -17,7 +17,7 @@ const teachings: Teaching[] = [
 	},
 	{
 		id: "2",
-		date: "11-16-2025",
+		date: "2025-11-16",
 		title: "Romans 11:11-22",
 		description: "",
 		coverPhoto: "romans-11-series-11-2025.png",
@@ -41,7 +41,7 @@ const teachings: Teaching[] = [
 	},
 	{
 		id: "3",
-		date: "11-30-2025",
+		date: "2025-11-30",
 		title: "Romans 11:23-36",
 		description: "",
 		coverPhoto: "romans-11-series-11-2025.png",

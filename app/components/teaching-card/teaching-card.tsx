@@ -18,6 +18,7 @@ export function TeachingCard({ teaching }: TeachingCardProps) {
 		year: "numeric",
 		month: "long",
 		day: "numeric",
+		timeZone: "UTC",
 	});
 
 	return (
