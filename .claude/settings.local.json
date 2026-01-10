@@ -16,7 +16,8 @@
 			"mcp__next-devtools__init",
 			"mcp__next-devtools__nextjs_index",
 			"mcp__next-devtools__nextjs_call",
-			"mcp__next-devtools__browser_eval"
+			"mcp__next-devtools__browser_eval",
+			"Bash(find:*)"
 		]
 	},
 	"mcpServers": {
