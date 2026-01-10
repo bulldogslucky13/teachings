@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import type { Key } from "react-aria-components";
 import {
 	Table as AriaTable,
 	type TableProps as AriaTableProps,
@@ -12,15 +13,16 @@ import {
 } from "react-aria-components";
 import { cn } from "../utils/cn";
 
-export interface ColumnDef<Data, Key extends keyof Data = keyof Data> {
+export interface ColumnDef<Data, K extends keyof Data = keyof Data> {
 	header: string;
-	accessorKey: Key;
-	render?: (value: Data[Key], row: Data) => ReactNode;
+	accessorKey: K;
+	render?: (value: Data[K], row: Data) => ReactNode;
 }
 
 export interface TableProps<Data> extends Omit<AriaTableProps, "children"> {
 	columns: ColumnDef<Data, keyof Data>[];
 	data: Data[];
+	getRowKey?: (row: Data, index: number) => Key;
 	onRowClick?: (row: Data) => void;
 	emptyState?: ReactNode;
 	className?: string;
@@ -29,6 +31,7 @@ export interface TableProps<Data> extends Omit<AriaTableProps, "children"> {
 export function Table<Data extends Record<string, unknown>>({
 	columns,
 	data,
+	getRowKey,
 	onRowClick,
 	emptyState,
 	className,
@@ -45,6 +48,16 @@ export function Table<Data extends Record<string, unknown>>({
 	}
 
 	const firstColumnKey = columns[0]?.accessorKey;
+
+	// Default key function uses 'id' field if available, otherwise index
+	const defaultGetRowKey = (row: Data, index: number): Key => {
+		if ("id" in row && (typeof row.id === "string" || typeof row.id === "number")) {
+			return row.id;
+		}
+		return index;
+	};
+
+	const resolvedGetRowKey = getRowKey ?? defaultGetRowKey;
 
 	return (
 		<div className="overflow-x-auto rounded-lg border border-border bg-surface">
@@ -64,32 +77,35 @@ export function Table<Data extends Record<string, unknown>>({
 						</Column>
 					))}
 				</TableHeader>
-				<TableBody>
-					{data.map((row, rowIndex) => (
-						<Row
-							key={rowIndex}
-							className={cn(
-								"border-b border-border/50 transition-colors last:border-b-0",
-								rowIndex % 2 === 0 ? "bg-surface" : "bg-surface-hover/50",
-								onRowClick && "cursor-pointer hover:bg-surface-hover",
-							)}
-							onAction={() => onRowClick?.(row)}
-						>
-							{columns.map((column) => {
-								const value = row[column.accessorKey];
-								const content = column.render ? column.render(value, row) : String(value ?? "");
+				<TableBody items={data}>
+					{(row) => {
+						const rowIndex = data.indexOf(row);
+						return (
+							<Row
+								id={resolvedGetRowKey(row, rowIndex)}
+								className={cn(
+									"border-b border-border/50 transition-colors last:border-b-0",
+									rowIndex % 2 === 0 ? "bg-surface" : "bg-surface-hover/50",
+									onRowClick && "cursor-pointer hover:bg-surface-hover",
+								)}
+								onAction={() => onRowClick?.(row)}
+							>
+								{columns.map((column) => {
+									const value = row[column.accessorKey];
+									const content = column.render ? column.render(value, row) : String(value ?? "");
 
-								return (
-									<Cell
-										key={String(column.accessorKey)}
-										className="px-4 py-2 text-sm text-text-primary"
-									>
-										{content}
-									</Cell>
-								);
-							})}
-						</Row>
-					))}
+									return (
+										<Cell
+											key={String(column.accessorKey)}
+											className="px-4 py-2 text-sm text-text-primary"
+										>
+											{content}
+										</Cell>
+									);
+								})}
+							</Row>
+						);
+					}}
 				</TableBody>
 			</AriaTable>
 		</div>
