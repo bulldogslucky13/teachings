@@ -424,5 +424,26 @@
 			"Success criteria: Series column displays correctly, empty state handled gracefully, no layout regressions"
 		],
 		"passes": true
+	},
+	{
+		"category": "bug",
+		"description": "Fix production dark mode hydration issue by migrating to next-themes",
+		"steps": [
+			"Verify the next-themes package is installed (it should be). If it is not, do not continue.",
+			"Create ThemeProvider wrapper component in app/components/providers/theme-provider.tsx",
+			"ThemeProvider should wrap NextThemesProvider with attribute='class' and defaultTheme='system' props",
+			"Update app/layout.tsx: remove the inline theme detection script (the dangerouslySetInnerHTML script block)",
+			"Update app/layout.tsx: remove suppressHydrationWarning from the html tag",
+			"Update app/layout.tsx: wrap {children} with the new ThemeProvider component",
+			"Verify globals.css dark mode selector (.dark) is compatible with next-themes (attribute='class' uses .dark by default)",
+			"Update design-system/page.tsx: replace local isDarkMode state with useTheme() hook from next-themes for the demo toggle",
+			"Reference next-themes Tailwind CSS integration docs: https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-tailwindcss",
+			"Test: Load production build (npm run build && npm run start) with system in dark mode - page should render dark immediately without flash",
+			"Test: Load production build with system in light mode - page should render light immediately without flash",
+			"Test: Verify all pages (home, archive, teaching/[id], design-system) render correctly in both modes",
+			"Test: Change system preference while app is open - theme should update automatically",
+			"Success criteria: No flash of incorrect theme on production page load, dark mode persists correctly based on system preference, no hydration errors in console"
+		],
+		"passes": true
 	}
 ]

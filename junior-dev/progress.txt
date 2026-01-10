@@ -317,3 +317,18 @@ Task: Add Series column to Archive page table (ui PRD #27)
 - Browser automation verified: table renders all 5 columns, series values display correctly ("Evangelism Workshop", "Merge - Romans 11")
 - Typecheck passed, lint passed (fixed formatting for single-line render), Next.js MCP no errors
 - File: app/archive/components/archive-page-client.tsx
+
+Task: Fix production dark mode hydration issue by migrating to next-themes (bug PRD #28)
+- Verified next-themes package already installed (v0.4.6)
+- Created ThemeProvider wrapper in app/components/providers/theme-provider.tsx
+- ThemeProvider wraps NextThemesProvider with attribute='class', defaultTheme='system'
+- Removed inline theme detection script (dangerouslySetInnerHTML block) from layout.tsx
+- Kept suppressHydrationWarning on html tag (required by next-themes for SSR)
+- Wrapped children with ThemeProvider in layout.tsx
+- globals.css .dark selector compatible with next-themes (attribute='class' uses .dark)
+- Updated design-system/page.tsx: replaced local isDarkMode state with useTheme() hook
+- Removed extra wrapper div from design-system page (was using isDarkMode conditional class)
+- Browser automation verified: home, archive, teaching/[id], design-system pages render correctly
+- No hydration errors in console on any page
+- Typecheck passed, lint passed (Biome auto-format fixed indentation)
+- Files: app/components/providers/theme-provider.tsx, app/layout.tsx, app/design-system/page.tsx
