@@ -33,17 +33,20 @@ export function TeachingCard({ teaching }: TeachingCardProps) {
 						alt={teaching.title}
 						className="object-cover w-full h-full transition-transform group-hover:scale-105"
 					/>
+					{/* Series Badge */}
+					{teaching.series && (
+						<Badge
+							variant="primary"
+							size="sm"
+							className="absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap"
+						>
+							{teaching.series}
+						</Badge>
+					)}
 				</div>
 
 				{/* Content */}
 				<div className="p-4 space-y-2">
-					{/* Series Badge */}
-					{teaching.series && (
-						<Badge variant="default" size="sm">
-							{teaching.series}
-						</Badge>
-					)}
-
 					{/* Date */}
 					<Text variant="caption" className="text-text-tertiary">
 						{formattedDate}
