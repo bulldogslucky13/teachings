@@ -157,7 +157,7 @@ const teachings: Teaching[] = [
 	{
 		id: "5",
 		date: "2026-01-11",
-		title: "Why should I evangelize?",
+		title: "Motivations for Evangelism",
 		description: "What does the Bible say should motivate us to evangelize?",
 		coverPhoto: "evangelism-workshop-01-2026.jpg",
 		videoUrl: "https://youtu.be/VIs1WgLUdAI",
