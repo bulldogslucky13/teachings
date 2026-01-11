@@ -175,7 +175,13 @@ const teachings: Teaching[] = [
 			{ book: "John", chapter: 3, verses: ["16", "18"], isHidden: true },
 			{ book: "2 Corinthians", chapter: 10, verses: ["20", "21"], isHidden: true },
 		],
-		topics: ["evangelism", "great commission"],
+		topics: [
+			"evangelism",
+			"great commission",
+			"biblical motivations",
+			"wrath of God",
+			"grace of God",
+		],
 		isFeatured: true,
 	},
 ];
