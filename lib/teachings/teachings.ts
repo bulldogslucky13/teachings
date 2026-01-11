@@ -152,6 +152,30 @@ const teachings: Teaching[] = [
 			},
 		],
 		topics: ["evangelism", "great commission", "reconciliation"],
+		nextInSeries: "5",
+	},
+	{
+		id: "5",
+		date: "2026-01-11",
+		title: "Why should I evangelize?",
+		description: "What does the Bible say should motivate us to evangelize?",
+		coverPhoto: "evangelism-workshop-01-2026.jpg",
+		videoUrl: "https://youtu.be/VIs1WgLUdAI",
+		notesUrl:
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/1-11-26_why_evangelize_notes.pdf",
+		series: "Evangelism Workshop",
+		scripture: [
+			{
+				book: "Matthew",
+				chapter: 28,
+				verses: ["16", "17"],
+			},
+			{ book: "Revelation", chapter: 10, verses: ["8", "9", "10", "11"] },
+			{ book: "Isaiah", chapter: 6, verses: ["1", "2", "3", "4", "5", "6", "7", "8", "9"] },
+			{ book: "John", chapter: 3, verses: ["16", "18"], isHidden: true },
+			{ book: "2 Corinthians", chapter: 10, verses: ["20", "21"], isHidden: true },
+		],
+		topics: ["evangelism", "great commission"],
 		isFeatured: true,
 	},
 ];
