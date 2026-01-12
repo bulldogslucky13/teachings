@@ -158,8 +158,7 @@ const teachings: Teaching[] = [
 		title: "What is Evangelism?",
 		description: "How does the bible define 'evangelism'?",
 		coverPhoto: "evangelism-workshop-01-2026.jpg",
-		videoUrl:
-			"https://church-teachings.s3.us-east-2.amazonaws.com/1-2026+-+Evangelism+Workshop/1%3A4%3A26+-+What+is+Evangelism%3F+(Matthew+28%3A19%2C+2+Corinthians+5%3A17-19).mp4",
+		videoUrl: "https://www.youtube.com/embed/YOcG3FB8B1Q",
 		notesUrl:
 			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/1-4-26_evangelism-workshop_what-is-evangelism_notes.pdf",
 		series: "Evangelism Workshop",
