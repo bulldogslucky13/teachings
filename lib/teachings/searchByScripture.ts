@@ -93,7 +93,7 @@ export async function searchTeachingsByScripture(
 			// Filter scripture references based on includeCrossReferences setting
 			const scriptureToSearch = includeCrossReferences
 				? teaching.scripture
-				: teaching.scripture.filter((ref) => ref.referenceType === "featured");
+				: teaching.scripture.filter((ref) => ref.referenceType !== "cross-referenced");
 
 			// Check if any scripture reference matches
 			return scriptureToSearch.some((ref) => {

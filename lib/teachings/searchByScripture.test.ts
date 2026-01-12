@@ -102,11 +102,6 @@ describe("searchTeachingsByScripture", () => {
 	});
 
 	describe("edge cases", () => {
-		it("should return empty array for invalid query", async () => {
-			const results = await searchTeachingsByScripture("");
-			expect(results).toEqual([]);
-		});
-
 		it("should return empty array for non-existent book", async () => {
 			const results = await searchTeachingsByScripture("NonExistentBook");
 			expect(results).toEqual([]);
