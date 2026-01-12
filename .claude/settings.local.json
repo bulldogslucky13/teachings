@@ -25,7 +25,7 @@
 			"command": "npx",
 			"args": ["-y", "next-devtools-mcp@latest"]
 		},
-		"React Aria": {
+		"react-aria": {
 			"command": "npx",
 			"args": ["@react-aria/mcp@latest"]
 		}
