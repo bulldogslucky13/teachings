@@ -512,5 +512,38 @@
 			"Success criteria: Checkbox component added to design system, toggle defaults to off, correctly filters search results based on referenceType, state persists in URL, accessible and styled consistently"
 		],
 		"passes": true
+	},
+	{
+		"category": "enhancement",
+		"description": "Add Open Graph and Twitter Card meta tags to Teaching page for rich link previews",
+		"steps": [
+			"Add `generateMetadata` async function export to `app/teaching/[id]/page.tsx`",
+			"In `generateMetadata`, extract the teaching ID from params and fetch the teaching using `getTeachingById`",
+			"Use `headers()` from `next/headers` to dynamically build the base URL:",
+			"- Import `headers` from 'next/headers'",
+			"- Call `const headersList = await headers()`",
+			"- Get host: `const host = headersList.get('host')` (e.g., 'localhost:3000' or 'yourdomain.com')",
+			"- Get protocol: `const protocol = headersList.get('x-forwarded-proto') || 'https'`",
+			"- Construct baseUrl: `const baseUrl = \\`${protocol}://${host}\\``",
+			"Use `getCoverPhotoUrl` utility to get the cover photo path, then prepend `baseUrl` for absolute URL",
+			"Return metadata object with the following properties:",
+			"- `title`: Teaching title (e.g., 'The Remnant of Grace')",
+			"- `openGraph.title`: Teaching title",
+			"- `openGraph.siteName`: 'Teachings - Cameron Bristol'",
+			"- `openGraph.images`: Array with single object containing `url` (absolute cover photo URL)",
+			"- `openGraph.type`: 'video.other' (appropriate for video content pages)",
+			"- `twitter.card`: 'summary_large_image' (displays large preview image)",
+			"- `twitter.title`: Teaching title",
+			"- `twitter.images`: Array with absolute cover photo URL",
+			"Handle edge case: If teaching is not found, return basic metadata with title: 'Teaching Not Found | Teachings - Cameron Bristol'",
+			"Test in development: Visit `/teaching/1`, view page source (Cmd+Option+U or right-click > View Page Source)",
+			"Verify `<meta property=\"og:title\">` contains the teaching title",
+			"Verify `<meta property=\"og:image\">` contains absolute URL (e.g., 'http://localhost:3000/images/cover.jpg')",
+			"Verify `<meta name=\"twitter:card\">` is 'summary_large_image'",
+			"Verify `<meta name=\"twitter:image\">` contains absolute cover photo URL",
+			"Test image URL resolves: Copy the og:image URL from page source, paste in browser address bar, verify image loads",
+			"Success criteria: Link previews on social platforms and messaging apps display the teaching title, cover photo, and site name"
+		],
+		"passes": true
 	}
 ]

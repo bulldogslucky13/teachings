@@ -391,3 +391,14 @@ Task: Add 'Include cross-references' filter toggle to Archive page scripture sea
 - Tested: URL state persists on page refresh, checkbox reflects URL state
 - Typecheck passed, lint passed, Next.js MCP no errors
 - Files: app/components/ui/checkbox/checkbox.tsx, app/components/ui/checkbox/index.ts, app/design-system/page.tsx, lib/teachings/searchByScripture.ts, app/archive/components/scripture-search.tsx, app/archive/page.tsx
+
+Task: Add Open Graph and Twitter Card meta tags to Teaching page (enhancement PRD #32)
+- Added generateMetadata async function export to app/teaching/[id]/page.tsx
+- Uses headers() from next/headers to dynamically build base URL from host and x-forwarded-proto headers
+- Uses getCoverPhotoUrl utility to get cover photo path, prepends baseUrl for absolute URL
+- Returns metadata object with: title (teaching title), openGraph (title, siteName, images, type: video.other), twitter (card: summary_large_image, title, images)
+- Handles not found: returns {title: "Teaching Not Found | Teachings - Cameron Bristol"}
+- Verified meta tags render: og:title, og:site_name, og:image (absolute URL), og:type, twitter:card, twitter:title, twitter:image
+- Verified image URL resolves with 200 status
+- Typecheck passed, lint passed (Biome auto-fixed import ordering)
+- File: app/teaching/[id]/page.tsx
