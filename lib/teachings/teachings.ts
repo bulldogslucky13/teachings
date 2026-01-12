@@ -225,6 +225,83 @@ const teachings: Teaching[] = [
 		],
 		isFeatured: true,
 	},
+	{
+		id: "6",
+		date: "2025-12-07",
+		title: "The Promises of the Promised One",
+		series: "The Promised One",
+		description:
+			"Biblical survey of Old Testament prophecies about the reason for the Christmas season.",
+		coverPhoto: "12-2025_the-promised-one-cover.png",
+		videoUrl: "https://www.youtube.com/embed/xzV6KVZ1nr8",
+		notesUrl:
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/12-7-25-the_promised_one-bethlehem.pdf",
+		scripture: [
+			{ book: "Micah", chapter: 5, verses: ["2"], referenceType: "featured" },
+			{
+				book: "Luke",
+				chapter: 2,
+				verses: ["1", "2", "3", "4", "5", "6", "7"],
+				referenceType: "cross-referenced",
+			},
+			{ book: "Numbers", chapter: 24, verses: ["17"], referenceType: "featured" },
+			{ book: "Matthew", chapter: 2, verses: ["2"], referenceType: "cross-referenced" },
+			{ book: "Hosea", chapter: 11, verses: ["1", "2"], referenceType: "featured" },
+			{
+				book: "Matthew",
+				chapter: 2,
+				verses: ["13", "14", "15"],
+				referenceType: "cross-referenced",
+			},
+			{ book: "Isaiah", chapter: 7, verses: ["14"], referenceType: "featured" },
+			{ book: "Matthew", chapter: 1, verses: ["22", "23"], referenceType: "cross-referenced" },
+			{ book: "2 Samuel", chapter: 7, verses: ["12", "14"], referenceType: "featured" },
+			{ book: "Matthew", chapter: 1, verses: ["1", "6"], referenceType: "cross-referenced" },
+			{ book: "Malachi", chapter: 4, verses: ["5", "6"], referenceType: "featured" },
+			{ book: "Matthew", chapter: 11, verses: ["14", "15"], referenceType: "cross-referenced" },
+			{ book: "Isaiah", chapter: 53, verses: ["1", "2"], referenceType: "featured" },
+			{ book: "Hebrews", chapter: 4, verses: ["15", "16"], referenceType: "cross-referenced" },
+		],
+		topics: [
+			"christmas",
+			"old testament prophecy",
+			"jesus",
+			"humanity of christ",
+			"sovereignty of god",
+		],
+		nextInSeries: "7",
+	},
+	{
+		id: "7",
+		date: "2025-12-14",
+		title: "Jesus is LORD",
+		series: "The Promised One",
+		description: "What does the Bible say about the promised one being the Lord?",
+		coverPhoto: "12-2025_the-promised-one-cover.png",
+		videoUrl: "https://www.youtube.com/embed/asZ45_5z8gw",
+		notesUrl:
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/12-14-25-the_promised_one-lord.pdf",
+		scripture: [
+			{
+				book: "2 Samuel",
+				chapter: 7,
+				verses: ["8", "9", "10", "11", "12", "13", "14", "15", "16"],
+				referenceType: "featured",
+			},
+			{ book: "1 Kings", chapter: 4, verses: ["20", "21"], referenceType: "cross-referenced" },
+			{
+				book: "Hebrews",
+				chapter: 4,
+				verses: ["8", "9", "10", "11"],
+				referenceType: "cross-referenced",
+			},
+			{ book: "Micah", chapter: 4, verses: ["1", "2", "3"], referenceType: "cross-referenced" },
+			{ book: "Isaiah", chapter: 9, verses: ["6", "7"], referenceType: "cross-referenced" },
+			{ book: "Zechariah", chapter: 6, verses: ["12", "13"], referenceType: "cross-referenced" },
+			{ book: "Hebrews", chapter: 1, verses: ["5"], referenceType: "cross-referenced" },
+		],
+		topics: ["davidic covenant", "lord", "lordship", "king", "kingdom of god"],
+	},
 ];
 
 export type ScriptureReference = {
