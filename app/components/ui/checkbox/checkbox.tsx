@@ -18,7 +18,7 @@ export function Checkbox({ label, description, className, ...props }: CheckboxPr
 		<AriaCheckbox
 			className={cn(
 				"group flex items-start gap-3 text-text-primary cursor-pointer",
-				"data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
+				"data-disabled:cursor-not-allowed data-disabled:opacity-50",
 				className,
 			)}
 			{...props}
