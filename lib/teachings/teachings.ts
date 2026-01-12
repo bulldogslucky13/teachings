@@ -8,7 +8,12 @@ const teachings: Teaching[] = [
 		description: "",
 		coverPhoto: "romans-11-series-11-2025.png",
 		scripture: [
-			{ book: "Romans", chapter: 11, verses: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] },
+			{
+				book: "Romans",
+				chapter: 11,
+				verses: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+				referenceType: "featured",
+			},
 			{
 				book: "1 Kings",
 				chapter: 19,
@@ -32,9 +37,10 @@ const teachings: Teaching[] = [
 					"17",
 					"18",
 				],
+				referenceType: "featured",
 			},
-			{ book: "Romans", chapter: 10, verses: ["31"], isHidden: true },
-			{ book: "Jeremiah", chapter: 31, verses: ["31"], isHidden: true },
+			{ book: "Romans", chapter: 10, verses: ["31"], referenceType: "cross-referenced" },
+			{ book: "Jeremiah", chapter: 31, verses: ["31"], referenceType: "cross-referenced" },
 		],
 		topics: ["remnant israel", "ethnic israel", "foreknowledge", "election", "predestination"],
 		videoUrl: "https://www.youtube.com/embed/g5SxuRgVn9Y",
@@ -54,15 +60,17 @@ const teachings: Teaching[] = [
 				book: "Romans",
 				chapter: 11,
 				verses: ["11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22"],
+				referenceType: "featured",
 			},
-			{ book: "Romans", chapter: 9, verses: ["32", "33"], isHidden: true },
+			{ book: "Romans", chapter: 9, verses: ["32", "33"], referenceType: "cross-referenced" },
 			{
 				book: "Ezekiel",
 				chapter: 36,
 				verses: ["22", "23", "24", "25", "26", "27", "28", "29", "30"],
+				referenceType: "featured",
 			},
-			{ book: "Zechariah", chapter: 12, verses: ["10"], isHidden: true },
-			{ book: "Zechariah", chapter: 14, verses: ["9", "16"], isHidden: true },
+			{ book: "Zechariah", chapter: 12, verses: ["10"], referenceType: "cross-referenced" },
+			{ book: "Zechariah", chapter: 14, verses: ["9", "16"], referenceType: "cross-referenced" },
 		],
 		topics: [
 			"israel",
@@ -106,12 +114,28 @@ const teachings: Teaching[] = [
 					"35",
 					"36",
 				],
+				referenceType: "featured",
 			},
-			{ book: "Zechariah", chapter: 12, verses: ["10"], isHidden: true },
-			{ book: "2 Samuel", chapter: 7, verses: ["10", "11", "12", "13"], isHidden: true },
-			{ book: "Jeremiah", chapter: 31, verses: ["31", "32", "33", "34"] },
-			{ book: "Ezekiel", chapter: 20, verses: ["33", "34", "35", "36", "37", "38"] },
-			{ book: "Revelation", chapter: 7, verses: ["2", "3", "4"] },
+			{ book: "Zechariah", chapter: 12, verses: ["10"], referenceType: "cross-referenced" },
+			{
+				book: "2 Samuel",
+				chapter: 7,
+				verses: ["10", "11", "12", "13"],
+				referenceType: "cross-referenced",
+			},
+			{
+				book: "Jeremiah",
+				chapter: 31,
+				verses: ["31", "32", "33", "34"],
+				referenceType: "featured",
+			},
+			{
+				book: "Ezekiel",
+				chapter: 20,
+				verses: ["33", "34", "35", "36", "37", "38"],
+				referenceType: "featured",
+			},
+			{ book: "Revelation", chapter: 7, verses: ["2", "3", "4"], referenceType: "featured" },
 		],
 		topics: [
 			"israel",
@@ -144,11 +168,13 @@ const teachings: Teaching[] = [
 				book: "Matthew",
 				chapter: 28,
 				verses: ["19"],
+				referenceType: "featured",
 			},
 			{
 				book: "2 Corinthians",
 				chapter: 5,
 				verses: ["17", "18", "19"],
+				referenceType: "featured",
 			},
 		],
 		topics: ["evangelism", "great commission", "reconciliation"],
@@ -169,11 +195,27 @@ const teachings: Teaching[] = [
 				book: "Matthew",
 				chapter: 28,
 				verses: ["16", "17"],
+				referenceType: "featured",
 			},
-			{ book: "Revelation", chapter: 10, verses: ["8", "9", "10", "11"] },
-			{ book: "Isaiah", chapter: 6, verses: ["1", "2", "3", "4", "5", "6", "7", "8", "9"] },
-			{ book: "John", chapter: 3, verses: ["16", "18"], isHidden: true },
-			{ book: "2 Corinthians", chapter: 10, verses: ["20", "21"], isHidden: true },
+			{
+				book: "Revelation",
+				chapter: 10,
+				verses: ["8", "9", "10", "11"],
+				referenceType: "featured",
+			},
+			{
+				book: "Isaiah",
+				chapter: 6,
+				verses: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+				referenceType: "featured",
+			},
+			{ book: "John", chapter: 3, verses: ["16", "18"], referenceType: "cross-referenced" },
+			{
+				book: "2 Corinthians",
+				chapter: 10,
+				verses: ["20", "21"],
+				referenceType: "cross-referenced",
+			},
 		],
 		topics: [
 			"evangelism",
@@ -191,9 +233,10 @@ export type ScriptureReference = {
 	chapter: number;
 	verses?: string[];
 	/**
-	 * Used to denote Scripture passages taught that do not direclty apply to the main verses in the teaching.
+	 * 'featured' = primary scripture for the teaching (displayed to users)
+	 * 'cross-referenced' = supplementary passages mentioned but not central to the teaching (hidden from display)
 	 */
-	isHidden?: boolean;
+	referenceType: "featured" | "cross-referenced";
 };
 
 export type Teaching = {

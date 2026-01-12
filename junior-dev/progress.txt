@@ -358,3 +358,16 @@ Task: Add Download Lesson Slides button to Teaching page (ui PRD #29)
 - All teachings (IDs 1-4) currently have notesUrl defined, so button will appear on all
 - Typecheck passed, lint passed
 - File: app/teaching/[id]/components/teaching-player.tsx
+
+Task: Replace isHidden boolean with required referenceType enum on ScriptureReference (data-model PRD #30)
+- Removed isHidden?: boolean field from ScriptureReference type
+- Added required referenceType field with union type: "featured" | "cross-referenced"
+- Added JSDoc explaining: 'featured' = primary scripture (displayed), 'cross-referenced' = supplementary passages (hidden from display)
+- Updated all scripture entries in teachings array:
+  - Entries with isHidden: true → referenceType: "cross-referenced"
+  - Entries without isHidden → referenceType: "featured"
+- Updated prepareTeachingToReturn filter: changed from !ref.isHidden to ref.referenceType === "featured" (whitelist approach)
+- Whitelist approach ensures only explicitly featured scriptures display, guards against exposing future reference types
+- Biome auto-formatted teachings.ts to expand multi-line objects
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Files: lib/teachings/teachings.ts, lib/teachings/prepareTeaching.ts

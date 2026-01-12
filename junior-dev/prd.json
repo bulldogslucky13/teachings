@@ -465,5 +465,52 @@
 			"Success criteria: Button appears only when notesUrl exists, uses secondary variant with download icon, opens notes in new tab"
 		],
 		"passes": true
+	},
+	{
+		"category": "data-model",
+		"description": "Replace isHidden boolean with required referenceType enum on ScriptureReference",
+		"steps": [
+			"Update ScriptureReference type in lib/teachings/teachings.ts: remove 'isHidden?: boolean' field",
+			"Add required 'referenceType' field to ScriptureReference type with union type: 'featured' | 'cross-referenced'",
+			"Update JSDoc comment for referenceType: 'featured' = primary scripture for the teaching (displayed to users), 'cross-referenced' = supplementary passages mentioned but not central to the teaching (hidden from display)",
+			"Update all scripture entries in teachings array: entries with isHidden: true become referenceType: 'cross-referenced', entries without isHidden (or isHidden: false) become referenceType: 'featured'",
+			"Update prepareTeachingToReturn utility (lib/teachings/prepareTeaching.ts): change filter condition from 'isHidden === true' to 'referenceType !== \"featured\"' (whitelist approach ensures only explicitly featured scriptures are displayed, guarding against accidentally exposing new reference types added in the future)",
+			"Search codebase for any other references to 'isHidden' on scripture objects and update accordingly",
+			"Run typecheck to ensure all ScriptureReference usages include the required referenceType field",
+			"Verify existing behavior: only 'featured' scriptures appear in teaching display, all reference types remain searchable via scripture search",
+			"Test: Load /teaching/1 - only 'featured' scripture references should display (Romans 11:1-10, 1 Kings 19:1-18)",
+			"Test: Search 'Romans 10' on archive page - teaching 1 should appear (has cross-referenced Romans 10:31)",
+			"Success criteria: All ScriptureReference entries have required referenceType field, display filtering uses whitelist approach (referenceType !== 'featured'), no TypeScript errors"
+		],
+		"passes": true
+	},
+	{
+		"category": "enhancement",
+		"description": "Add 'Include cross-references' filter toggle to Archive page scripture search",
+		"steps": [
+			"Create new Checkbox component in @/app/components/ui/checkbox/",
+			"Use react-aria-components Checkbox for accessibility foundation",
+			"Checkbox API: label (string or ReactNode), description (optional string), isSelected (boolean), onChange (callback), isDisabled (optional boolean), className (optional)",
+			"Style checkbox with design system colors: unchecked border uses border-border, checked background uses bg-primary-500, checkmark uses text-white",
+			"Add focus ring styles consistent with other form components (focus:ring-primary-500)",
+			"Ensure light/dark mode compatibility using CSS variables",
+			"Export Checkbox from @/app/components/ui/checkbox/index.ts",
+			"Add Checkbox section to design system page (@/app/design-system/page.tsx) with examples: default unchecked, checked, with description, disabled state",
+			"Update searchTeachingsByScripture utility (lib/teachings/searchByScripture.ts) to accept an optional second parameter: includeCrossReferences (boolean, defaults to false)",
+			"When includeCrossReferences is false: filter teaching.scripture to only include entries where referenceType === 'featured' BEFORE matching against the search query",
+			"When includeCrossReferences is true: search against ALL scripture entries regardless of referenceType (both 'featured' and 'cross-referenced')",
+			"Update ScriptureSearch component (app/archive/components/scripture-search.tsx): add the new Checkbox component below the search input labeled 'Include cross-references'",
+			"Checkbox should be unchecked by default",
+			"Store the checkbox state in the URL as a query parameter (e.g., ?q=Romans&crossRef=true) to maintain filter state on page refresh and enable shareable filtered URLs",
+			"Update Archive page (app/archive/page.tsx): read the crossRef query parameter from searchParams and pass it to searchTeachingsByScripture",
+			"Style the checkbox with appropriate spacing (mt-3), ensure alignment with search input",
+			"Test: Search 'Romans 10' with checkbox OFF - teaching 1 should NOT appear (Romans 10:31 is cross-referenced)",
+			"Test: Search 'Romans 10' with checkbox ON - teaching 1 SHOULD appear (cross-references now included)",
+			"Test: Search 'Romans 11' with checkbox OFF - teaching 1 should appear (Romans 11:1-10 is featured)",
+			"Test: Refresh page with ?q=Romans&crossRef=true - checkbox should be checked, cross-references included in results",
+			"Test: Checkbox appears correctly on design system page with all example states",
+			"Success criteria: Checkbox component added to design system, toggle defaults to off, correctly filters search results based on referenceType, state persists in URL, accessible and styled consistently"
+		],
+		"passes": false
 	}
 ]
