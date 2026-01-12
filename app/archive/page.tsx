@@ -6,14 +6,15 @@ import { ArchivePageClient } from "./components/archive-page-client";
 import { ScriptureSearch } from "./components/scripture-search";
 
 interface ArchivePageProps {
-	searchParams: Promise<{ q?: string }>;
+	searchParams: Promise<{ q?: string; crossRef?: string }>;
 }
 
 export default async function ArchivePage({ searchParams }: ArchivePageProps) {
-	const { q: searchQuery } = await searchParams;
+	const { q: searchQuery, crossRef } = await searchParams;
+	const includeCrossReferences = crossRef === "true";
 
 	// Get filtered teachings based on search (returns all if no query)
-	const filteredTeachings = await searchTeachingsByScripture(searchQuery);
+	const filteredTeachings = await searchTeachingsByScripture(searchQuery, includeCrossReferences);
 
 	// Sort by most recent date
 	const sortedTeachings = [...filteredTeachings].sort((a, b) => {

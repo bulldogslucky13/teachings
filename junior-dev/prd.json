@@ -511,6 +511,6 @@
 			"Test: Checkbox appears correctly on design system page with all example states",
 			"Success criteria: Checkbox component added to design system, toggle defaults to off, correctly filters search results based on referenceType, state persists in URL, accessible and styled consistently"
 		],
-		"passes": false
+		"passes": true
 	}
 ]

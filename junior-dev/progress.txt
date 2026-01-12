@@ -371,3 +371,23 @@ Task: Replace isHidden boolean with required referenceType enum on ScriptureRefe
 - Biome auto-formatted teachings.ts to expand multi-line objects
 - Typecheck passed, lint passed, Next.js MCP no errors
 - Files: lib/teachings/teachings.ts, lib/teachings/prepareTeaching.ts
+
+Task: Add 'Include cross-references' filter toggle to Archive page scripture search (enhancement PRD #31)
+- Created Checkbox component in app/components/ui/checkbox/checkbox.tsx using react-aria-components
+- API: label (ReactNode), description (optional string), isSelected, onChange, isDisabled, className
+- Styled with design system colors: border-border unchecked, bg-primary-500 checked, text-white checkmark
+- Focus ring: ring-2 ring-primary-500 ring-offset-2, dark mode compatible via CSS variables
+- Added aria-hidden to decorative checkmark SVG for accessibility
+- Created index.ts export for Checkbox component
+- Added Checkbox section to design-system page with 4 examples: default, checked, with description, disabled
+- Updated searchTeachingsByScripture to accept includeCrossReferences param (defaults false)
+- When false: filters scripture to referenceType === "featured" before matching
+- When true: searches all scripture entries (featured + cross-referenced)
+- Updated ScriptureSearch component: added Checkbox labeled "Include cross-references"
+- Checkbox state stored in URL as crossRef=true query param for persistence/shareability
+- Updated Archive page to read crossRef param and pass to searchTeachingsByScripture
+- Tested: "Romans 10" with checkbox OFF shows no results (Romans 10:31 is cross-referenced)
+- Tested: "Romans 10" with checkbox ON shows teaching 1 (cross-refs now included)
+- Tested: URL state persists on page refresh, checkbox reflects URL state
+- Typecheck passed, lint passed, Next.js MCP no errors
+- Files: app/components/ui/checkbox/checkbox.tsx, app/components/ui/checkbox/index.ts, app/design-system/page.tsx, lib/teachings/searchByScripture.ts, app/archive/components/scripture-search.tsx, app/archive/page.tsx

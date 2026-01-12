@@ -6,6 +6,7 @@ import { MdStar } from "react-icons/md";
 import { Badge } from "../components/ui/badge/badge";
 import { Button } from "../components/ui/button/button";
 import { Card, CardBody, CardFooter, CardHeader } from "../components/ui/card/card";
+import { Checkbox } from "../components/ui/checkbox/checkbox";
 import { Heading } from "../components/ui/heading/heading";
 import { Link } from "../components/ui/link/link";
 import { Select, SelectItem } from "../components/ui/select/select";
@@ -324,6 +325,21 @@ export default function DesignSystemPage() {
 										<SelectItem id="de">Germany</SelectItem>
 										<SelectItem id="fr">France</SelectItem>
 									</Select>
+								</div>
+							</div>
+
+							<div className="space-y-3">
+								<Text variant="overline" className="">
+									Checkbox
+								</Text>
+								<div className="max-w-md space-y-4">
+									<Checkbox label="Default checkbox" />
+									<Checkbox label="Checked checkbox" isSelected />
+									<Checkbox
+										label="With description"
+										description="Additional context for this option"
+									/>
+									<Checkbox label="Disabled checkbox" isDisabled />
 								</div>
 							</div>
 						</CardBody>

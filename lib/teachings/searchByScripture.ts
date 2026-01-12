@@ -71,8 +71,15 @@ function parseScriptureQuery(query: string): {
  * Supports partial chapter matching (e.g., "Romans 1" matches chapters 1, 10-19)
  * Supports verse-level matching (e.g., "Romans 8:28" only matches if verse 28 exists)
  * If query is empty or invalid, returns all teachings with hidden scripture filtered out
+ *
+ * @param query - Scripture search query (e.g., "Romans 8", "Matthew 5:3-10")
+ * @param includeCrossReferences - When false (default), only search featured scriptures.
+ *                                  When true, also search cross-referenced scriptures.
  */
-export async function searchTeachingsByScripture(query?: string): Promise<Teaching[]> {
+export async function searchTeachingsByScripture(
+	query?: string,
+	includeCrossReferences = false,
+): Promise<Teaching[]> {
 	const allTeachings = await getAllTeachings();
 
 	const parsed = query ? parseScriptureQuery(query) : null;
@@ -83,8 +90,13 @@ export async function searchTeachingsByScripture(query?: string): Promise<Teachi
 
 	return allTeachings
 		.filter((teaching) => {
-			// Check if any scripture reference matches (including hidden ones for search)
-			return teaching.scripture.some((ref) => {
+			// Filter scripture references based on includeCrossReferences setting
+			const scriptureToSearch = includeCrossReferences
+				? teaching.scripture
+				: teaching.scripture.filter((ref) => ref.referenceType === "featured");
+
+			// Check if any scripture reference matches
+			return scriptureToSearch.some((ref) => {
 				const refBookLower = ref.book.toLowerCase();
 
 				// Book must match (partial, case-insensitive)
