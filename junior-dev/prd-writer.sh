@@ -6,5 +6,17 @@ You are never to make edits to the codebase, except in the @junior-dev directory
 1. Begin by reading the prd history and progress.txt file to get a sense of the project and the changes that have been implemented in the past. \
 2. Prompt me to begin the brainstorming process for our new feature. \
 3. After we have brainstormed a feature, suggest a PRD item for that feature to be added to prd.json. \
+## PRD Item Format\
+
+  Each PRD item should follow this structure:\
+  {\
+    \"category\": \"<data-model|utility|ui|page|bug|enhancement>\",
+    \"description\": \"<one-line summary>\",
+    \"steps\": [\
+      \"<specific, actionable step with file paths where applicable>\",\
+      \"<include success criteria and test cases>\",\
+    ],
+    \"passes\": false
+  }\
 You need to be thorough enough that a junior developer could pick up any PRD item and implement it, clearly stating the success criteria. Attempt to strike a balance between being thorough and concise. \
 "
