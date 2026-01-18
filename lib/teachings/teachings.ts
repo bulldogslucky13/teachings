@@ -223,7 +223,7 @@ const teachings: Teaching[] = [
 			"wrath of God",
 			"grace of God",
 		],
-		isFeatured: true,
+		nextInSeries: "8",
 	},
 	{
 		id: "6",
@@ -301,6 +301,34 @@ const teachings: Teaching[] = [
 			{ book: "Hebrews", chapter: 1, verses: ["5"], referenceType: "cross-referenced" },
 		],
 		topics: ["davidic covenant", "lord", "lordship", "king", "kingdom of god"],
+	},
+	{
+		id: "8",
+		date: "2026-01-18",
+		title: "How to Evangelize (Romans Road)",
+		description: "What is the Romans Road? How does it help us in our evangelism?",
+		coverPhoto: "evangelism-workshop-01-2026.jpg",
+		videoUrl: "https://www.youtube.com/embed/lkOby65E5lo",
+		notesUrl:
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/1-18-26_how-to-evangelize_notes.pdf",
+		series: "Evangelism Workshop",
+		scripture: [
+			{
+				book: "Romans",
+				chapter: 3,
+				verses: ["23"],
+				referenceType: "featured",
+			},
+			{ book: "Romans", chapter: 5, verses: ["8", "9"], referenceType: "featured" },
+			{ book: "Romans", chapter: 6, verses: ["23"], referenceType: "featured" },
+			{ book: "Romans", chapter: 8, verses: ["1"], referenceType: "featured" },
+			{ book: "Romans", chapter: 10, verses: ["9"], referenceType: "featured" },
+			{ book: "Romans", chapter: 3, verses: ["24", "26"], referenceType: "cross-referenced" },
+			{ book: "Ephesians", chapter: 2, verses: ["8", "9"], referenceType: "cross-referenced" },
+			{ book: "Luke", chapter: 12, verses: ["12"], referenceType: "cross-referenced" },
+		],
+		topics: ["evangelism", "gospel", "romans road", "salvation", "repentance", "eternal life"],
+		isFeatured: true,
 	},
 ];
 
