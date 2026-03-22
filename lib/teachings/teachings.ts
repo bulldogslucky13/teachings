@@ -328,7 +328,6 @@ const teachings: Teaching[] = [
 			{ book: "Luke", chapter: 12, verses: ["12"], referenceType: "cross-referenced" },
 		],
 		topics: ["evangelism", "gospel", "romans road", "salvation", "repentance", "eternal life"],
-		isFeatured: true,
 	},
 	{
 		id: "9",
@@ -362,6 +361,7 @@ const teachings: Teaching[] = [
 			{ book: "2 Peter", chapter: 3, verses: ["16"], referenceType: "cross-referenced" },
 		],
 		topics: ["bible", "scripture", "inspiration", "sanctification", "inerrancy", "authority"],
+		isFeatured: true,
 	},
 ];
 
