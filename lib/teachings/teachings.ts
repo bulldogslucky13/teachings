@@ -336,6 +336,8 @@ const teachings: Teaching[] = [
 		description: "How does God's inspired Word transform us?",
 		coverPhoto: "truth-that-leads-to-godliness.png",
 		videoUrl: "https://www.youtube.com/embed/K5lQw3E_CZw",
+		notesUrl:
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/3-22-25-2-timothy-3-16-17_notes.pdf",
 		series: "Truth that Leads to Godliness",
 		scripture: [
 			{
