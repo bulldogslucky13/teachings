@@ -328,6 +328,41 @@ const teachings: Teaching[] = [
 			{ book: "Luke", chapter: 12, verses: ["12"], referenceType: "cross-referenced" },
 		],
 		topics: ["evangelism", "gospel", "romans road", "salvation", "repentance", "eternal life"],
+	},
+	{
+		id: "9",
+		date: "2026-03-22",
+		title: "What is the Bible?",
+		description: "How does God's inspired Word transform us?",
+		coverPhoto: "truth-that-leads-to-godliness.png",
+		videoUrl: "https://www.youtube.com/embed/K5lQw3E_CZw",
+		notesUrl:
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/3-22-25-2-timothy-3-16-17_notes.pdf",
+		series: "Truth that Leads to Godliness",
+		scripture: [
+			{
+				book: "2 Timothy",
+				chapter: 3,
+				verses: ["16", "17"],
+				referenceType: "featured",
+			},
+			{
+				book: "2 Peter",
+				chapter: 1,
+				verses: ["20", "21"],
+				referenceType: "featured",
+			},
+			{ book: "Titus", chapter: 1, verses: ["1"], referenceType: "cross-referenced" },
+			{ book: "Psalm", chapter: 119, verses: ["104", "105"], referenceType: "cross-referenced" },
+			{
+				book: "James",
+				chapter: 1,
+				verses: ["22", "23", "24", "25"],
+				referenceType: "cross-referenced",
+			},
+			{ book: "2 Peter", chapter: 3, verses: ["16"], referenceType: "cross-referenced" },
+		],
+		topics: ["bible", "scripture", "inspiration", "sanctification", "inerrancy", "authority"],
 		isFeatured: true,
 	},
 ];
