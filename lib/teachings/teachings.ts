@@ -330,6 +330,39 @@ const teachings: Teaching[] = [
 		topics: ["evangelism", "gospel", "romans road", "salvation", "repentance", "eternal life"],
 		isFeatured: true,
 	},
+	{
+		id: "9",
+		date: "2026-03-22",
+		title: "What is the Bible?",
+		description: "How does God's inspired Word transform us?",
+		coverPhoto: "truth-that-leads-to-godliness.png",
+		videoUrl: "https://www.youtube.com/embed/K5lQw3E_CZw",
+		series: "Truth that Leads to Godliness",
+		scripture: [
+			{
+				book: "2 Timothy",
+				chapter: 3,
+				verses: ["16", "17"],
+				referenceType: "featured",
+			},
+			{
+				book: "2 Peter",
+				chapter: 1,
+				verses: ["20", "21"],
+				referenceType: "featured",
+			},
+			{ book: "Titus", chapter: 1, verses: ["1"], referenceType: "cross-referenced" },
+			{ book: "Psalm", chapter: 119, verses: ["104", "105"], referenceType: "cross-referenced" },
+			{
+				book: "James",
+				chapter: 1,
+				verses: ["22", "23", "24", "25"],
+				referenceType: "cross-referenced",
+			},
+			{ book: "2 Peter", chapter: 3, verses: ["16"], referenceType: "cross-referenced" },
+		],
+		topics: ["bible", "scripture", "inspiration", "sanctification", "inerrancy", "authority"],
+	},
 ];
 
 export type ScriptureReference = {
