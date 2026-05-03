@@ -844,7 +844,6 @@ const teachings: Teaching[] = [
 			"restoration",
 			"fellowship",
 			"corporate worship",
-			"1 thessalonians",
 			"perseverance",
 		],
 		isFeatured: true,
