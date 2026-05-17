@@ -917,7 +917,7 @@ const teachings: Teaching[] = [
 		coverPhoto: "truth-that-leads-to-godliness.png",
 		videoUrl: "https://www.youtube.com/embed/YkNWngySGlI",
 		notesUrl:
-			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/5-17-26_scripture-as-new-covenant-people.pdf",
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/5-17-26_reading-scripture-as-new-covenant-people.pdf",
 		series: "Truth that Leads to Godliness",
 		scripture: [
 			{
