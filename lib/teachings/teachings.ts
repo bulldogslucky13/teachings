@@ -1109,6 +1109,8 @@ const teachings: Teaching[] = [
 			"Why should the incarnation amaze us in every season, not just at Christmas? Working through Matthew 1 and Isaiah 7:14, we define the incarnation biblically — the eternal Son of God adding human flesh to His person — and apply this glorious truth to our worship and daily walk.",
 		coverPhoto: "6-2026_son-of-promise.png",
 		videoUrl: "https://www.youtube.com/embed/BFMollM7PwU",
+		notesUrl:
+			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/6-28-2026_son-of-promise.pdf",
 		series: "Son of Promise",
 		scripture: [
 			{
