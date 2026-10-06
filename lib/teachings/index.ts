@@ -1,3 +1,4 @@
+export { compareTeachingsByRecency } from "./compareTeachingsByRecency";
 export { formatVerseRanges } from "./formatVerseRanges";
 export { getCoverPhotoUrl } from "./getCoverPhotoUrl";
 export { getFeaturedTeaching } from "./getFeaturedTeaching";
