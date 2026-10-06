@@ -1,5 +1,6 @@
 "use server";
 
+import { compareTeachingsByRecency } from "./compareTeachingsByRecency";
 import { prepareTeachingToReturn } from "./prepareTeaching";
 import type { Teaching } from "./teachings";
 import { getAllTeachings } from "./teachings";
@@ -11,8 +12,6 @@ import { getAllTeachings } from "./teachings";
  */
 export async function getRecentTeachings(limit = 5): Promise<Teaching[]> {
 	const allTeachings = await getAllTeachings();
-	const recentTeachings = [...allTeachings]
-		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-		.slice(0, limit);
+	const recentTeachings = [...allTeachings].sort(compareTeachingsByRecency).slice(0, limit);
 	return recentTeachings.map(prepareTeachingToReturn);
 }

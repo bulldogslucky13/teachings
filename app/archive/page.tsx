@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Text } from "@/app/components/ui/text/text";
-import { searchTeachingsByScripture } from "@/lib/teachings";
+import { compareTeachingsByRecency, searchTeachingsByScripture } from "@/lib/teachings";
 import { ArchivePageClient } from "./components/archive-page-client";
 import { ScriptureSearch } from "./components/scripture-search";
 
@@ -17,9 +17,7 @@ export default async function ArchivePage({ searchParams }: ArchivePageProps) {
 	const filteredTeachings = await searchTeachingsByScripture(searchQuery, includeCrossReferences);
 
 	// Sort by most recent date
-	const sortedTeachings = [...filteredTeachings].sort((a, b) => {
-		return new Date(b.date).getTime() - new Date(a.date).getTime();
-	});
+	const sortedTeachings = [...filteredTeachings].sort(compareTeachingsByRecency);
 
 	return (
 		<div className="min-h-screen bg-background">
