@@ -1459,10 +1459,8 @@ const teachings: Teaching[] = [
 		title: "The Jewel and the Safe",
 		description:
 			"What must a person do in order to be saved? In this first Sola Scriptura case study, we define and defend two pillars of the Reformation. From 2 Timothy 3:16-17, we see the safe: Scripture is our only ultimate authority for faith and practice, able to perfect the Christian. From Ephesians 2:8-10, we see the jewel it protects: justification by grace alone through faith alone in Christ alone, apart from works — and how to lovingly help those trapped in teachings that add works to the Gospel.",
-		coverPhoto: "11-8-26_sola-scriptura-case-studies.png",
-		// TODO: replace with YouTube embed URL once uploaded
-		videoUrl: "https://www.youtube.com/embed/TODO",
-		// TODO: confirm once the PDF is uploaded to Vercel Blob
+		coverPhoto: "11-8-26_sola-scriptura-case-studies.jpg",
+		videoUrl: "https://www.youtube.com/embed/u-d-CU7oQyI",
 		notesUrl:
 			"https://schtowkzjmfht9nx.public.blob.vercel-storage.com/teaching-notes/11-8-26_the-jewel-and-the-safe.pdf",
 		series: "Sola Scriptura Case Studies",
