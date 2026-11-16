@@ -3,7 +3,12 @@ import { Suspense } from "react";
 import { CanonStrip } from "@/app/components/ui/canon-strip";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Label } from "@/app/components/ui/label";
-import { formatDateRange, getCanonCoverage, searchTeachingsByScripture } from "@/lib/teachings";
+import {
+	compareTeachingsByRecency,
+	formatDateRange,
+	getCanonCoverage,
+	searchTeachingsByScripture,
+} from "@/lib/teachings";
 import { findActiveBook } from "@/lib/teachings/findActiveBook";
 import { ArchiveResults } from "./components/archive-results";
 import { ScriptureSearch } from "./components/scripture-search";
@@ -27,9 +32,7 @@ export default async function ArchivePage({ searchParams }: ArchivePageProps) {
 		searchTeachingsByScripture(query, includeCrossReferences),
 	]);
 
-	const newestFirst = (list: typeof matches) =>
-		[...list].sort((a, b) => b.date.localeCompare(a.date));
-	const results = newestFirst(matches);
+	const results = [...matches].sort(compareTeachingsByRecency);
 
 	const dates = allTeachings.map((t) => t.date).sort();
 	const first = dates[0];

@@ -5,6 +5,7 @@ export {
 	getCanonCoverage,
 	type Testament,
 } from "./canon";
+export { compareTeachingsByRecency } from "./compareTeachingsByRecency";
 export { formatDateRange, formatTeachingDate, type TeachingDateStyle } from "./formatDate";
 export {
 	formatScriptureReference,
