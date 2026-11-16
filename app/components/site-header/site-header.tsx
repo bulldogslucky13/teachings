@@ -34,7 +34,7 @@ export function SiteHeader() {
 					aria-label="Teachings, Cameron Bristol — home"
 					className="flex items-center gap-2 min-[481px]:gap-3.5"
 				>
-					<SiteMark size="md" className="max-[480px]:size-5 max-[480px]:text-[19px]" />
+					<SiteMark size="md" detail="simple" className="max-[480px]:size-6" />
 					<span className="flex flex-wrap items-baseline gap-3.5">
 						<span className="font-serif text-[23px] font-medium min-[481px]:text-[26px] italic leading-none text-text-primary">
 							Teachings

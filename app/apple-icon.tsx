@@ -1,47 +1,39 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { siteMarkStrokes } from "./components/ui/site-mark/site-mark-art";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-export default async function AppleIcon() {
-	const serif = await readFile(
-		join(process.cwd(), "assets/fonts/cormorant-garamond-latin-500-italic.woff"),
-	);
+const BRASS = "#c8a96e";
+const WALL = "#0f0e0d";
 
+export default function AppleIcon() {
 	return new ImageResponse(
 		<div
 			style={{
 				width: "100%",
 				height: "100%",
 				display: "flex",
-				background: "#0f0e0d",
-				padding: 14,
+				alignItems: "center",
+				justifyContent: "center",
+				background: WALL,
 			}}
 		>
-			<div
-				style={{
-					flex: 1,
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-					border: "2px solid #c8a96e",
-					color: "#c8a96e",
-					fontFamily: "Cormorant",
-					fontStyle: "italic",
-					fontWeight: 500,
-					fontSize: 150,
-					lineHeight: 1,
-					paddingRight: 10,
-				}}
+			<svg
+				width={152}
+				height={152}
+				viewBox="0 0 32 32"
+				fill="none"
+				stroke={BRASS}
+				role="img"
+				aria-label="Teachings"
 			>
-				T
-			</div>
+				<rect x={0.3} y={0.3} width={31.4} height={31.4} strokeWidth={0.6} />
+				{siteMarkStrokes("full").map((stroke) => (
+					<path key={stroke.d} d={stroke.d} strokeWidth={stroke.width} opacity={stroke.opacity} />
+				))}
+			</svg>
 		</div>,
-		{
-			...size,
-			fonts: [{ name: "Cormorant", data: serif, style: "italic", weight: 500 }],
-		},
+		size,
 	);
 }

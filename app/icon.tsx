@@ -1,15 +1,13 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { siteMarkStrokes } from "./components/ui/site-mark/site-mark-art";
 
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
-export default async function Icon() {
-	const serif = await readFile(
-		join(process.cwd(), "assets/fonts/cormorant-garamond-latin-500-italic.woff"),
-	);
+const BRASS = "#c8a96e";
+const WALL = "#0f0e0d";
 
+export default function Icon() {
 	return new ImageResponse(
 		<div
 			style={{
@@ -18,23 +16,24 @@ export default async function Icon() {
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
-				background: "#0f0e0d",
-				border: "1px solid #c8a96e",
-				color: "#c8a96e",
-				fontFamily: "Cormorant",
-				fontStyle: "italic",
-				fontWeight: 500,
-				fontSize: 30,
-				lineHeight: 1,
-				paddingBottom: 1,
-				paddingRight: 3,
+				background: WALL,
 			}}
 		>
-			T
+			<svg
+				width={32}
+				height={32}
+				viewBox="0 0 32 32"
+				fill="none"
+				stroke={BRASS}
+				role="img"
+				aria-label="Teachings"
+			>
+				<rect x={1.0} y={1.0} width={30} height={30} strokeWidth={2} />
+				{siteMarkStrokes("simple").map((stroke) => (
+					<path key={stroke.d} d={stroke.d} strokeWidth={stroke.width} opacity={stroke.opacity} />
+				))}
+			</svg>
 		</div>,
-		{
-			...size,
-			fonts: [{ name: "Cormorant", data: serif, style: "italic", weight: 500 }],
-		},
+		size,
 	);
 }

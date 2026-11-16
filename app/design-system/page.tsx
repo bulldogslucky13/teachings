@@ -294,11 +294,14 @@ export default async function DesignSystemPage() {
 				</Spec>
 				<Spec
 					name="SiteMark"
-					usage={'import { SiteMark } from "@/app/components/ui/site-mark" · size sm | md'}
+					usage={
+						'import { SiteMark } from "@/app/components/ui/site-mark" · size sm | md | lg, detail full | simple'
+					}
 				>
 					<div className="flex flex-wrap items-center gap-8">
 						<SiteMark />
 						<SiteMark size="md" />
+						<SiteMark size="lg" />
 						<span className="flex items-center gap-3">
 							<SiteMark size="md" />
 							<span className="font-serif text-[26px] font-medium italic leading-none">
@@ -307,10 +310,10 @@ export default async function DesignSystemPage() {
 						</span>
 					</div>
 					<p className="mt-4 text-[0.8125rem] text-text-secondary">
-						The site mark: a brass keyline plaque holding an italic serif T. Decorative, so the link
-						or heading around it carries the name. The favicon, Apple icon and share image
-						(app/icon.tsx, app/apple-icon.tsx, app/opengraph-image.tsx) draw the same mark and
-						palette.
+						The site mark: a brass keyline plaque in which a cross stands as the tallest tick on the
+						canon strip. Decorative, so the link or heading around it carries the name. Small sizes
+						use the simple drawing (two ticks, heavier strokes). The favicon and Apple icon
+						(app/icon.tsx, app/apple-icon.tsx) draw the same geometry from site-mark-art.ts.
 					</p>
 				</Spec>
 				<Spec
