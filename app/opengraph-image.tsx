@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { siteMarkStrokes } from "@/app/components/ui/site-mark/site-mark-art";
 import { getCanonCoverage } from "@/lib/teachings/canon";
 import { getAllTeachings } from "@/lib/teachings/teachings";
 
@@ -19,6 +20,7 @@ const CONTENT_PAD = 88;
 const CONTENT_WIDTH = size.width - CONTENT_PAD * 2;
 const TESTAMENT_GAP = 34;
 const TICK_AREA_HEIGHT = 60;
+const MARK_SIZE = 60;
 
 function tickHeight(count: number) {
 	if (count >= 3) return 60;
@@ -105,15 +107,43 @@ export default async function OpengraphImage() {
 				<div
 					style={{
 						display: "flex",
-						fontFamily: "Hanken",
-						fontWeight: 500,
-						fontSize: 20,
-						letterSpacing: "0.14em",
-						textTransform: "uppercase",
-						color: SECONDARY,
+						justifyContent: "space-between",
+						alignItems: "flex-start",
+						width: CONTENT_WIDTH,
 					}}
 				>
-					Cameron Bristol
+					<div
+						style={{
+							display: "flex",
+							fontFamily: "Hanken",
+							fontWeight: 500,
+							fontSize: 20,
+							letterSpacing: "0.14em",
+							textTransform: "uppercase",
+							color: SECONDARY,
+						}}
+					>
+						Cameron Bristol
+					</div>
+					<svg
+						width={MARK_SIZE}
+						height={MARK_SIZE}
+						viewBox="0 0 32 32"
+						fill="none"
+						stroke={BRASS}
+						role="img"
+						aria-label="Teachings mark"
+					>
+						<rect x={0.4} y={0.4} width={31.2} height={31.2} strokeWidth={0.8} />
+						{siteMarkStrokes("full").map((stroke) => (
+							<path
+								key={stroke.d}
+								d={stroke.d}
+								strokeWidth={stroke.width}
+								opacity={stroke.opacity}
+							/>
+						))}
+					</svg>
 				</div>
 
 				<div style={{ display: "flex", flexDirection: "column" }}>
