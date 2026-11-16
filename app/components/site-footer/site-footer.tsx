@@ -4,7 +4,7 @@ export function SiteFooter() {
 	return (
 		<footer className="border-t border-border">
 			<div className="page-wrap pt-10 pb-12 text-center">
-				<Label as="p">Soli Deo gloria</Label>
+				<Label as="p">To the praise of His glorious grace (Eph. 1:6)</Label>
 			</div>
 		</footer>
 	);
