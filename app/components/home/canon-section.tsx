@@ -1,16 +1,18 @@
 import { CanonStrip } from "@/app/components/ui/canon-strip/canon-strip";
 import { Label } from "@/app/components/ui/label/label";
 import { type CanonBook, getCanonCoverage } from "@/lib/teachings/canon";
-import type { Teaching } from "@/lib/teachings/teachings";
+import { getAllTeachings } from "@/lib/teachings/teachings";
 
-const hrefForBook = (book: CanonBook) => `/archive?q=${encodeURIComponent(book.name)}`;
+const hrefForBook = (book: CanonBook, { crossReference }: { crossReference: boolean }) =>
+	`/archive?q=${encodeURIComponent(book.name)}${crossReference ? "&crossRef=true" : ""}`;
 
-export interface CanonSectionProps {
-	teachings: Teaching[];
-}
-
-/** A quiet band between the feature and the series wall: where the teaching has been in Scripture. */
-export function CanonSection({ teachings }: CanonSectionProps) {
+/**
+ * A quiet band between the feature and the series wall: where the teaching has been in Scripture.
+ * Loads the unfiltered teachings itself because display-prepared teachings have their
+ * cross-references stripped (the strip only ever shows counts).
+ */
+export async function CanonSection() {
+	const coverage = getCanonCoverage(await getAllTeachings());
 	return (
 		<section
 			aria-labelledby="canon-label"
@@ -20,7 +22,7 @@ export function CanonSection({ teachings }: CanonSectionProps) {
 				<Label as="p" id="canon-label" className="mb-6">
 					Through the canon
 				</Label>
-				<CanonStrip coverage={getCanonCoverage(teachings)} hrefForBook={hrefForBook} />
+				<CanonStrip coverage={coverage} hrefForBook={hrefForBook} />
 			</div>
 		</section>
 	);

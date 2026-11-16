@@ -10,6 +10,7 @@ import {
 	searchTeachingsByScripture,
 } from "@/lib/teachings";
 import { findActiveBook } from "@/lib/teachings/findActiveBook";
+import { getAllTeachings } from "@/lib/teachings/teachings";
 import { ArchiveResults } from "./components/archive-results";
 import { ScriptureSearch } from "./components/scripture-search";
 
@@ -27,9 +28,11 @@ export default async function ArchivePage({ searchParams }: ArchivePageProps) {
 	const query = q?.trim() || undefined;
 	const includeCrossReferences = crossRef === "true";
 
-	const [allTeachings, matches] = await Promise.all([
+	const [allTeachings, matches, rawTeachings] = await Promise.all([
 		searchTeachingsByScripture(),
 		searchTeachingsByScripture(query, includeCrossReferences),
+		// Unfiltered: the canon strip needs cross-references to count (it exposes only counts).
+		getAllTeachings(),
 	]);
 
 	const results = [...matches].sort(compareTeachingsByRecency);
@@ -44,9 +47,11 @@ export default async function ArchivePage({ searchParams }: ArchivePageProps) {
 		.filter(Boolean)
 		.join(" · ");
 
-	const coverage = getCanonCoverage(allTeachings);
-	const hrefForBook = (book: { name: string }) =>
-		`/archive?q=${encodeURIComponent(book.name)}${includeCrossReferences ? "&crossRef=true" : ""}`;
+	const coverage = getCanonCoverage(rawTeachings);
+	const hrefForBook = (book: { name: string }, { crossReference }: { crossReference: boolean }) =>
+		`/archive?q=${encodeURIComponent(book.name)}${
+			crossReference || includeCrossReferences ? "&crossRef=true" : ""
+		}`;
 
 	return (
 		<div className="page-wrap pb-24 pt-10 min-[900px]:pt-16">

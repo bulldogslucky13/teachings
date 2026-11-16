@@ -10,9 +10,11 @@ import { Heading } from "@/app/components/ui/heading/heading";
 import { Label } from "@/app/components/ui/label/label";
 import { Link } from "@/app/components/ui/link/link";
 import { PlayMark } from "@/app/components/ui/play-button/play-button";
+import { SiteMark } from "@/app/components/ui/site-mark";
 import { Text } from "@/app/components/ui/text/text";
 import { ThemeToggle } from "@/app/components/ui/theme-toggle/theme-toggle";
 import { getCanonCoverage, groupTeachingsBySeries } from "@/lib/teachings";
+import type { CanonBook } from "@/lib/teachings/canon";
 import { getAllTeachings } from "@/lib/teachings/teachings";
 import {
 	ButtonDemos,
@@ -103,6 +105,9 @@ const covers = [
 	{ file: "truth-that-leads-to-godliness.png", ratio: "16:9", name: "Godliness" },
 	{ file: "genesis-3-4-7-2026.png", ratio: "16:9", name: "Genesis" },
 ];
+
+const hrefForBook = (book: CanonBook, { crossReference }: { crossReference: boolean }) =>
+	`/archive?q=${encodeURIComponent(book.name)}${crossReference ? "&crossRef=true" : ""}`;
 
 export default async function DesignSystemPage() {
 	const teachings = await getAllTeachings();
@@ -285,6 +290,27 @@ export default async function DesignSystemPage() {
 						11px, uppercase, 0.14em tracking, medium weight. Use{" "}
 						<code className="font-mono">labelTypography</code> when a component needs the same type
 						without the element.
+					</p>
+				</Spec>
+				<Spec
+					name="SiteMark"
+					usage={'import { SiteMark } from "@/app/components/ui/site-mark" · size sm | md'}
+				>
+					<div className="flex flex-wrap items-center gap-8">
+						<SiteMark />
+						<SiteMark size="md" />
+						<span className="flex items-center gap-3">
+							<SiteMark size="md" />
+							<span className="font-serif text-[26px] font-medium italic leading-none">
+								Teachings
+							</span>
+						</span>
+					</div>
+					<p className="mt-4 text-[0.8125rem] text-text-secondary">
+						The site mark: a brass keyline plaque holding an italic serif T. Decorative, so the link
+						or heading around it carries the name. The favicon, Apple icon and share image
+						(app/icon.tsx, app/apple-icon.tsx, app/opengraph-image.tsx) draw the same mark and
+						palette.
 					</p>
 				</Spec>
 				<Spec
@@ -560,30 +586,41 @@ export default async function DesignSystemPage() {
 			<Section
 				id="canon"
 				title="Canon strip"
-				intro="One tick per book, canonical order. Taller brass ticks are taught books and link to the archive."
+				intro="One tick per book, canonical order. Solid brass ticks are books taught from (taller with more teachings), dotted brass ticks are only cross-referenced, short keylines have nothing yet. Both brass states link to the archive."
 			>
 				<Spec
 					name="CanonStrip"
 					usage={
-						'import { CanonStrip } from "@/app/components/ui/canon-strip/canon-strip" · coverage (getCanonCoverage), hrefForBook (function: render from a Server Component), activeBook, defaultReadout, aria-label'
+						'import { CanonStrip } from "@/app/components/ui/canon-strip/canon-strip" · coverage (getCanonCoverage: count = teachings featuring the book, crossReferenceCount = teachings that only cross-reference it), hrefForBook (book, { crossReference: boolean }) => string, where crossReference is true for cross-referenced-only books so the link can add &crossRef=true (function: render from a Server Component), activeBook, defaultReadout, aria-label'
 					}
 				>
 					<div className="flex flex-col gap-10">
-						<Example caption="Live coverage">
+						<Example caption="Live coverage: solid (taught from), dotted (cross-referenced only, e.g. Exodus, Luke, John) and keyline ticks, with legend">
+							<CanonStrip coverage={coverage} hrefForBook={hrefForBook} />
+						</Example>
+						<Example caption="With an active cross-referenced book">
 							<CanonStrip
 								coverage={coverage}
-								hrefForBook={(book) => `/archive?q=${encodeURIComponent(book.name)}`}
+								hrefForBook={hrefForBook}
+								activeBook="Jeremiah"
+								aria-label="Browse by book, Jeremiah selected"
 							/>
 						</Example>
-						<Example caption="With an active book">
+						<Example caption="With an active taught book">
 							<CanonStrip
 								coverage={coverage}
-								hrefForBook={(book) => `/archive?q=${encodeURIComponent(book.name)}`}
+								hrefForBook={hrefForBook}
 								activeBook="Psalm"
 								aria-label="Browse by book, Psalm selected"
 							/>
 						</Example>
 					</div>
+					<p className="mt-6 max-w-3xl text-[15px] text-text-secondary">
+						Compact (viewport under 640px or a coarse pointer): the ticks become a decorative,
+						unfocusable picture and a list of text links, grouped Taught from and Cross-referenced
+						with 44px tap targets, takes over. The cross-referenced group is collapsed until asked
+						for (or until one of its books is selected). Switched in CSS only.
+					</p>
 				</Spec>
 			</Section>
 		</div>

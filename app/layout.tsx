@@ -21,13 +21,23 @@ const hankenGrotesk = Hanken_Grotesk({
 	variable: "--font-hanken-grotesk",
 });
 
+const SITE_TITLE = "Teachings — Cameron Bristol";
+const SITE_DESCRIPTION =
+	"An archive of Bible teachings by Cameron Bristol, arranged by series and by book of Scripture.";
+
 export const metadata: Metadata = {
 	title: {
 		template: "%s · Teachings — Cameron Bristol",
-		default: "Teachings — Cameron Bristol",
+		default: SITE_TITLE,
 	},
-	description:
-		"An archive of Bible teachings by Cameron Bristol, arranged by series and by book of Scripture.",
+	description: SITE_DESCRIPTION,
+	openGraph: {
+		title: SITE_TITLE,
+		description: SITE_DESCRIPTION,
+		siteName: SITE_TITLE,
+		type: "website",
+	},
+	twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

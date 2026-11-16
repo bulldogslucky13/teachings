@@ -26,7 +26,7 @@ export default async function Page() {
 	return (
 		<>
 			<FeatureBlock teaching={featuredTeaching} />
-			<CanonSection teachings={allTeachings} />
+			<CanonSection />
 			<SeriesWall
 				groups={groupTeachingsBySeries(allTeachings)}
 				totalTeachings={allTeachings.length}
