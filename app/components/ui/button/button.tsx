@@ -2,26 +2,32 @@
 
 import type { ReactNode } from "react";
 import { Button as AriaButton, type ButtonProps as AriaButtonProps } from "react-aria-components";
+import { labelTypography } from "../label/label";
 import { cn } from "../utils/cn";
 import { cva, type VariantProps } from "../utils/variants";
 
-const buttonVariants = cva(
-	"inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
+export const buttonVariants = cva(
+	cn(
+		"inline-flex items-center justify-center gap-3 rounded-none border text-center transition-colors duration-150 cursor-pointer",
+		"data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+		labelTypography,
+	),
 	{
 		variants: {
 			variant: {
 				primary:
-					"bg-primary-600 text-white data-[hovered]:bg-primary-700 data-[pressed]:bg-primary-900",
+					"border-accent bg-accent text-accent-contrast data-[hovered]:border-accent-hover data-[hovered]:bg-accent-hover data-[pressed]:bg-accent-hover",
 				secondary:
-					"bg-transparent border-2 border-primary-600 text-primary-500 data-[hovered]:bg-primary-600/10 data-[pressed]:bg-primary-600/20",
+					"border-border bg-transparent text-text-primary data-[hovered]:border-text-secondary data-[pressed]:bg-surface-hover",
 				ghost:
-					"bg-transparent text-text-secondary data-[hovered]:text-text-primary data-[hovered]:bg-surface-hover data-[pressed]:bg-surface",
-				danger: "bg-error-500 text-white data-[hovered]:bg-error-600 data-[pressed]:bg-error-600",
+					"border-transparent bg-transparent text-text-secondary data-[hovered]:text-text-primary data-[pressed]:text-text-primary",
+				danger:
+					"border-error-500 bg-transparent text-error-500 data-[hovered]:bg-error-500/10 data-[pressed]:bg-error-500/15",
 			},
 			size: {
-				sm: "py-1.5 px-3 text-sm",
-				md: "py-2.5 px-5 text-base",
-				lg: "py-3 px-7 text-lg",
+				sm: "min-h-9 px-3 py-2",
+				md: "min-h-12 px-4 py-3.5",
+				lg: "min-h-14 px-6 py-4 text-xs",
 			},
 		},
 		defaultVariants: {
@@ -62,9 +68,9 @@ export function Button({
 		>
 			{(renderProps) => (
 				<>
-					{leftIcon && <span className="mr-2 flex items-center">{leftIcon}</span>}
+					{leftIcon && <span className="flex items-center">{leftIcon}</span>}
 					{typeof children === "function" ? children(renderProps) : children}
-					{rightIcon && <span className="ml-2 flex items-center">{rightIcon}</span>}
+					{rightIcon && <span className="flex items-center">{rightIcon}</span>}
 				</>
 			)}
 		</AriaButton>

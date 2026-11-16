@@ -2,66 +2,166 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * Gallery palette — "a quiet gallery at night".
+ * Light values are the default; `.dark` (set by next-themes on <html>) overrides them.
+ *
+ * Semantic map:
+ *   background     = wall (page)
+ *   surface        = mat (panels, cover mats)
+ *   surface-hover  = mat, slightly lifted
+ *   border         = keyline (hairlines, inner mat line)
+ *   text-primary   = ink
+ *   text-secondary = muted ink (AA on wall and mat in both themes)
+ *   text-tertiary  = non-essential ink (placeholders, disabled) — AA-large only
+ *   accent         = brass, for rules, ticks, rings, underlines, fills (>= 3:1 non-text)
+ *   accent-text    = brass for text; darker than `accent` in light mode so small text passes AA
+ *   accent-hover   = brass fill on hover
+ *   accent-contrast= ink used on top of an accent fill
+ *
+ * Contrast (WCAG 2.x), checked against wall / mat:
+ *   light text-primary 14.1 / 15.8   text-secondary 4.52 / 5.07   accent-text 5.08 / 5.70
+ *   dark  text-primary 15.7 / 14.2   text-secondary 6.50 / 5.91   accent-text 8.59 / 7.81
+ *   light accent-contrast on accent 4.61; dark 8.59
+ *   The mock's light brass (#8a6a2f) is 4.11:1 on the wall, so it is kept for
+ *   non-text accents only and text uses #7a5c24.
+ */
 @theme {
-	/* Primary Colors - Forest Green (same in both modes) */
-	--color-primary-900: #1a2e24;
-	--color-primary-700: #234a32;
-	--color-primary-600: #2d5a3d;
-	--color-primary-500: #3d7a52;
-	--color-primary-400: #52a170;
-	--color-primary-300: #7bc29a;
+	/* Light (default) */
+	--color-background: #ece8e0;
+	--color-surface: #f8f5ef;
+	--color-surface-hover: #f2eee6;
+	--color-border: #d8d2c6;
 
-	/* Light Mode Colors (default) */
-	--color-background: #ffffff;
-	--color-surface: #f9fafb;
-	--color-surface-hover: #f3f4f6;
-	--color-border: #e5e7eb;
+	--color-text-primary: #1d1b18;
+	--color-text-secondary: #6e685e;
+	--color-text-tertiary: #857e72;
 
-	--color-text-primary: #111827;
-	--color-text-secondary: #6b7280;
-	--color-text-tertiary: #9ca3af;
+	--color-accent: #8a6a2f;
+	--color-accent-text: #7a5c24;
+	--color-accent-hover: #7a5c24;
+	--color-accent-contrast: #f8f5ef;
 
-	/* Semantic Colors (same in both modes) */
-	--color-success-600: #16a34a;
-	--color-success-700: #15803d;
-	--color-warning-500: #eab308;
-	--color-warning-600: #ca8a04;
-	--color-error-500: #ef4444;
-	--color-error-600: #dc2626;
+	/* Semantic colors, tuned to sit in the palette (AA as text on wall and mat) */
+	--color-success-600: #4f6b3c;
+	--color-success-700: #3f5730;
+	--color-warning-500: #8a5a12;
+	--color-warning-600: #744b0e;
+	--color-error-500: #a3402f;
+	--color-error-600: #8a3426;
 
-	/* Accent Colors (same in both modes) */
-	--color-accent-gold: #fbbf24;
-	--color-accent-cream: #f5f5dc;
+	/* Subtle mat shadow (light only, per the Gallery mock) */
+	--shadow-mat: 0 1px 0 rgb(29 27 24 / 0.05), 0 14px 18px -16px rgb(29 27 24 / 0.28);
 
-	/* Typography */
-	--font-family-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-		"Helvetica Neue", Arial, sans-serif;
-	--font-family-serif: Georgia, "Times New Roman", Times, serif;
-	--font-family-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Monaco, Consolas,
-		monospace;
+	/* Radius: the Gallery is square-edged */
+	--radius-xs: 1px;
+	--radius-sm: 2px;
+	--radius-md: 2px;
+	--radius-lg: 2px;
+	--radius-xl: 2px;
 
-	/* Border Radius */
-	--radius-sm: 0.25rem;
-	--radius-md: 0.5rem;
-	--radius-lg: 1rem;
-	--radius-xl: 1.5rem;
+	/* Label scale (11px uppercase, tracked .14em) */
+	--text-label: 0.6875rem;
+	--text-label--line-height: 1.4;
+	--tracking-label: 0.14em;
 }
 
-/* Dark Mode Overrides */
+@theme inline {
+	--font-sans: var(--font-hanken-grotesk), system-ui, -apple-system, "Segoe UI", sans-serif;
+	--font-serif: var(--font-cormorant-garamond), Georgia, "Times New Roman", serif;
+	--font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Monaco, Consolas, monospace;
+}
+
+/* Dark overrides */
 .dark {
-	--color-background: #0a0a0b;
-	--color-surface: #18181b;
-	--color-surface-hover: #27272a;
-	--color-border: #3f3f46;
+	--color-background: #0f0e0d;
+	--color-surface: #1b1917;
+	--color-surface-hover: #24211e;
+	--color-border: #2e2a26;
 
-	--color-text-primary: #fafafa;
-	--color-text-secondary: #a1a1aa;
-	--color-text-tertiary: #71717a;
+	--color-text-primary: #ece7df;
+	--color-text-secondary: #9c958a;
+	--color-text-tertiary: #7d766b;
+
+	--color-accent: #c8a96e;
+	--color-accent-text: #c8a96e;
+	--color-accent-hover: #d6ba83;
+	--color-accent-contrast: #0f0e0d;
+
+	--color-success-600: #9cb98a;
+	--color-success-700: #b2cba2;
+	--color-warning-500: #d9b25f;
+	--color-warning-600: #e3c27e;
+	--color-error-500: #e08a78;
+	--color-error-600: #e9a294;
+
+	--shadow-mat: none;
+
+	color-scheme: dark;
 }
 
-/* Base Styles */
-body {
-	background-color: var(--color-background);
-	color: var(--color-text-primary);
-	font-family: var(--font-family-sans);
+:root:not(.dark) {
+	color-scheme: light;
+}
+
+/* Base styles */
+@layer base {
+	html {
+		-webkit-text-size-adjust: 100%;
+	}
+
+	body {
+		background-color: var(--color-background);
+		color: var(--color-text-primary);
+		font-family: var(--font-sans);
+		font-size: 1rem;
+		line-height: 1.5;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	::selection {
+		background-color: color-mix(in srgb, var(--color-accent) 32%, transparent);
+		color: var(--color-text-primary);
+	}
+
+	/* Global visible focus ring in accent */
+	:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	/* react-aria sets data-focus-visible rather than relying on :focus-visible */
+	[data-focus-visible] {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	button,
+	[role="button"] {
+		cursor: pointer;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/* Page container: 1280px max, 24px gutters, 56px from 900px up. */
+@utility page-wrap {
+	width: 100%;
+	max-width: 1280px;
+	margin-inline: auto;
+	padding-inline: 24px;
+
+	@media (min-width: 900px) {
+		padding-inline: 56px;
+	}
 }

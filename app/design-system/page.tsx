@@ -1,589 +1,591 @@
-"use client";
+import type { Metadata } from "next";
+import NextLink from "next/link";
+import { SeriesPlaque } from "@/app/components/series-plaque/series-plaque";
+import { TeachingList, TeachingRow } from "@/app/components/teaching-row/teaching-row";
+import { Badge } from "@/app/components/ui/badge/badge";
+import { CanonStrip } from "@/app/components/ui/canon-strip/canon-strip";
+import { Card, CardBody, CardFooter, CardHeader } from "@/app/components/ui/card/card";
+import { CoverMat } from "@/app/components/ui/cover-mat/cover-mat";
+import { Heading } from "@/app/components/ui/heading/heading";
+import { Label } from "@/app/components/ui/label/label";
+import { Link } from "@/app/components/ui/link/link";
+import { PlayMark } from "@/app/components/ui/play-button/play-button";
+import { Text } from "@/app/components/ui/text/text";
+import { ThemeToggle } from "@/app/components/ui/theme-toggle/theme-toggle";
+import { getCanonCoverage, groupTeachingsBySeries } from "@/lib/teachings";
+import { getAllTeachings } from "@/lib/teachings/teachings";
+import {
+	ButtonDemos,
+	CheckboxDemos,
+	FormDemos,
+	PlayButtonDemo,
+	SearchDemos,
+	SelectDemos,
+	TableDemo,
+} from "./components/demos";
+import { Example, Section, Spec } from "./components/section";
 
-import { useTheme } from "next-themes";
-import { useState } from "react";
-import { MdStar } from "react-icons/md";
-import { Badge } from "../components/ui/badge/badge";
-import { Button } from "../components/ui/button/button";
-import { Card, CardBody, CardFooter, CardHeader } from "../components/ui/card/card";
-import { Checkbox } from "../components/ui/checkbox/checkbox";
-import { Heading } from "../components/ui/heading/heading";
-import { Link } from "../components/ui/link/link";
-import { Select, SelectItem } from "../components/ui/select/select";
-import { type ColumnDef, Table } from "../components/ui/table/table";
-import { Text } from "../components/ui/text/text";
-import { TextArea } from "../components/ui/text-area/text-area";
-import { TextField } from "../components/ui/text-field/text-field";
+export const metadata: Metadata = {
+	title: "Design system",
+	description: "Tokens, type and components used across the teachings archive.",
+};
 
-interface ExampleUser extends Record<string, unknown> {
-	id: number;
-	name: string;
-	email: string;
-	role: string;
-	status: "Active" | "Inactive";
+const sections = [
+	["foundations", "Foundations"],
+	["type", "Typography"],
+	["actions", "Actions"],
+	["forms", "Forms"],
+	["display", "Display"],
+	["covers", "Covers"],
+	["teachings", "Teachings"],
+	["canon", "Canon strip"],
+] as const;
+
+const surfaceTokens = [
+	{ token: "bg-background", note: "Wall (page)", swatch: "bg-background" },
+	{ token: "bg-surface", note: "Mat (panels, covers)", swatch: "bg-surface" },
+	{ token: "bg-surface-hover", note: "Mat, lifted", swatch: "bg-surface-hover" },
+	{ token: "border-border", note: "Keyline (hairlines)", swatch: "bg-border" },
+];
+const inkTokens = [
+	{ token: "text-text-primary", note: "Ink", swatch: "text-text-primary" },
+	{ token: "text-text-secondary", note: "Muted ink, AA", swatch: "text-text-secondary" },
+	{
+		token: "text-text-tertiary",
+		note: "Placeholders, large text only",
+		swatch: "text-text-tertiary",
+	},
+	{ token: "text-accent-text", note: "Brass text", swatch: "text-accent-text" },
+	{ token: "text-error-500", note: "Error text", swatch: "text-error-500" },
+	{ token: "text-success-600", note: "Success text", swatch: "text-success-600" },
+	{ token: "text-warning-500", note: "Warning text", swatch: "text-warning-500" },
+];
+const fillTokens = [
+	{ token: "bg-accent", note: "Brass: rules, ticks, fills", swatch: "bg-accent" },
+	{ token: "bg-accent-hover", note: "Brass on hover", swatch: "bg-accent-hover" },
+	{ token: "text-accent-contrast", note: "Ink on a brass fill", swatch: "bg-accent-contrast" },
+	{ token: "bg-error-500", note: "Error", swatch: "bg-error-500" },
+	{ token: "bg-success-600", note: "Success", swatch: "bg-success-600" },
+	{ token: "bg-warning-500", note: "Warning", swatch: "bg-warning-500" },
+];
+
+function SwatchGrid({ children }: { children: React.ReactNode }) {
+	return (
+		<ul className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">{children}</ul>
+	);
 }
 
-export default function DesignSystemPage() {
-	const { theme, setTheme } = useTheme();
-	const [selectedUser, setSelectedUser] = useState<ExampleUser | null>(null);
+function Swatch({ token, note, swatch }: { token: string; note: string; swatch: string }) {
+	return (
+		<li className="flex flex-col gap-2">
+			<div className={`h-16 border border-border ${swatch}`} />
+			<code className="font-mono text-[0.8125rem] text-text-primary">{token}</code>
+			<span className="text-[0.8125rem] text-text-secondary">{note}</span>
+		</li>
+	);
+}
 
-	const exampleUsers: ExampleUser[] = [
-		{ id: 1, name: "John Doe", email: "john@example.com", role: "Admin", status: "Active" },
-		{ id: 2, name: "Jane Smith", email: "jane@example.com", role: "Editor", status: "Active" },
-		{ id: 3, name: "Bob Johnson", email: "bob@example.com", role: "Viewer", status: "Inactive" },
-		{ id: 4, name: "Alice Williams", email: "alice@example.com", role: "Editor", status: "Active" },
-		{
-			id: 5,
-			name: "Charlie Brown",
-			email: "charlie@example.com",
-			role: "Viewer",
-			status: "Active",
-		},
-	];
+function InkSwatch({ token, note, swatch }: { token: string; note: string; swatch: string }) {
+	return (
+		<li className="flex flex-col gap-2">
+			<div className="border border-border bg-surface px-4 py-3 font-serif text-3xl">
+				<span className={swatch}>Aa Gloria</span>
+			</div>
+			<code className="font-mono text-[0.8125rem] text-text-primary">{token}</code>
+			<span className="text-[0.8125rem] text-text-secondary">{note}</span>
+		</li>
+	);
+}
 
-	const userColumns = [
-		{
-			header: "Name",
-			accessorKey: "name",
-		} satisfies ColumnDef<ExampleUser, "name">,
-		{
-			header: "Email",
-			accessorKey: "email",
-		} satisfies ColumnDef<ExampleUser, "email">,
-		{
-			header: "Role",
-			accessorKey: "role",
-			render: (value) => (
-				<Badge size="sm" className="bg-primary-600/20 text-primary-400">
-					{String(value)}
-				</Badge>
-			),
-		} satisfies ColumnDef<ExampleUser, "role">,
-		{
-			header: "Status",
-			accessorKey: "status",
-			render: (value) => (
-				<Badge
-					size="sm"
-					className={
-						value === "Active"
-							? "bg-success-600/20 text-success-400"
-							: "bg-error-500/20 text-error-400"
-					}
-				>
-					{String(value)}
-				</Badge>
-			),
-		} satisfies ColumnDef<ExampleUser, "status">,
-	];
+const covers = [
+	{ file: "12-2025_the-promised-one-cover.png", ratio: "3:2", name: "The Promised One" },
+	{ file: "4-2026-the-security-of-the-love-of-god.png", ratio: "16:9", name: "Love of God" },
+	{ file: "truth-that-leads-to-godliness.png", ratio: "16:9", name: "Godliness" },
+	{ file: "genesis-3-4-7-2026.png", ratio: "16:9", name: "Genesis" },
+];
+
+export default async function DesignSystemPage() {
+	const teachings = await getAllTeachings();
+	const groups = groupTeachingsBySeries(teachings);
+	const seriesGroup = groups.find((g) => g.series && g.teachings.length > 1);
+	const singleGroup = groups.find((g) => !g.series);
+	const rowTeachings = teachings.slice(0, 3);
+	const coverage = getCanonCoverage(teachings);
 
 	return (
-		<div className="min-h-screen bg-background p-8">
-			<div className="mx-auto max-w-5xl space-y-12">
-				<header className="flex items-start justify-between gap-4">
-					<div className="space-y-4">
-						<Heading level="h1">Design System</Heading>
-						<Text variant="body" size="lg">
-							A comprehensive design system built with react-aria-components and Tailwind CSS.
-						</Text>
-					</div>
-					<Button
-						variant="secondary"
-						size="sm"
-						onPress={() => setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"))}
-					>
-						{theme === "dark" ? "Light Mode" : "Dark Mode"}
-					</Button>
-				</header>
-
-				{/* Typography Section */}
-				<section className="space-y-6">
-					<Heading level="h2" className="">
-						Typography
-					</Heading>
-
-					<Card variant="bordered" className="">
-						<CardBody className="space-y-4">
-							<div className="space-y-2">
-								<Text variant="overline" className="">
-									Headings
-								</Text>
-								<Heading level="h1" className="">
-									Heading 1
-								</Heading>
-								<Heading level="h2" className="">
-									Heading 2
-								</Heading>
-								<Heading level="h3" className="">
-									Heading 3
-								</Heading>
-								<Heading level="h4" className="">
-									Heading 4
-								</Heading>
-								<Heading level="h5" className="">
-									Heading 5
-								</Heading>
-								<Heading level="h6" className="">
-									Heading 6
-								</Heading>
-							</div>
-
-							<div className="space-y-2">
-								<Text variant="overline" className="">
-									Text Variants
-								</Text>
-								<Text variant="body" className="">
-									Body text - The quick brown fox jumps over the lazy dog.
-								</Text>
-								<Text variant="label" className="">
-									Label text - Form field label
-								</Text>
-								<Text variant="caption" className="">
-									Caption text - Additional context or help text
-								</Text>
-								<Text variant="overline" className="">
-									Overline text - Section header
-								</Text>
-							</div>
-						</CardBody>
-					</Card>
-				</section>
-
-				{/* Buttons Section */}
-				<section className="space-y-6">
-					<Heading level="h2" className="">
-						Buttons
-					</Heading>
-
-					<Card variant="bordered" className="">
-						<CardBody className="space-y-6">
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Variants
-								</Text>
-								<div className="flex flex-wrap gap-3">
-									<Button variant="primary">Primary Button</Button>
-									<Button variant="secondary">Secondary Button</Button>
-									<Button variant="ghost">Ghost Button</Button>
-									<Button variant="danger">Danger Button</Button>
-								</div>
-							</div>
-
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Sizes
-								</Text>
-								<div className="flex flex-wrap items-center gap-3">
-									<Button size="sm">Small</Button>
-									<Button size="md">Medium</Button>
-									<Button size="lg">Large</Button>
-								</div>
-							</div>
-
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									States
-								</Text>
-								<div className="flex flex-wrap gap-3">
-									<Button isDisabled>Disabled Button</Button>
-								</div>
-							</div>
-						</CardBody>
-					</Card>
-				</section>
-
-				{/* Badges Section */}
-				<section className="space-y-6">
-					<Heading level="h2" className="">
-						Badges
-					</Heading>
-
-					<Card variant="bordered" className="">
-						<CardBody className="space-y-6">
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Variants
-								</Text>
-								<div className="flex flex-wrap gap-3">
-									<Badge variant="default">Default</Badge>
-									<Badge variant="primary">Primary</Badge>
-									<Badge variant="subtle">Subtle</Badge>
-								</div>
-							</div>
-
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Sizes
-								</Text>
-								<div className="flex flex-wrap items-center gap-3">
-									<Badge size="sm">Small</Badge>
-									<Badge size="md">Medium</Badge>
-								</div>
-							</div>
-
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									With Icon
-								</Text>
-								<div className="flex flex-wrap gap-3">
-									<Badge variant="primary" icon={<MdStar />}>
-										Featured
-									</Badge>
-									<Badge variant="default" size="sm" icon={<MdStar />}>
-										Starred
-									</Badge>
-								</div>
-							</div>
-						</CardBody>
-					</Card>
-				</section>
-
-				{/* Links Section */}
-				<section className="space-y-6">
-					<Heading level="h2" className="">
-						Links
-					</Heading>
-
-					<Card variant="bordered" className="">
-						<CardBody className="space-y-3">
-							<div className="space-y-2">
-								<Text variant="overline" className="">
-									Variants
-								</Text>
-								<div className="flex flex-wrap gap-4">
-									<Link variant="default" href="#">
-										Default Link
-									</Link>
-									<Link variant="button" href="#">
-										Button Link
-									</Link>
-								</div>
-							</div>
-
-							<div className="space-y-2">
-								<Text variant="overline" className="">
-									External Links
-								</Text>
-								<Link variant="default" href="https://react-aria.adobe.com/">
-									React Aria Documentation (opens in new tab)
+		<div className="page-wrap pt-12 pb-24">
+			<header className="mb-12 max-w-3xl">
+				<Label tone="accent">Reference</Label>
+				<Heading level="h1" className="mt-4">
+					Design system
+				</Heading>
+				<p className="mt-6 text-lg text-text-secondary">
+					The Gallery: a quiet room at night. Cormorant for display, Hanken Grotesk for interface,
+					brass as the one accent, covers hung in uniform mats. Everything below is live and follows
+					the current theme.
+				</p>
+				<div className="mt-6 flex items-center gap-4">
+					<Label>Theme</Label>
+					<ThemeToggle />
+				</div>
+				<nav aria-label="Sections" className="mt-10">
+					<ul className="flex flex-wrap gap-x-7 gap-y-3">
+						{sections.map(([id, name]) => (
+							<li key={id}>
+								<Link href={`#${id}`} variant="text">
+									{name}
 								</Link>
-							</div>
-						</CardBody>
-					</Card>
-				</section>
+							</li>
+						))}
+					</ul>
+				</nav>
+			</header>
 
-				{/* Form Components Section */}
-				<section className="space-y-6">
-					<Heading level="h2" className="">
-						Form Components
-					</Heading>
-
-					<Card variant="bordered" className="">
-						<CardBody className="space-y-6">
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									TextField
-								</Text>
-								<div className="max-w-md space-y-4">
-									<TextField label="Email" placeholder="Enter your email" type="email" />
-									<TextField
-										label="Name"
-										description="Your full name as it appears on official documents"
-										placeholder="John Doe"
-									/>
-									<TextField
-										label="Username"
-										errorMessage="Username is already taken"
-										placeholder="johndoe"
-									/>
-								</div>
-							</div>
-
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									TextArea
-								</Text>
-								<div className="max-w-md">
-									<TextArea
-										label="Message"
-										description="Share your thoughts with us"
-										placeholder="Type your message here..."
-									/>
-								</div>
-							</div>
-
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Select
-								</Text>
-								<div className="max-w-md">
-									<Select label="Country" placeholder="Select a country">
-										<SelectItem id="us">United States</SelectItem>
-										<SelectItem id="ca">Canada</SelectItem>
-										<SelectItem id="mx">Mexico</SelectItem>
-										<SelectItem id="uk">United Kingdom</SelectItem>
-										<SelectItem id="de">Germany</SelectItem>
-										<SelectItem id="fr">France</SelectItem>
-									</Select>
-								</div>
-							</div>
-
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Checkbox
-								</Text>
-								<div className="max-w-md space-y-4">
-									<Checkbox label="Default checkbox" />
-									<Checkbox label="Checked checkbox" isSelected />
-									<Checkbox
-										label="With description"
-										description="Additional context for this option"
-									/>
-									<Checkbox label="Disabled checkbox" isDisabled />
-								</div>
-							</div>
-						</CardBody>
-					</Card>
-				</section>
-
-				{/* Cards Section */}
-				<section className="space-y-6">
-					<Heading level="h2" className="">
-						Cards
-					</Heading>
-
-					<div className="grid gap-6 md:grid-cols-3">
-						<Card variant="default" className="">
-							<CardHeader className="">
-								<Heading level="h4" className="">
-									Default Card
-								</Heading>
-							</CardHeader>
-							<CardBody>
-								<Text className="">This is a default card with no border or shadow.</Text>
-							</CardBody>
-							<CardFooter className="">
-								<Button size="sm">Action</Button>
-							</CardFooter>
-						</Card>
-
-						<Card variant="elevated" className="">
-							<CardHeader className="">
-								<Heading level="h4" className="">
-									Elevated Card
-								</Heading>
-							</CardHeader>
-							<CardBody>
-								<Text className="">This card has a subtle shadow for elevation.</Text>
-							</CardBody>
-							<CardFooter className="">
-								<Button size="sm">Action</Button>
-							</CardFooter>
-						</Card>
-
-						<Card variant="bordered" className="">
-							<CardHeader className="">
-								<Heading level="h4" className="">
-									Bordered Card
-								</Heading>
-							</CardHeader>
-							<CardBody>
-								<Text className="">This card has a border around it.</Text>
-							</CardBody>
-							<CardFooter className="">
-								<Button size="sm">Action</Button>
-							</CardFooter>
-						</Card>
+			<Section
+				id="foundations"
+				title="Foundations"
+				intro="Tokens live in app/globals.css and flip with the .dark class. Use the Tailwind class shown; never a raw hex."
+			>
+				<Spec
+					name="Surfaces and keylines"
+					usage="bg-background · bg-surface · bg-surface-hover · border-border"
+				>
+					<SwatchGrid>
+						{surfaceTokens.map((t) => (
+							<Swatch key={t.token} {...t} />
+						))}
+					</SwatchGrid>
+				</Spec>
+				<Spec
+					name="Ink and text colours"
+					usage="Brass text must use text-accent-text, not text-accent (the lighter brass fails AA as small text in light mode)."
+				>
+					<SwatchGrid>
+						{inkTokens.map((t) => (
+							<InkSwatch key={t.token} {...t} />
+						))}
+					</SwatchGrid>
+				</Spec>
+				<Spec
+					name="Fills"
+					usage="bg-accent for rules, ticks, rings and fills; pair text on it with text-accent-contrast."
+				>
+					<SwatchGrid>
+						{fillTokens.map((t) => (
+							<Swatch key={t.token} {...t} />
+						))}
+					</SwatchGrid>
+				</Spec>
+				<Spec name="Spacing, radius, elevation" usage="page-wrap · rounded-* · shadow-mat">
+					<ul className="grid gap-6 text-[0.9375rem] text-text-secondary md:grid-cols-3">
+						<li>
+							<Label tone="primary" as="p">
+								Page width
+							</Label>
+							<p className="mt-2">
+								<code className="font-mono text-text-primary">page-wrap</code>: 1280px max, 24px
+								gutters, 56px from 900px. Layouts render inside it; pages never add their own main,
+								header or footer.
+							</p>
+						</li>
+						<li>
+							<Label tone="primary" as="p">
+								Radius
+							</Label>
+							<p className="mt-2">
+								Square-edged: every radius token resolves to 1 or 2px. Only the play mark is round.
+							</p>
+						</li>
+						<li>
+							<Label tone="primary" as="p">
+								Elevation
+							</Label>
+							<p className="mt-2">
+								<code className="font-mono text-text-primary">shadow-mat</code> is a faint rest
+								shadow in light mode and none in dark. No other shadows, gradients or pills.
+							</p>
+						</li>
+					</ul>
+				</Spec>
+				<Spec
+					name="Focus ring"
+					usage="Global: 2px solid accent, 3px offset on :focus-visible and [data-focus-visible]. Tab to the controls below."
+				>
+					<div className="flex flex-wrap items-center gap-6">
+						<NextLink
+							href="#foundations"
+							className="text-text-primary underline decoration-border underline-offset-4"
+						>
+							A native link
+						</NextLink>
+						<Link href="#foundations">A design-system link</Link>
+						<Label>Press Tab to see the ring</Label>
 					</div>
-				</section>
+				</Spec>
+			</Section>
 
-				{/* Table Section */}
-				<section className="space-y-6">
-					<Heading level="h2" className="">
-						Table
-					</Heading>
-
-					<Card variant="bordered" className="">
-						<CardBody className="space-y-6">
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Basic Table
+			<Section
+				id="type"
+				title="Typography"
+				intro="Display is Cormorant Garamond at light weights; interface and body text is Hanken Grotesk."
+			>
+				<Spec
+					name="Heading"
+					usage={
+						'import { Heading } from "@/app/components/ui/heading/heading" · level h1–h6, weight, id'
+					}
+				>
+					<div className="flex flex-col gap-6">
+						<p className="font-serif text-[clamp(2.5rem,5vw,4.5rem)] font-normal leading-[1.02] tracking-[-0.01em]">
+							Heading one
+						</p>
+						<Heading level="h2">Heading two, section</Heading>
+						<Heading level="h3">Heading three, plaque</Heading>
+						<Heading level="h4">Heading four</Heading>
+						<Heading level="h5">Heading five, sans</Heading>
+						<Heading level="h6">Heading six, label</Heading>
+					</div>
+				</Spec>
+				<Spec
+					name="Text"
+					usage={
+						'import { Text } from "@/app/components/ui/text/text" · variant body | label | caption | overline | series, size xs–xl, as p | span | div'
+					}
+				>
+					<div className="flex flex-col gap-4">
+						<Text variant="body">
+							Body: Hanken Grotesk at base size for running text and descriptions.
+						</Text>
+						<Text variant="label">Label: emphasised interface text</Text>
+						<Text variant="caption">Caption: smaller, secondary ink</Text>
+						<Text variant="overline">Overline: the Gallery label</Text>
+						<Text variant="series">Series: Cormorant italic for series names</Text>
+						<div className="flex flex-wrap items-baseline gap-x-6">
+							{(["xs", "sm", "base", "lg", "xl"] as const).map((s) => (
+								<Text key={s} size={s} as="span">
+									Size {s}
 								</Text>
-								<Table
-									columns={userColumns as ColumnDef<ExampleUser, keyof ExampleUser>[]}
-									data={exampleUsers}
-								/>
+							))}
+						</div>
+					</div>
+				</Spec>
+				<Spec
+					name="Label"
+					usage={
+						'import { Label, labelTypography } from "@/app/components/ui/label/label" · tone secondary | primary | accent, as'
+					}
+				>
+					<div className="flex flex-wrap items-center gap-8">
+						<Label>Secondary</Label>
+						<Label tone="primary">Primary</Label>
+						<Label tone="accent">Accent</Label>
+						<Label as="time">12 April 2026</Label>
+					</div>
+					<p className="mt-4 text-[0.8125rem] text-text-secondary">
+						11px, uppercase, 0.14em tracking, medium weight. Use{" "}
+						<code className="font-mono">labelTypography</code> when a component needs the same type
+						without the element.
+					</p>
+				</Spec>
+				<Spec
+					name="Link"
+					usage={
+						'import { Link } from "@/app/components/ui/link/link" · variant default | text | button | plain; external hrefs open in a new tab'
+					}
+				>
+					<div className="flex flex-wrap items-center gap-8">
+						<Link href="#type">Default inline link</Link>
+						<Link href="#type" variant="text">
+							Text link
+						</Link>
+						<Link href="#type" variant="button">
+							Button link
+						</Link>
+						<Link href="#type" variant="plain" className="font-serif text-2xl italic">
+							Plain, unstyled
+						</Link>
+						<Link href="https://example.com">External link</Link>
+					</div>
+				</Spec>
+			</Section>
+
+			<Section
+				id="actions"
+				title="Actions"
+				intro="Buttons are label-typed rectangles. Brass fill is for the single primary action on a page."
+			>
+				<Spec
+					name="Button"
+					usage={
+						'import { Button, buttonVariants } from "@/app/components/ui/button/button" · variant primary | secondary | ghost | danger, size sm | md | lg, leftIcon, rightIcon, isDisabled, onPress'
+					}
+				>
+					<ButtonDemos />
+				</Spec>
+				<Spec
+					name="PlayMark and PlayButton"
+					usage={
+						'import { PlayMark, PlayButton } from "@/app/components/ui/play-button/play-button" · size md | lg, tone default | media; PlayButton requires aria-label'
+					}
+				>
+					<div className="flex flex-col gap-8">
+						<Example caption="PlayMark inside a link (add group to the parent)">
+							<NextLink href="#actions" className="group inline-flex items-center gap-[18px]">
+								<PlayMark />
+								<Label tone="primary" className="text-xs">
+									Watch
+								</Label>
+							</NextLink>
+						</Example>
+						<Example caption="PlayMark, lg, default tone">
+							<PlayMark size="lg" />
+						</Example>
+						<Example caption="PlayButton, media tone, over a poster">
+							<div className="flex items-center gap-6">
+								<div className="grid h-40 w-72 place-items-center border border-border bg-[#1b1917]">
+									<PlayButtonDemo />
+								</div>
 							</div>
+						</Example>
+					</div>
+				</Spec>
+				<Spec
+					name="ThemeToggle"
+					usage={
+						'import { ThemeToggle } from "@/app/components/ui/theme-toggle/theme-toggle" · no props; persists via next-themes'
+					}
+				>
+					<ThemeToggle />
+				</Spec>
+			</Section>
 
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Clickable Rows
-								</Text>
-								<Table
-									columns={userColumns as ColumnDef<ExampleUser, keyof ExampleUser>[]}
-									data={exampleUsers}
-									onRowClick={(user) => setSelectedUser(user)}
-								/>
-								{selectedUser && (
-									<Text variant="caption" className="">
-										Selected: {selectedUser.name} ({selectedUser.email})
+			<Section
+				id="forms"
+				title="Forms"
+				intro="Fields share one pattern: label above, keyline border that turns brass on focus, description and error beneath."
+			>
+				<Spec
+					name="TextField and TextArea"
+					usage={
+						'import { TextField } from ".../text-field/text-field", { TextArea } from ".../text-area/text-area" · label, description, errorMessage, size sm | md | lg, isDisabled, isReadOnly; TextArea also resize'
+					}
+				>
+					<FormDemos />
+				</Spec>
+				<Spec
+					name="SearchField"
+					usage={
+						'import { SearchField } from "@/app/components/ui/search-field/search-field" · label (or aria-label), size md | lg, placeholder, errorMessage, onSubmit'
+					}
+				>
+					<SearchDemos />
+				</Spec>
+				<Spec
+					name="Select"
+					usage={
+						'import { Select, SelectItem } from "@/app/components/ui/select/select" · label, placeholder, description, errorMessage, selectedKey, onSelectionChange'
+					}
+				>
+					<SelectDemos />
+				</Spec>
+				<Spec
+					name="Checkbox"
+					usage={
+						'import { Checkbox } from "@/app/components/ui/checkbox/checkbox" · label, description, isSelected, isIndeterminate, isDisabled'
+					}
+				>
+					<CheckboxDemos />
+				</Spec>
+			</Section>
+
+			<Section id="display" title="Display" intro="Small pieces for marking and grouping content.">
+				<Spec
+					name="Badge"
+					usage={
+						'import { Badge } from "@/app/components/ui/badge/badge" · variant default | primary | subtle, size sm | md, icon'
+					}
+				>
+					<div className="flex flex-wrap items-center gap-6">
+						<Badge>Default</Badge>
+						<Badge variant="primary">Primary</Badge>
+						<Badge variant="subtle">Subtle</Badge>
+						<Badge variant="subtle" size="sm">
+							Subtle small
+						</Badge>
+						<Badge variant="primary" icon={<span aria-hidden="true">+</span>}>
+							With icon
+						</Badge>
+					</div>
+				</Spec>
+				<Spec
+					name="Card"
+					usage={
+						'import { Card, CardHeader, CardBody, CardFooter } from "@/app/components/ui/card/card" · variant default | elevated | bordered'
+					}
+				>
+					<div className="grid gap-8 md:grid-cols-3">
+						{(["default", "elevated", "bordered"] as const).map((variant) => (
+							<Card key={variant} variant={variant}>
+								<CardHeader>
+									<Label tone="primary">{variant}</Label>
+								</CardHeader>
+								<CardBody>
+									<Text variant="caption">
+										Header, body and footer are optional slots with keyline dividers.
 									</Text>
-								)}
-							</div>
+								</CardBody>
+								<CardFooter>
+									<Link href="#display" variant="text">
+										Footer link
+									</Link>
+								</CardFooter>
+							</Card>
+						))}
+					</div>
+				</Spec>
+				<Spec
+					name="Table"
+					usage={
+						'import { Table, type ColumnDef } from "@/app/components/ui/table/table" · columns [{ header, accessorKey, render? }], data, onRowClick, emptyState (client component: columns/render stay on the client)'
+					}
+				>
+					<TableDemo />
+				</Spec>
+			</Section>
 
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Empty State
-								</Text>
-								<Table
-									columns={userColumns}
-									data={[]}
-									emptyState={
-										<div className="text-center">
-											<Text variant="body" className="text-text-secondary">
-												No users found. Add a user to get started.
-											</Text>
-										</div>
-									}
-								/>
-							</div>
-						</CardBody>
-					</Card>
-				</section>
+			<Section
+				id="covers"
+				title="Covers"
+				intro="Every cover hangs in the same mat whatever its own proportions, so mixed art sits together."
+			>
+				<Spec
+					name="CoverMat"
+					usage={
+						'import { CoverMat } from "@/app/components/ui/cover-mat/cover-mat" · coverPhoto (filename), alt, size lg | md | sm, aspectRatio (mat, default "4 / 3"), interactive (needs a parent with class group), priority'
+					}
+				>
+					<div className="flex flex-col gap-10">
+						<Example caption="lg · the feature block">
+							<NextLink href="#covers" className="group block max-w-2xl">
+								<CoverMat coverPhoto="12-2025_the-promised-one-cover.png" size="lg" interactive />
+							</NextLink>
+						</Example>
+						<Example caption="md · series wall; art ratios 3:2, 16:9, 16:9 in identical mats (hover or focus to see the interactive state)">
+							<ul className="grid gap-6 sm:grid-cols-3">
+								{covers.slice(0, 3).map((c) => (
+									<li key={c.file}>
+										<NextLink
+											href="#covers"
+											aria-label={`${c.name} (${c.ratio} art)`}
+											className="group block"
+										>
+											<CoverMat coverPhoto={c.file} size="md" interactive />
+										</NextLink>
+									</li>
+								))}
+							</ul>
+						</Example>
+						<Example caption="sm · related teachings; and a non-interactive md for comparison">
+							<ul className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+								{covers.map((c) => (
+									<li key={c.file}>
+										<CoverMat coverPhoto={c.file} size="sm" />
+									</li>
+								))}
+							</ul>
+						</Example>
+					</div>
+				</Spec>
+			</Section>
 
-				{/* Colors Section */}
-				<section className="space-y-6">
-					<Heading level="h2" className="">
-						Colors
-					</Heading>
+			<Section
+				id="teachings"
+				title="Teachings"
+				intro="Shared compositions built from the pieces above, shown with real archive data."
+			>
+				<Spec
+					name="TeachingRow and TeachingList"
+					usage={
+						'import { TeachingList, TeachingRow } from "@/app/components/teaching-row/teaching-row" · teaching, href, showSeries, isCurrent'
+					}
+				>
+					<div className="flex flex-col gap-10">
+						<Example caption="Default">
+							<TeachingList aria-label="Recent teachings">
+								{rowTeachings.map((t) => (
+									<TeachingRow key={t.id} teaching={t} />
+								))}
+							</TeachingList>
+						</Example>
+						<Example caption="Without series column, first row marked as the current page">
+							<TeachingList aria-label="Recent teachings, compact">
+								{rowTeachings.map((t, i) => (
+									<TeachingRow key={t.id} teaching={t} showSeries={false} isCurrent={i === 0} />
+								))}
+							</TeachingList>
+						</Example>
+					</div>
+				</Spec>
+				<Spec
+					name="SeriesPlaque"
+					usage={
+						'import { SeriesPlaque } from "@/app/components/series-plaque/series-plaque" · group (from groupTeachingsBySeries), headingLevel h2 | h3 | h4, matSize, hrefForTeaching, seriesHref, currentTeachingId'
+					}
+				>
+					<div className="grid gap-10 md:grid-cols-2">
+						{seriesGroup && (
+							<Example caption="Series group">
+								<SeriesPlaque group={seriesGroup} headingLevel="h4" />
+							</Example>
+						)}
+						{singleGroup && (
+							<Example caption="Single teaching">
+								<SeriesPlaque group={singleGroup} headingLevel="h4" />
+							</Example>
+						)}
+					</div>
+				</Spec>
+				<Spec
+					name="SiteHeader and SiteFooter"
+					usage={
+						"Mounted once in app/layout.tsx; do not render them on a page. This page sits between them."
+					}
+				>
+					<p className="text-text-secondary">
+						The header carries the wordmark, primary navigation and ThemeToggle.
+					</p>
+				</Spec>
+			</Section>
 
-					<Card variant="bordered" className="">
-						<CardBody className="space-y-6">
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Primary - Forest Green
-								</Text>
-								<div className="grid grid-cols-3 gap-3 md:grid-cols-6">
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded bg-primary-900" />
-										<Text variant="caption" size="xs">
-											900
-										</Text>
-									</div>
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded bg-primary-700" />
-										<Text variant="caption" size="xs">
-											700
-										</Text>
-									</div>
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded bg-primary-600" />
-										<Text variant="caption" size="xs">
-											600
-										</Text>
-									</div>
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded bg-primary-500" />
-										<Text variant="caption" size="xs">
-											500
-										</Text>
-									</div>
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded bg-primary-400" />
-										<Text variant="caption" size="xs">
-											400
-										</Text>
-									</div>
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded bg-primary-300" />
-										<Text variant="caption" size="xs">
-											300
-										</Text>
-									</div>
-								</div>
-							</div>
-
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Backgrounds
-								</Text>
-								<div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded border border-border bg-[#0a0a0b]" />
-										<Text variant="caption" size="xs">
-											Background
-										</Text>
-									</div>
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded border border-border bg-[#18181b]" />
-										<Text variant="caption" size="xs">
-											Surface
-										</Text>
-									</div>
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded border border-border bg-[#27272a]" />
-										<Text variant="caption" size="xs">
-											Surface Hover
-										</Text>
-									</div>
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded bg-[#3f3f46]" />
-										<Text variant="caption" size="xs">
-											Border
-										</Text>
-									</div>
-								</div>
-							</div>
-
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Semantic
-								</Text>
-								<div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded bg-success-600" />
-										<Text variant="caption" size="xs">
-											Success
-										</Text>
-									</div>
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded bg-warning-500" />
-										<Text variant="caption" size="xs">
-											Warning
-										</Text>
-									</div>
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded bg-error-500" />
-										<Text variant="caption" size="xs">
-											Error
-										</Text>
-									</div>
-								</div>
-							</div>
-
-							<div className="space-y-3">
-								<Text variant="overline" className="">
-									Accent
-								</Text>
-								<div className="grid grid-cols-2 gap-3 md:grid-cols-2">
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded bg-accent-gold" />
-										<Text variant="caption" size="xs">
-											Gold
-										</Text>
-									</div>
-									<div className="space-y-2">
-										<div className="h-16 w-full rounded border border-border bg-accent-cream" />
-										<Text variant="caption" size="xs">
-											Cream
-										</Text>
-									</div>
-								</div>
-							</div>
-						</CardBody>
-					</Card>
-				</section>
-			</div>
+			<Section
+				id="canon"
+				title="Canon strip"
+				intro="One tick per book, canonical order. Taller brass ticks are taught books and link to the archive."
+			>
+				<Spec
+					name="CanonStrip"
+					usage={
+						'import { CanonStrip } from "@/app/components/ui/canon-strip/canon-strip" · coverage (getCanonCoverage), hrefForBook (function: render from a Server Component), activeBook, defaultReadout, aria-label'
+					}
+				>
+					<div className="flex flex-col gap-10">
+						<Example caption="Live coverage">
+							<CanonStrip
+								coverage={coverage}
+								hrefForBook={(book) => `/archive?q=${encodeURIComponent(book.name)}`}
+							/>
+						</Example>
+						<Example caption="With an active book">
+							<CanonStrip
+								coverage={coverage}
+								hrefForBook={(book) => `/archive?q=${encodeURIComponent(book.name)}`}
+								activeBook="Psalm"
+								aria-label="Browse by book, Psalm selected"
+							/>
+						</Example>
+					</div>
+				</Spec>
+			</Section>
 		</div>
 	);
 }

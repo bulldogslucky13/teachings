@@ -1,28 +1,39 @@
 "use client";
 
 import { Link as AriaLink, type LinkProps as AriaLinkProps } from "react-aria-components";
+import { labelTypography } from "../label/label";
 import { cn } from "../utils/cn";
 import { cva, type VariantProps } from "../utils/variants";
 
-const linkVariants = cva(
-	"transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2",
-	{
-		variants: {
-			variant: {
-				default:
-					"text-primary-500 underline-offset-4 data-[hovered]:underline data-[hovered]:text-primary-400",
-				button:
-					"inline-flex items-center justify-center rounded-md px-5 py-2 font-medium bg-primary-600 text-white data-[hovered]:bg-primary-700 data-[pressed]:bg-primary-900",
-			},
-		},
-		defaultVariants: {
-			variant: "default",
+/**
+ * - default: inline text link, keyline underline that turns brass on hover
+ * - text: the Gallery "textlink" — uppercase label with a keyline rule beneath
+ * - button: a rectangular keyline button (secondary button look) as a link
+ * - plain: no styling beyond focus; for wrapping rows, mats, wordmarks
+ */
+const linkVariants = cva("cursor-pointer transition-colors duration-150", {
+	variants: {
+		variant: {
+			default:
+				"text-text-primary underline decoration-border decoration-1 underline-offset-4 data-[hovered]:decoration-accent",
+			text: cn(
+				labelTypography,
+				"inline-block border-b border-border pb-[3px] text-text-secondary data-[hovered]:border-accent data-[hovered]:text-text-primary",
+			),
+			button: cn(
+				labelTypography,
+				"inline-flex min-h-12 items-center justify-center gap-3 border border-border px-4 py-3.5 text-text-primary data-[hovered]:border-text-secondary",
+			),
+			plain: "",
 		},
 	},
-);
+	defaultVariants: {
+		variant: "default",
+	},
+});
 
 export interface LinkProps extends AriaLinkProps, VariantProps<typeof linkVariants> {
-	variant?: "default" | "button";
+	variant?: "default" | "text" | "button" | "plain";
 }
 
 export function Link({ className, variant, href, ...props }: LinkProps) {
