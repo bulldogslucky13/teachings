@@ -34,11 +34,11 @@ export function SiteHeader() {
 						href="/"
 						variant="plain"
 						aria-label="Teachings, Cameron Bristol — home"
-						className="flex items-baseline gap-2 min-[481px]:gap-3.5"
+						className="flex items-baseline gap-2.5 min-[481px]:gap-3.5"
 					>
-						<SiteMark size="md" detail="simple" className="self-center max-[480px]:size-6" />
+						<SiteMark size="md" detail="simple" className="self-center" />
 						<span className="flex flex-wrap items-baseline gap-3.5">
-							<span className="font-serif text-[23px] font-medium min-[481px]:text-[26px] italic leading-none text-text-primary">
+							<span className="font-serif text-[26px] font-medium italic leading-none text-text-primary">
 								Teachings
 							</span>
 							<span
@@ -48,7 +48,7 @@ export function SiteHeader() {
 							</span>
 						</span>
 					</Link>
-					<nav aria-label="Primary" className="flex items-baseline gap-2 min-[481px]:gap-7">
+					<nav aria-label="Primary" className="flex items-baseline gap-4 min-[481px]:gap-7">
 						{NAV_ITEMS.map((item) => {
 							const active = item.isActive(pathname);
 							return (
@@ -59,7 +59,7 @@ export function SiteHeader() {
 									aria-current={active ? (pathname === "/" ? "true" : "page") : undefined}
 									className={cn(
 										labelTypography,
-										"border-b py-1.5 tracking-[0.08em] min-[481px]:tracking-label",
+										"border-b py-1.5",
 										active
 											? "border-accent text-text-primary"
 											: "border-transparent text-text-secondary data-[hovered]:text-text-primary",
@@ -69,7 +69,7 @@ export function SiteHeader() {
 								</Link>
 							);
 						})}
-						<ThemeToggle />
+						<ThemeToggle className="-my-3 -mr-2.5 self-center" />
 					</nav>
 				</div>
 			</div>

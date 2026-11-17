@@ -381,7 +381,7 @@ export default async function DesignSystemPage() {
 				<Spec
 					name="ThemeToggle"
 					usage={
-						'import { ThemeToggle } from "@/app/components/ui/theme-toggle/theme-toggle" · no props; persists via next-themes'
+						'import { ThemeToggle } from "@/app/components/ui/theme-toggle/theme-toggle" · className; sun / moon icon button, pressed = dark; persists via next-themes'
 					}
 				>
 					<ThemeToggle />
