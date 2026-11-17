@@ -11,6 +11,7 @@ import {
 	TableBody,
 	TableHeader,
 } from "react-aria-components";
+import { labelTypography } from "../label/label";
 import { cn } from "../utils/cn";
 
 export interface ColumnDef<Data, K extends keyof Data = keyof Data> {
@@ -60,18 +61,21 @@ export function Table<Data extends Record<string, unknown>>({
 	const resolvedGetRowKey = getRowKey ?? defaultGetRowKey;
 
 	return (
-		<div className="overflow-x-auto rounded-lg border border-border bg-surface">
+		<div className="overflow-x-auto border-y border-border">
 			<AriaTable
 				aria-label="Data table"
 				className={cn("w-full border-collapse", className)}
 				{...props}
 			>
-				<TableHeader className="bg-surface-hover">
+				<TableHeader>
 					{columns.map((column) => (
 						<Column
 							key={String(column.accessorKey)}
 							isRowHeader={column.accessorKey === firstColumnKey}
-							className="border-b border-border px-4 py-2 text-left text-sm font-semibold text-text-primary"
+							className={cn(
+								"border-b border-border px-4 py-3 text-left font-medium text-text-secondary",
+								labelTypography,
+							)}
 						>
 							{column.header}
 						</Column>
@@ -84,9 +88,8 @@ export function Table<Data extends Record<string, unknown>>({
 							<Row
 								id={resolvedGetRowKey(row, rowIndex)}
 								className={cn(
-									"border-b border-border/50 transition-colors last:border-b-0",
-									rowIndex % 2 === 0 ? "bg-surface" : "bg-surface-hover/50",
-									onRowClick && "cursor-pointer hover:bg-surface-hover",
+									"border-b border-border transition-colors duration-150 last:border-b-0",
+									onRowClick && "cursor-pointer data-[hovered]:bg-surface-hover",
 								)}
 								onAction={() => onRowClick?.(row)}
 							>
@@ -97,7 +100,7 @@ export function Table<Data extends Record<string, unknown>>({
 									return (
 										<Cell
 											key={String(column.accessorKey)}
-											className="px-4 py-2 text-sm text-text-primary"
+											className="px-4 py-3.5 align-baseline text-[0.9375rem] text-text-primary"
 										>
 											{content}
 										</Cell>

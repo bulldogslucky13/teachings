@@ -1,71 +1,88 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import { CanonStrip } from "@/app/components/ui/canon-strip";
 import { Heading } from "@/app/components/ui/heading/heading";
-import { Text } from "@/app/components/ui/text/text";
-import { compareTeachingsByRecency, searchTeachingsByScripture } from "@/lib/teachings";
-import { ArchivePageClient } from "./components/archive-page-client";
+import { Label } from "@/app/components/ui/label";
+import {
+	compareTeachingsByRecency,
+	formatDateRange,
+	getCanonCoverage,
+	searchTeachingsByScripture,
+} from "@/lib/teachings";
+import { findActiveBook } from "@/lib/teachings/findActiveBook";
+import { getAllTeachings } from "@/lib/teachings/teachings";
+import { ArchiveResults } from "./components/archive-results";
 import { ScriptureSearch } from "./components/scripture-search";
+
+export const metadata: Metadata = {
+	title: "Archive",
+	description: "Every teaching, searchable by book, chapter and verse.",
+};
 
 interface ArchivePageProps {
 	searchParams: Promise<{ q?: string; crossRef?: string }>;
 }
 
 export default async function ArchivePage({ searchParams }: ArchivePageProps) {
-	const { q: searchQuery, crossRef } = await searchParams;
+	const { q, crossRef } = await searchParams;
+	const query = q?.trim() || undefined;
 	const includeCrossReferences = crossRef === "true";
 
-	// Get filtered teachings based on search (returns all if no query)
-	const filteredTeachings = await searchTeachingsByScripture(searchQuery, includeCrossReferences);
+	const [allTeachings, matches, rawTeachings] = await Promise.all([
+		searchTeachingsByScripture(),
+		searchTeachingsByScripture(query, includeCrossReferences),
+		// Unfiltered: the canon strip needs cross-references to count (it exposes only counts).
+		getAllTeachings(),
+	]);
 
-	// Sort by most recent date
-	const sortedTeachings = [...filteredTeachings].sort(compareTeachingsByRecency);
+	const results = [...matches].sort(compareTeachingsByRecency);
+
+	const dates = allTeachings.map((t) => t.date).sort();
+	const first = dates[0];
+	const last = dates[dates.length - 1];
+	const summary = [
+		`${allTeachings.length} ${allTeachings.length === 1 ? "teaching" : "teachings"}`,
+		first && last ? formatDateRange(first, last) : undefined,
+	]
+		.filter(Boolean)
+		.join(" · ");
+
+	const coverage = getCanonCoverage(rawTeachings);
+	const hrefForBook = (book: { name: string }, { crossReference }: { crossReference: boolean }) =>
+		`/archive?q=${encodeURIComponent(book.name)}${
+			crossReference || includeCrossReferences ? "&crossRef=true" : ""
+		}`;
 
 	return (
-		<div className="min-h-screen bg-background">
-			<div className="container mx-auto px-4 py-8 sm:py-12 lg:py-16">
-				{/* Header */}
-				<div className="mb-8">
-					<Heading level="h1" className="mb-2">
-						Teaching Archive
-					</Heading>
-					<Text variant="body" className="text-text-secondary">
-						Search by scripture or browse all teachings
-					</Text>
+		<div className="page-wrap pb-24 pt-10 min-[900px]:pt-16">
+			<header className="flex flex-col gap-4 pb-10 min-[900px]:flex-row min-[900px]:items-end min-[900px]:justify-between min-[900px]:pb-14">
+				<div className="flex flex-col gap-4">
+					<Label tone="accent">Archive</Label>
+					<Heading level="h1">Every teaching</Heading>
 				</div>
+				<p className="text-[15px] text-text-secondary min-[900px]:pb-2 min-[900px]:text-right">
+					{summary}
+				</p>
+			</header>
 
-				{/* Search Input */}
-				<div className="mb-8">
+			<CanonStrip
+				coverage={coverage}
+				hrefForBook={hrefForBook}
+				activeBook={findActiveBook(query)}
+				aria-label="Browse the archive by book of the Bible"
+			/>
+
+			<div className="pb-12 pt-12 min-[900px]:pb-16 min-[900px]:pt-16">
+				<Suspense fallback={<div className="h-[88px]" aria-hidden="true" />}>
 					<ScriptureSearch />
-				</div>
-
-				{/* Results Table */}
-				{sortedTeachings.length > 0 ? (
-					<ArchivePageClient teachings={sortedTeachings} />
-				) : (
-					<EmptyState searchQuery={searchQuery} />
-				)}
+				</Suspense>
 			</div>
-		</div>
-	);
-}
 
-function EmptyState({ searchQuery }: { searchQuery?: string }) {
-	return (
-		<div className="flex flex-col items-center justify-center py-16 px-4">
-			<div className="text-center max-w-md">
-				<Heading level="h2" className="mb-4">
-					No teachings found
-				</Heading>
-				<Text variant="body" className="text-text-secondary mb-6">
-					{searchQuery
-						? `No teachings found for "${searchQuery}". Try a different search term or browse all teachings.`
-						: "No teachings available at this time."}
-				</Text>
-				{searchQuery && (
-					<Link href="/archive" className="text-primary-500 hover:underline">
-						Clear search and view all teachings
-					</Link>
-				)}
-			</div>
+			<ArchiveResults
+				teachings={results}
+				query={query}
+				includeCrossReferences={includeCrossReferences}
+			/>
 		</div>
 	);
 }

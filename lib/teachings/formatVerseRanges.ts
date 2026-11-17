@@ -19,11 +19,10 @@ export function formatVerseRanges(verses: string[] | undefined): string {
 		return "";
 	}
 
-	// Convert to numbers, filter invalid values, and sort
-	const verseNumbers = verses
-		.map((v) => Number.parseInt(v, 10))
-		.filter((n) => !Number.isNaN(n))
-		.sort((a, b) => a - b);
+	// Convert to numbers, filter invalid values, de-duplicate, and sort
+	const verseNumbers = [
+		...new Set(verses.map((v) => Number.parseInt(v, 10)).filter((n) => !Number.isNaN(n))),
+	].sort((a, b) => a - b);
 
 	// If no valid verses after filtering, return empty string
 	if (verseNumbers.length === 0) {

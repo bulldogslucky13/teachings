@@ -1,21 +1,27 @@
-"use client";
-
 import type { ReactNode } from "react";
+import { labelTypography } from "../label/label";
 import { cn } from "../utils/cn";
 import { cva, type VariantProps } from "../utils/variants";
 
-const badgeVariants = cva("inline-flex items-center justify-center rounded-full font-medium", {
+/**
+ * A quiet uppercase label. No pill, no fill: the Gallery marks things with type, not chips.
+ */
+const badgeVariants = cva(cn("inline-flex items-center", labelTypography), {
 	variants: {
 		variant: {
-			default: "bg-surface text-text-primary",
-			primary: "bg-primary-500 text-white",
-			subtle: "bg-surface-hover/50 text-text-secondary",
+			default: "text-text-secondary",
+			primary: "text-accent-text",
+			subtle: "border border-border text-text-secondary",
 		},
 		size: {
-			sm: "text-xs px-2 py-0.5",
-			md: "text-sm px-3 py-1",
+			sm: "",
+			md: "",
 		},
 	},
+	compoundVariants: [
+		{ variant: "subtle", size: "sm", className: "px-1.5 py-px" },
+		{ variant: "subtle", size: "md", className: "px-2 py-0.5" },
+	],
 	defaultVariants: {
 		variant: "default",
 		size: "md",

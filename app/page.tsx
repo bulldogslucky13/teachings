@@ -1,6 +1,14 @@
-import { FeaturedTeachingHero } from "@/app/components/featured-teaching-hero/featured-teaching-hero";
-import { RecentTeachings } from "@/app/components/recent-teachings/recent-teachings";
-import { getFeaturedTeaching, getRecentTeachings } from "@/lib/teachings";
+import { CanonSection } from "@/app/components/home/canon-section";
+import { FeatureBlock } from "@/app/components/home/feature-block";
+import { RecentSection } from "@/app/components/home/recent-section";
+import { SectionIndex } from "@/app/components/home/section-index";
+import { SeriesWall } from "@/app/components/home/series-wall";
+import {
+	getFeaturedTeaching,
+	getRecentTeachings,
+	groupTeachingsBySeries,
+	searchTeachingsByScripture,
+} from "@/lib/teachings";
 
 export default async function Page() {
 	const featuredTeaching = await getFeaturedTeaching();
@@ -10,12 +18,21 @@ export default async function Page() {
 		return null;
 	}
 
-	const recentTeachings = await getRecentTeachings(5);
+	// No query returns every teaching, prepared for display.
+	const [allTeachings, recentTeachings] = await Promise.all([
+		searchTeachingsByScripture("", false),
+		getRecentTeachings(5),
+	]);
+
+	const groups = groupTeachingsBySeries(allTeachings);
 
 	return (
-		<main className="bg-background">
-			<FeaturedTeachingHero teaching={featuredTeaching} />
-			<RecentTeachings teachings={recentTeachings} />
-		</main>
+		<>
+			<SectionIndex seriesCount={groups.filter((group) => group.series).length} />
+			<FeatureBlock teaching={featuredTeaching} />
+			<CanonSection />
+			<SeriesWall groups={groups} totalTeachings={allTeachings.length} />
+			<RecentSection teachings={recentTeachings} />
+		</>
 	);
 }
