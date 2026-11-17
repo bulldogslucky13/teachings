@@ -1,6 +1,7 @@
 import { CanonSection } from "@/app/components/home/canon-section";
 import { FeatureBlock } from "@/app/components/home/feature-block";
 import { RecentSection } from "@/app/components/home/recent-section";
+import { SectionIndex } from "@/app/components/home/section-index";
 import { SeriesWall } from "@/app/components/home/series-wall";
 import {
 	getFeaturedTeaching,
@@ -23,14 +24,14 @@ export default async function Page() {
 		getRecentTeachings(5),
 	]);
 
+	const groups = groupTeachingsBySeries(allTeachings);
+
 	return (
 		<>
+			<SectionIndex seriesCount={groups.filter((group) => group.series).length} />
 			<FeatureBlock teaching={featuredTeaching} />
 			<CanonSection />
-			<SeriesWall
-				groups={groupTeachingsBySeries(allTeachings)}
-				totalTeachings={allTeachings.length}
-			/>
+			<SeriesWall groups={groups} totalTeachings={allTeachings.length} />
 			<RecentSection teachings={recentTeachings} />
 		</>
 	);

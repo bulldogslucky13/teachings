@@ -15,8 +15,9 @@ export async function CanonSection() {
 	const coverage = getCanonCoverage(await getAllTeachings());
 	return (
 		<section
+			id="canon"
 			aria-labelledby="canon-label"
-			className="border-y border-border py-12 min-[900px]:py-14"
+			className="scroll-mt-6 border-y border-border py-12 min-[900px]:py-10"
 		>
 			<div className="page-wrap">
 				<Label as="p" id="canon-label" className="mb-6">

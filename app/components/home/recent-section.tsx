@@ -8,7 +8,7 @@ export interface RecentSectionProps {
 
 export function RecentSection({ teachings }: RecentSectionProps) {
 	return (
-		<section aria-labelledby="recent-heading" className="pb-24">
+		<section id="recent" aria-labelledby="recent-heading" className="scroll-mt-6 pb-24">
 			<div className="page-wrap">
 				<h2
 					id="recent-heading"

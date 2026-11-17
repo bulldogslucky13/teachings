@@ -27,11 +27,18 @@ export function FeatureBlock({ teaching }: FeatureBlockProps) {
 	return (
 		<section
 			aria-labelledby="feature-title"
-			className="pt-6 pb-[88px] min-[900px]:pt-10 min-[900px]:pb-[120px]"
+			className="pt-8 pb-[72px] min-[900px]:pt-6 min-[900px]:pb-14"
 		>
 			<div className="page-wrap">
 				<div className="grid items-center gap-10 min-[900px]:grid-cols-[7fr_5fr] min-[900px]:gap-[72px]">
-					<NextLink href={href} tabIndex={-1} aria-hidden="true" className="group block">
+					<NextLink
+						href={href}
+						tabIndex={-1}
+						aria-hidden="true"
+						// From 900px the mat is also capped by viewport height so the canon strip below
+						// stays on the first screen.
+						className="group block min-[900px]:max-w-[max(360px,calc((100svh-350px)*4/3))]"
+					>
 						<CoverMat coverPhoto={teaching.coverPhoto} size="lg" interactive priority />
 					</NextLink>
 					<div className="min-w-0">
@@ -41,7 +48,7 @@ export function FeatureBlock({ teaching }: FeatureBlockProps) {
 						</Label>
 						<h1
 							id="feature-title"
-							className="font-serif text-[clamp(44px,5.5vw,84px)] font-normal leading-none tracking-[-0.01em] text-text-primary [overflow-wrap:break-word]"
+							className="font-serif text-[clamp(44px,5.5vw,84px)] min-[900px]:text-[clamp(40px,min(5vw,7.5svh),84px)] font-normal leading-none tracking-[-0.01em] text-text-primary [overflow-wrap:break-word]"
 						>
 							{teaching.title}
 						</h1>
@@ -50,8 +57,10 @@ export function FeatureBlock({ teaching }: FeatureBlockProps) {
 								{teaching.series}
 							</p>
 						)}
+						{/* On wide but short screens the description is clamped so the canon strip below
+						    stays on the first screen; the teaching page carries it in full. */}
 						{teaching.description && (
-							<p className="mt-7 max-w-[46ch] text-[17px] leading-[1.6] text-text-secondary">
+							<p className="mt-7 max-w-[46ch] text-[17px] leading-[1.6] text-text-secondary [@media(min-width:900px)_and_(max-height:1000px)]:line-clamp-4">
 								{teaching.description}
 							</p>
 						)}
