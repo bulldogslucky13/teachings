@@ -37,8 +37,9 @@ Usually one paragraph of about 110–160 words. Occasionally a short second para
 
 ## Description: voice
 
+- Match the tone of the lesson itself. Read how Cameron actually sounds in the transcript and carry that over: a warm, pastoral message gets a warm description; a doctrinal or apologetic one gets a more precise, argued one; a lighter, story-driven one can open lighter too. The points below are the baseline, not a fixed register.
 - First person plural throughout: "we see", "we look at", "we gladly embrace". Never "I" or "you".
-- Reverent, calm and confident. Plain theological vocabulary (justified, atonement, normed by Scripture) without explaining it to death.
+- Reverent, calm and confident by default. Plain theological vocabulary (justified, atonement, normed by Scripture) without explaining it to death.
 - Doctrinal claims stated as conviction, not hedged.
 - Typographic (curly) quotes and apostrophes: “ ” ’.
 - No emoji, hashtags, links, timestamps, calls to action or "in this video".
