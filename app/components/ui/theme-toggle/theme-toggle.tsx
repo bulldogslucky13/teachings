@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useSyncExternalStore } from "react";
+import { useId, useSyncExternalStore } from "react";
 import { ToggleButton } from "react-aria-components";
 import { cn } from "../utils/cn";
 
@@ -20,18 +20,27 @@ export interface ThemeToggleProps {
 	className?: string;
 }
 
-const icon =
-	"absolute inset-0 m-auto size-[18px] transition-[rotate,scale,opacity] duration-300 ease-out";
+/*
+ * The transition utilities are marked important on purpose: next-themes switches themes
+ * with `disableTransitionOnChange`, which briefly applies `* { transition: none !important }`
+ * so page colours snap. The icon is the one thing that should animate through the switch.
+ * The reduced-motion override is repeated here because these rules outrank the global one.
+ */
+const part =
+	"origin-center [transform-box:fill-box] transition-[translate,scale,rotate,opacity]! duration-500! ease-in-out! motion-reduce:duration-[0.01ms]!";
 
 /**
  * Sun / moon icon button (react-aria ToggleButton, pressed = dark theme).
  * Uses next-themes; the choice is persisted by next-themes in localStorage.
- * Which icon shows is decided in CSS from the `.dark` class, so it is right before
- * hydration; on a press the outgoing icon turns and fades as the other turns in.
+ * One drawing that morphs with the theme: the sun's disc grows, a masking disc slides
+ * across it to leave a crescent, and the rays turn and draw in; it runs backwards on
+ * the way to light. State comes from the `.dark` class in CSS, so it is right before
+ * hydration.
  */
 export function ThemeToggle({ className }: ThemeToggleProps) {
 	const { resolvedTheme, setTheme } = useTheme();
 	const hydrated = useHydrated();
+	const maskId = useId();
 	const isDark = hydrated && resolvedTheme === "dark";
 
 	return (
@@ -48,28 +57,34 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
 			<svg
 				aria-hidden="true"
 				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				strokeWidth="1.5"
-				strokeLinecap="square"
-				className={cn(icon, "dark:-rotate-90 dark:scale-50 dark:opacity-0")}
+				className="absolute inset-0 m-auto size-5 overflow-visible"
 			>
-				<circle cx="12" cy="12" r="4" />
-				<path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" />
-			</svg>
-			<svg
-				aria-hidden="true"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				strokeWidth="1.5"
-				strokeLinejoin="miter"
-				className={cn(
-					icon,
-					"rotate-90 scale-50 opacity-0 dark:rotate-0 dark:scale-100 dark:opacity-100",
-				)}
-			>
-				<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+				<mask id={maskId}>
+					<rect x="-4" y="-4" width="32" height="32" fill="white" />
+					<circle
+						cx="17.5"
+						cy="7"
+						r="7.5"
+						fill="black"
+						className={cn(part, "translate-x-[14px] -translate-y-[10px] dark:translate-0")}
+					/>
+				</mask>
+				<g mask={`url(#${maskId})`}>
+					<circle
+						cx="12"
+						cy="12"
+						r="5"
+						fill="currentColor"
+						className={cn(part, "dark:scale-[1.8]")}
+					/>
+				</g>
+				<path
+					d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="1.5"
+					className={cn(part, "dark:rotate-45 dark:scale-0 dark:opacity-0")}
+				/>
 			</svg>
 		</ToggleButton>
 	);
