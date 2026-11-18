@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import NextLink from "next/link";
+import { CopyLinkButton } from "@/app/components/copy-link-button/copy-link-button";
 import { CoverMat } from "@/app/components/ui/cover-mat/cover-mat";
 import { Heading } from "@/app/components/ui/heading/heading";
 import { Label } from "@/app/components/ui/label/label";
@@ -12,11 +13,11 @@ import {
 	getBibleGatewayUrl,
 	getCoverPhotoUrl,
 	getRelatedTeachings,
+	getSeriesHref,
 	getSeriesTeachings,
 	getTeachingById,
 	type ScriptureReference,
 } from "@/lib/teachings";
-import { CopyLinkButton } from "./components/copy-link-button";
 import { SeriesPanel } from "./components/series-panel";
 import { TeachingVideo } from "./components/teaching-video";
 
@@ -162,9 +163,13 @@ export default async function TeachingPage({ params }: TeachingPageProps) {
 							{teaching.series && (
 								<>
 									{" · "}
-									<em className="font-serif text-[17px] font-medium normal-case italic tracking-normal text-text-primary">
+									<Link
+										variant="plain"
+										href={getSeriesHref(teaching.series)}
+										className="border-b border-transparent font-serif text-[17px] font-medium normal-case italic tracking-normal text-text-primary data-[hovered]:border-accent"
+									>
 										{teaching.series}
-									</em>
+									</Link>
 								</>
 							)}
 						</Label>

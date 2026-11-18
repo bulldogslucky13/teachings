@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import NextLink from "next/link";
+import { CopyLinkButton } from "@/app/components/copy-link-button/copy-link-button";
 import { SeriesPlaque } from "@/app/components/series-plaque/series-plaque";
 import { TeachingList, TeachingRow } from "@/app/components/teaching-row/teaching-row";
 import { Badge } from "@/app/components/ui/badge/badge";
@@ -572,6 +573,29 @@ export default async function DesignSystemPage() {
 								<SeriesPlaque group={singleGroup} headingLevel="h4" />
 							</Example>
 						)}
+					</div>
+				</Spec>
+				<Spec
+					name="CopyLinkButton"
+					usage={
+						'import { CopyLinkButton } from "@/app/components/copy-link-button/copy-link-button" · path (defaults to the current page), label (default "Copy link"), variant button | icon, size sm | lg (icon only)'
+					}
+				>
+					<div className="grid max-w-[280px] gap-3">
+						<Example caption="button: current page · icon: a series page by path, beside its title">
+							<div className="grid gap-3">
+								<CopyLinkButton />
+								<p className="font-serif text-[22px] italic">
+									Sola Scriptura Case Studies
+									<CopyLinkButton
+										variant="icon"
+										path="/series/sola-scriptura-case-studies"
+										label="Copy series link"
+										className="ml-1 align-middle"
+									/>
+								</p>
+							</div>
+						</Example>
 					</div>
 				</Spec>
 				<Spec
