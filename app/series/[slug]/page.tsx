@@ -114,10 +114,11 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
 								Series · {plural(group.teachings.length)} ·{" "}
 								{formatDateRange(group.startDate, group.endDate)}
 							</Label>
-							<div>
+							{/* Title type sits on the wrapper so the icon centres on the title's own line. */}
+							<div className="font-serif text-[clamp(40px,5vw,72px)] leading-[1.05]">
 								<h1
 									id="series-title"
-									className="inline font-serif text-[clamp(40px,5vw,72px)] font-normal leading-[1.05] tracking-[-0.01em] text-text-primary [overflow-wrap:break-word]"
+									className="inline font-normal tracking-[-0.01em] text-text-primary [overflow-wrap:break-word]"
 								>
 									{group.series}
 								</h1>
@@ -125,7 +126,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
 									variant="icon"
 									size="lg"
 									label="Copy series link"
-									className="ml-2 align-middle"
+									className="relative -top-[0.12em] ml-2 align-middle"
 								/>
 							</div>
 							<div className="mt-10">
