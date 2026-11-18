@@ -11,18 +11,15 @@ import { cva, type VariantProps } from "../utils/variants";
  * - button: a rectangular keyline button (secondary button look) as a link
  * - plain: no styling beyond focus; for wrapping rows, mats, wordmarks
  */
-/** The Gallery "textlink" look, shared with buttons that should read as a quiet text action. */
-export const textLinkStyles = cn(
-	labelTypography,
-	"inline-block border-b border-border pb-[3px] text-text-secondary data-[hovered]:border-accent data-[hovered]:text-text-primary",
-);
-
 const linkVariants = cva("cursor-pointer transition-colors duration-150", {
 	variants: {
 		variant: {
 			default:
 				"text-text-primary underline decoration-border decoration-1 underline-offset-4 data-[hovered]:decoration-accent",
-			text: textLinkStyles,
+			text: cn(
+				labelTypography,
+				"inline-block border-b border-border pb-[3px] text-text-secondary data-[hovered]:border-accent data-[hovered]:text-text-primary",
+			),
 			button: cn(
 				labelTypography,
 				"inline-flex min-h-12 items-center justify-center gap-3 border border-border px-4 py-3.5 text-text-primary data-[hovered]:border-text-secondary",

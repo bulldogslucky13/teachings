@@ -114,13 +114,20 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
 								Series · {plural(group.teachings.length)} ·{" "}
 								{formatDateRange(group.startDate, group.endDate)}
 							</Label>
-							<h1
-								id="series-title"
-								className="font-serif text-[clamp(40px,5vw,72px)] font-normal leading-[1.05] tracking-[-0.01em] text-text-primary [overflow-wrap:break-word]"
-							>
-								{group.series}
-							</h1>
-							<div className="mt-10 flex flex-col gap-7 min-[480px]:flex-row min-[480px]:items-center min-[480px]:gap-9">
+							<div>
+								<h1
+									id="series-title"
+									className="inline font-serif text-[clamp(40px,5vw,72px)] font-normal leading-[1.05] tracking-[-0.01em] text-text-primary [overflow-wrap:break-word]"
+								>
+									{group.series}
+								</h1>
+								<CopyLinkButton
+									variant="icon"
+									label="Copy series link"
+									className="ml-2 align-middle"
+								/>
+							</div>
+							<div className="mt-10">
 								<NextLink href={firstHref} className="group inline-flex items-center gap-[18px]">
 									<PlayMark />
 									<Label tone="primary" className="text-xs">
@@ -128,11 +135,6 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
 									</Label>
 									<span className="sr-only">: {first.title}</span>
 								</NextLink>
-								<CopyLinkButton
-									variant="text"
-									label="Copy series link"
-									className="self-start min-[480px]:self-auto"
-								/>
 							</div>
 						</div>
 					</div>

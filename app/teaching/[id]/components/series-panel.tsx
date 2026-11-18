@@ -1,3 +1,4 @@
+import { CopyLinkButton } from "@/app/components/copy-link-button/copy-link-button";
 import { Label } from "@/app/components/ui/label/label";
 import { Link } from "@/app/components/ui/link/link";
 import { formatTeachingDate, getSeriesHref, type Teaching } from "@/lib/teachings";
@@ -15,15 +16,23 @@ export function SeriesPanel({ series, teachings, currentId }: SeriesPanelProps) 
 			<Label as="h2" id="series-heading">
 				In this series
 			</Label>
-			<p className="mt-1 mb-4 font-serif text-[22px] italic leading-[1.2]">
-				<Link
-					variant="plain"
-					href={getSeriesHref(series)}
-					className="text-text-primary transition-colors data-[hovered]:text-accent-text"
-				>
-					{series}
-				</Link>
-			</p>
+			<div className="mt-1 mb-4 flex items-start justify-between gap-3">
+				<p className="font-serif text-[22px] italic leading-[1.2]">
+					<Link
+						variant="plain"
+						href={getSeriesHref(series)}
+						className="text-text-primary transition-colors data-[hovered]:text-accent-text"
+					>
+						{series}
+					</Link>
+				</p>
+				<CopyLinkButton
+					variant="icon"
+					path={getSeriesHref(series)}
+					label="Copy series link"
+					className="-mt-0.5 -mr-2 flex-none"
+				/>
+			</div>
 			<ol className="border-t border-border">
 				{teachings.map((item, index) => {
 					const isCurrent = item.id === currentId;
