@@ -1,0 +1,16 @@
+{
+  "name": "advent-slides",
+  "private": true,
+  "description": "Programmatic Keynote decks for the College Hour Advent series (FA26)",
+  "scripts": {
+    "build": "node build.js",
+    "test": "node --test lib/*.test.js",
+    "audio-cover": "node build_audio_cover.js",
+    "keynote-diff": "node keynote_diff.js",
+    "render": "node render.js",
+    "sample": "node sample.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  }
+}
