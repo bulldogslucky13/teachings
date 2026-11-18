@@ -120,7 +120,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
 							>
 								{group.series}
 							</h1>
-							<div className="mt-10 flex flex-col gap-8 min-[480px]:flex-row min-[480px]:items-center">
+							<div className="mt-10 flex flex-col gap-7 min-[480px]:flex-row min-[480px]:items-center min-[480px]:gap-9">
 								<NextLink href={firstHref} className="group inline-flex items-center gap-[18px]">
 									<PlayMark />
 									<Label tone="primary" className="text-xs">
@@ -128,9 +128,11 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
 									</Label>
 									<span className="sr-only">: {first.title}</span>
 								</NextLink>
-								<div className="min-[480px]:w-[220px]">
-									<CopyLinkButton label="Copy series link" />
-								</div>
+								<CopyLinkButton
+									variant="text"
+									label="Copy series link"
+									className="self-start min-[480px]:self-auto"
+								/>
 							</div>
 						</div>
 					</div>
@@ -174,6 +176,12 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
 												{teaching.description}
 											</span>
 										)}
+										<span aria-hidden="true" className="mt-6 inline-flex items-center gap-[14px]">
+											<PlayMark />
+											<Label tone="primary" className="text-xs">
+												Watch
+											</Label>
+										</span>
 									</span>
 								</NextLink>
 							</li>

@@ -578,16 +578,18 @@ export default async function DesignSystemPage() {
 				<Spec
 					name="CopyLinkButton"
 					usage={
-						'import { CopyLinkButton } from "@/app/components/copy-link-button/copy-link-button" · path (defaults to the current page), label (default "Copy link")'
+						'import { CopyLinkButton } from "@/app/components/copy-link-button/copy-link-button" · path (defaults to the current page), label (default "Copy link"), variant button | text'
 					}
 				>
 					<div className="grid max-w-[280px] gap-3">
-						<Example caption="Current page, and a series page by path">
+						<Example caption="button: current page · text: a series page by path, as a quiet action">
 							<div className="grid gap-3">
 								<CopyLinkButton />
 								<CopyLinkButton
+									variant="text"
 									path="/series/sola-scriptura-case-studies"
 									label="Copy series link"
+									className="justify-self-start"
 								/>
 							</div>
 						</Example>

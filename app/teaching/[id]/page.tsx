@@ -215,17 +215,22 @@ export default async function TeachingPage({ params }: TeachingPageProps) {
 						className="relative flex flex-col gap-7 self-start border border-border bg-surface px-8 py-9 shadow-mat before:pointer-events-none before:absolute before:inset-[7px] before:border before:border-border before:content-[''] [&>*]:relative"
 					>
 						{showSeriesPanel && teaching.series && (
-							<SeriesPanel
-								series={teaching.series}
-								teachings={seriesTeachings}
-								currentId={teaching.id}
-							/>
+							<div>
+								<SeriesPanel
+									series={teaching.series}
+									teachings={seriesTeachings}
+									currentId={teaching.id}
+								/>
+								<CopyLinkButton
+									variant="text"
+									path={getSeriesHref(teaching.series)}
+									label="Copy series link"
+									className="mt-5"
+								/>
+							</div>
 						)}
 						<div className="grid gap-3">
 							<CopyLinkButton />
-							{teaching.series && (
-								<CopyLinkButton path={getSeriesHref(teaching.series)} label="Copy series link" />
-							)}
 							{teaching.notesUrl && (
 								<Link variant="button" href={teaching.notesUrl} className="w-full justify-between!">
 									<span>
