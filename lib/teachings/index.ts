@@ -17,6 +17,8 @@ export { getCoverPhotoUrl } from "./getCoverPhotoUrl";
 export { getFeaturedTeaching } from "./getFeaturedTeaching";
 export { getRecentTeachings } from "./getRecentTeachings";
 export { getRelatedTeachings } from "./getRelatedTeachings";
+export { getAllSeriesSlugs, getSeriesBySlug } from "./getSeriesBySlug";
+export { getSeriesHref, getSeriesSlug } from "./getSeriesSlug";
 export { getSeriesTeachings } from "./getSeriesTeachings";
 export { getTeachingById } from "./getTeachingById";
 export { groupTeachingsBySeries, type TeachingGroup } from "./groupTeachingsBySeries";

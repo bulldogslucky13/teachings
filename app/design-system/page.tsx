@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import NextLink from "next/link";
+import { CopyLinkButton } from "@/app/components/copy-link-button/copy-link-button";
 import { SeriesPlaque } from "@/app/components/series-plaque/series-plaque";
 import { TeachingList, TeachingRow } from "@/app/components/teaching-row/teaching-row";
 import { Badge } from "@/app/components/ui/badge/badge";
@@ -572,6 +573,24 @@ export default async function DesignSystemPage() {
 								<SeriesPlaque group={singleGroup} headingLevel="h4" />
 							</Example>
 						)}
+					</div>
+				</Spec>
+				<Spec
+					name="CopyLinkButton"
+					usage={
+						'import { CopyLinkButton } from "@/app/components/copy-link-button/copy-link-button" · path (defaults to the current page), label (default "Copy link")'
+					}
+				>
+					<div className="grid max-w-[280px] gap-3">
+						<Example caption="Current page, and a series page by path">
+							<div className="grid gap-3">
+								<CopyLinkButton />
+								<CopyLinkButton
+									path="/series/sola-scriptura-case-studies"
+									label="Copy series link"
+								/>
+							</div>
+						</Example>
 					</div>
 				</Spec>
 				<Spec

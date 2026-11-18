@@ -4,6 +4,7 @@ import { labelTypography } from "@/app/components/ui/label/label";
 import { cn } from "@/app/components/ui/utils/cn";
 import { formatDateRange, formatTeachingDate } from "@/lib/teachings/formatDate";
 import { summarizeScriptureReferences } from "@/lib/teachings/formatScriptureReference";
+import { getSeriesHref } from "@/lib/teachings/getSeriesSlug";
 import type { TeachingGroup } from "@/lib/teachings/groupTeachingsBySeries";
 import type { Teaching } from "@/lib/teachings/teachings";
 
@@ -16,7 +17,7 @@ export interface SeriesPlaqueProps {
 	matSize?: CoverMatSize;
 	/** Where a teaching links to. Defaults to `/teaching/{id}`. */
 	hrefForTeaching?: (teaching: Teaching) => string;
-	/** Where the series mat and title link to. Defaults to the series' first teaching. */
+	/** Where the series mat and title link to. Defaults to the series page, `/series/{slug}`. */
 	seriesHref?: string;
 	/** Id of the teaching being viewed, marked with aria-current in the list. */
 	currentTeachingId?: string;
@@ -78,7 +79,7 @@ export function SeriesPlaque({
 		);
 	}
 
-	const href = seriesHref ?? hrefForTeaching(first);
+	const href = seriesHref ?? getSeriesHref(group.series);
 
 	return (
 		<article className={className}>

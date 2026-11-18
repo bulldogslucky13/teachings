@@ -6,6 +6,7 @@ import { Link } from "@/app/components/ui/link/link";
 import { PlayMark } from "@/app/components/ui/play-button/play-button";
 import { formatTeachingDate } from "@/lib/teachings/formatDate";
 import { formatScriptureReference } from "@/lib/teachings/formatScriptureReference";
+import { getSeriesHref } from "@/lib/teachings/getSeriesSlug";
 import type { Teaching } from "@/lib/teachings/teachings";
 
 const VISIBLE_REFS = 3;
@@ -54,7 +55,12 @@ export function FeatureBlock({ teaching }: FeatureBlockProps) {
 						</h1>
 						{teaching.series && (
 							<p className="mt-5 font-serif text-[26px] italic leading-[1.2] text-accent-text">
-								{teaching.series}
+								<NextLink
+									href={getSeriesHref(teaching.series)}
+									className="border-b border-transparent transition-colors hover:border-accent"
+								>
+									{teaching.series}
+								</NextLink>
 							</p>
 						)}
 						{/* On wide but short screens the description is clamped so the canon strip below

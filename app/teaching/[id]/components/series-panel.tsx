@@ -1,6 +1,6 @@
 import { Label } from "@/app/components/ui/label/label";
 import { Link } from "@/app/components/ui/link/link";
-import { formatTeachingDate, type Teaching } from "@/lib/teachings";
+import { formatTeachingDate, getSeriesHref, type Teaching } from "@/lib/teachings";
 
 interface SeriesPanelProps {
 	series: string;
@@ -15,7 +15,15 @@ export function SeriesPanel({ series, teachings, currentId }: SeriesPanelProps) 
 			<Label as="h2" id="series-heading">
 				In this series
 			</Label>
-			<p className="mt-1 mb-4 font-serif text-[22px] italic leading-[1.2]">{series}</p>
+			<p className="mt-1 mb-4 font-serif text-[22px] italic leading-[1.2]">
+				<Link
+					variant="plain"
+					href={getSeriesHref(series)}
+					className="text-text-primary transition-colors data-[hovered]:text-accent-text"
+				>
+					{series}
+				</Link>
+			</p>
 			<ol className="border-t border-border">
 				{teachings.map((item, index) => {
 					const isCurrent = item.id === currentId;
