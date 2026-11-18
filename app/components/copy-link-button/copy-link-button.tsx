@@ -13,6 +13,8 @@ export interface CopyLinkButtonProps {
 	label?: string;
 	/** "button" (default): full-width keyline button. "icon": a small link icon to set beside a title. */
 	variant?: "button" | "icon";
+	/** Icon variant only: "sm" (default) beside body-size titles, "lg" beside a display heading. */
+	size?: "sm" | "lg";
 	className?: string;
 }
 
@@ -21,6 +23,7 @@ export function CopyLinkButton({
 	path,
 	label = "Copy link",
 	variant = "button",
+	size = "sm",
 	className,
 }: CopyLinkButtonProps) {
 	const [copied, setCopied] = useState(false);
@@ -58,13 +61,17 @@ export function CopyLinkButton({
 					onPress={handleCopy}
 					aria-label={label}
 					className={cn(
-						"inline-grid h-8 w-8 cursor-pointer place-items-center rounded-none border border-transparent text-text-secondary transition-colors duration-150",
+						"inline-grid cursor-pointer place-items-center rounded-none border border-transparent text-text-secondary transition-colors duration-150",
+						size === "lg" ? "h-11 w-11" : "h-8 w-8",
 						"data-[hovered]:border-border data-[hovered]:text-accent-text",
 						copied && "text-accent-text",
 						className,
 					)}
 				>
-					<Icon aria-hidden="true" className="h-[18px] w-[18px]" />
+					<Icon
+						aria-hidden="true"
+						className={size === "lg" ? "h-[28px] w-[28px]" : "h-[18px] w-[18px]"}
+					/>
 				</AriaButton>
 				{status}
 			</>

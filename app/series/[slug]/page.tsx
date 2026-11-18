@@ -123,6 +123,7 @@ export default async function SeriesPage({ params }: SeriesPageProps) {
 								</h1>
 								<CopyLinkButton
 									variant="icon"
+									size="lg"
 									label="Copy series link"
 									className="ml-2 align-middle"
 								/>

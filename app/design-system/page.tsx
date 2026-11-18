@@ -578,7 +578,7 @@ export default async function DesignSystemPage() {
 				<Spec
 					name="CopyLinkButton"
 					usage={
-						'import { CopyLinkButton } from "@/app/components/copy-link-button/copy-link-button" · path (defaults to the current page), label (default "Copy link"), variant button | icon'
+						'import { CopyLinkButton } from "@/app/components/copy-link-button/copy-link-button" · path (defaults to the current page), label (default "Copy link"), variant button | icon, size sm | lg (icon only)'
 					}
 				>
 					<div className="grid max-w-[280px] gap-3">
